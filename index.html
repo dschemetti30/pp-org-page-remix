@@ -3545,6 +3545,494 @@
             transform: scale(0.98);
         }
 
+        /* ============================================= */
+        /* BOOKING MODAL                                 */
+        /* ============================================= */
+        .booking-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            padding: 20px;
+        }
+        .booking-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .booking-modal {
+            background: var(--bg);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 920px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+            transform: translateY(20px) scale(0.97);
+            transition: transform 0.3s ease;
+        }
+        .booking-modal-overlay.active .booking-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Modal Header */
+        .modal-header {
+            background: var(--brand-primary);
+            color: var(--brand-on-primary);
+            padding: 20px 24px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+        .modal-header-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .modal-header-info h2 {
+            font-family: var(--ff);
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .modal-header-sub {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .modal-header-sub svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+        .modal-close-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: inherit;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.15s ease;
+        }
+        .modal-close-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .modal-close-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Modal Body */
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Left Column - Facility Info */
+        .modal-left {
+            padding: 24px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+        }
+        .modal-facility-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .modal-facility-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .modal-weather-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .modal-section-title {
+            font-family: var(--ff);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .modal-info-item {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .modal-info-item svg {
+            width: 18px;
+            height: 18px;
+            color: var(--brand-primary);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .modal-info-item .info-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+        .modal-info-item .info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Features & Amenities */
+        .modal-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+        .modal-feature-tag {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .modal-feature-tag svg {
+            width: 12px;
+            height: 12px;
+            color: var(--brand-primary);
+        }
+        .modal-amenities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .modal-amenity-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-amenity-name {
+            font-size: 13px;
+            color: var(--text);
+        }
+        .modal-amenity-price {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--brand-primary);
+        }
+        .modal-policy {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .modal-policy-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .modal-policy-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Right Column - Booking Form */
+        .modal-right {
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .modal-price-banner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-price-amount {
+            font-family: var(--ff);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .modal-price-unit {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .modal-price-availability {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .modal-price-availability .avail-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .modal-price-availability .avail-dot.high { background: #16a34a; }
+        .modal-price-availability .avail-dot.medium { background: #f59e0b; }
+        .modal-price-availability .avail-dot.low { background: #ef4444; }
+
+        .modal-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .modal-form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .modal-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .modal-form-input,
+        .modal-form-select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-family: var(--ff);
+            color: var(--text);
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.15s ease;
+            appearance: none;
+        }
+        .modal-form-input:focus,
+        .modal-form-select:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+        }
+        .modal-select-wrapper {
+            position: relative;
+        }
+        .modal-select-wrapper::after {
+            content: '▾';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        /* Time Slot Picker */
+        .modal-slots-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .modal-slot-btn {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-family: var(--ff);
+            font-weight: 500;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .modal-slot-btn:hover {
+            border-color: var(--brand-primary);
+            background: var(--chip-bg);
+        }
+        .modal-slot-btn.selected {
+            background: var(--brand-primary);
+            border-color: var(--brand-primary);
+            color: var(--brand-on-primary);
+        }
+        .modal-slot-btn.booked {
+            opacity: 0.35;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .modal-notice {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #1e40af;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        [data-theme="dark"] .modal-notice {
+            background: rgba(59,130,246,0.1);
+            border-color: rgba(59,130,246,0.25);
+            color: #93c5fd;
+        }
+        .modal-notice svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .modal-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .modal-book-btn {
+            background: var(--brand-primary);
+            color: var(--brand-on-primary);
+            border: none;
+            border-radius: 10px;
+            padding: 14px 24px;
+            font-family: var(--ff);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            flex: 1;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .modal-book-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+        .modal-book-btn:active {
+            transform: translateY(0);
+        }
+        .modal-book-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            filter: none;
+        }
+        .modal-book-btn.secondary {
+            background: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+        .modal-book-btn.secondary:hover {
+            background: var(--chip-bg);
+            filter: none;
+        }
+        .modal-book-btn svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+        .modal-book-btn.secondary svg {
+            stroke: var(--brand-primary);
+        }
+        .modal-login-hint {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .modal-login-hint a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .modal-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 2px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .booking-modal {
+                max-height: 95vh;
+                border-radius: 12px;
+            }
+            .booking-modal-overlay {
+                padding: 10px;
+            }
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+            .modal-left {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                max-height: 40vh;
+            }
+            .modal-header-info h2 {
+                font-size: 17px;
+            }
+            .modal-info-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-amenities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Footer */
         .footer {
             margin-top: 0;
@@ -4761,6 +5249,155 @@
             </div>
         </div>
     </footer>
+    <!-- Booking Modal -->
+    <div class="booking-modal-overlay" id="bookingModalOverlay" onclick="if(event.target===this)closeBookingModal()">
+        <div class="booking-modal">
+            <div class="modal-header">
+                <div class="modal-header-info">
+                    <h2 id="modalFacilityName">Facility Name</h2>
+                    <div class="modal-header-sub">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span id="modalFacilityLocation">School Name</span>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeBookingModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Left Column - Facility Info -->
+                <div class="modal-left">
+                    <div class="modal-facility-image">
+                        <img id="modalFacilityImg" src="" alt="">
+                        <div class="modal-weather-badge" id="modalWeatherBadge" style="display:none"></div>
+                    </div>
+
+                    <h4 class="modal-section-title">Facility Details</h4>
+                    <div class="modal-info-grid" id="modalInfoGrid"></div>
+
+                    <h4 class="modal-section-title">Features</h4>
+                    <div class="modal-features" id="modalFeatures"></div>
+
+                    <h4 class="modal-section-title">Add-on Amenities</h4>
+                    <div class="modal-amenities-grid" id="modalAmenities"></div>
+
+                    <h4 class="modal-section-title">Policies</h4>
+                    <div id="modalPolicies"></div>
+                </div>
+
+                <!-- Right Column - Booking Form -->
+                <div class="modal-right">
+                    <div class="modal-price-banner">
+                        <div>
+                            <span class="modal-price-amount" id="modalPrice">$75</span>
+                            <span class="modal-price-unit">/hr</span>
+                        </div>
+                        <div class="modal-price-availability" id="modalAvailability">
+                            <span class="avail-dot medium"></span>
+                            <span>Limited availability</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label class="modal-form-label">Select a Date</label>
+                        <input type="date" class="modal-form-input" id="modalDate">
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label class="modal-form-label">Available Time Slots</label>
+                        <div class="modal-slots-grid" id="modalSlots">
+                            <span style="font-size:13px;color:var(--text-secondary)">Select a date to view availability</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-divider"></div>
+
+                    <div class="modal-form-row">
+                        <div class="modal-form-group">
+                            <label class="modal-form-label">Duration</label>
+                            <div class="modal-select-wrapper">
+                                <select class="modal-form-select" id="modalDuration">
+                                    <option value="1">1 hour</option>
+                                    <option value="2" selected>2 hours</option>
+                                    <option value="3">3 hours</option>
+                                    <option value="4">4 hours</option>
+                                    <option value="5">5 hours</option>
+                                    <option value="6">6 hours</option>
+                                    <option value="7">7 hours</option>
+                                    <option value="8">8 hours</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-form-label">Group Size</label>
+                            <div class="modal-select-wrapper">
+                                <select class="modal-form-select" id="modalGroupSize">
+                                    <option value="">Select</option>
+                                    <option value="1-10">1 - 10 people</option>
+                                    <option value="11-50">11 - 50 people</option>
+                                    <option value="51-100">51 - 100 people</option>
+                                    <option value="101-200">101 - 200 people</option>
+                                    <option value="201-500">201 - 500 people</option>
+                                    <option value="500+">500+ people</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-form-row">
+                        <div class="modal-form-group">
+                            <label class="modal-form-label">Booking Type</label>
+                            <div class="modal-select-wrapper">
+                                <select class="modal-form-select" id="modalBookingType">
+                                    <option value="">Select type</option>
+                                    <option value="practice">Practice / Training</option>
+                                    <option value="game">Game / Match</option>
+                                    <option value="tournament">Tournament</option>
+                                    <option value="camp">Camp / Clinic</option>
+                                    <option value="meeting">Meeting / Event</option>
+                                    <option value="performance">Performance / Show</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-form-group">
+                            <label class="modal-form-label">Activity</label>
+                            <div class="modal-select-wrapper" id="modalActivityWrapper">
+                                <select class="modal-form-select" id="modalActivity">
+                                    <option value="">Select activity</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label class="modal-form-label">Special Requests <span style="font-weight:400;color:var(--text-secondary)">(optional)</span></label>
+                        <textarea class="modal-form-input" id="modalNotes" rows="2" placeholder="Any special setup or access needs..." style="resize:vertical;min-height:44px;font-family:var(--ff)"></textarea>
+                    </div>
+
+                    <div class="modal-notice" id="modalNotice" style="display:none">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <span id="modalNoticeText"></span>
+                    </div>
+
+                    <div class="modal-btn-group">
+                        <button class="modal-book-btn secondary" id="modalAddContinueBtn" onclick="submitBooking('continue')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Add & Keep Browsing
+                        </button>
+                        <button class="modal-book-btn" id="modalBookBtn" onclick="submitBooking('checkout')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Add & Checkout
+                        </button>
+                    </div>
+                    <div class="modal-login-hint">
+                        By adding a slot, you agree to the district's <a href="#">rental terms</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Search bar elements
         const searchDate = document.getElementById('searchDate');
@@ -5691,7 +6328,7 @@
                 location: 'Lucas, Texas',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_3lovejoy-logo_tebuxt.svg',
                 logoScale: 0.82,
-                colors: { light: '#1a1a1a', dark: '#8B0000', primary: '#8B0000', secondary: '#1a1a1a', brandLight: '#f2e6e6', brandLightAlt: '#eed9d9', chipBg: '#f2e6e6', heroBg: '#8B0000', heroBgDark: '#4a0000', primaryDark: '#dc4444', secondaryDark: '#555555', lightDark: '#2a1a1a', hoverShadow: 'rgba(139, 0, 0, 0.2)', stripe: 'rgba(139, 0, 0, 0.02)', hover: '#6a0000', dark: '#4a0000', hoverDark: '#c53030', darkDark: '#991b1b' },
+                colors: { light: '#1a1a1a', dark: '#1a1a1a', primary: '#CC0000', secondary: '#1a1a1a', brandLight: '#fce8e8', brandLightAlt: '#f8d4d4', chipBg: '#fce8e8', heroBg: '#CC0000', heroBgDark: '#8a0000', primaryDark: '#ef4444', secondaryDark: '#555555', lightDark: '#2a1a1a', hoverShadow: 'rgba(204, 0, 0, 0.2)', stripe: 'rgba(204, 0, 0, 0.02)', hover: '#a30000', dark: '#1a1a1a', hoverDark: '#ef4444', darkDark: '#CC0000' },
                 weather: {
                     today: { temp: 50, condition: 'Sunny', icon: '☀️' },
                     forecast: {
@@ -5736,7 +6373,7 @@
                 location: 'Gonzales, Louisiana',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_1ascension-logo_zwj5tq.svg',
                 logoScale: 0.82,
-                colors: { light: '#c8a415', dark: '#002855', primary: '#002855', secondary: '#c8a415', brandLight: '#d6dfe8', brandLightAlt: '#d9dfe6', chipBg: '#d6dfe8', heroBg: '#002855', heroBgDark: '#001433', primaryDark: '#5b9bd5', secondaryDark: '#f0d060', lightDark: '#1a2433', hoverShadow: 'rgba(0, 40, 85, 0.2)', stripe: 'rgba(0, 40, 85, 0.02)', hover: '#001d40', dark: '#001433', hoverDark: '#4a88c2', darkDark: '#002855' },
+                colors: { light: '#8C8C8C', dark: '#B2122B', primary: '#B2122B', secondary: '#8C8C8C', brandLight: '#fae8eb', brandLightAlt: '#f5d5da', chipBg: '#fae8eb', heroBg: '#B2122B', heroBgDark: '#7a0c1d', primaryDark: '#e84a60', secondaryDark: '#b0b0b0', lightDark: '#2a1a1d', hoverShadow: 'rgba(178, 18, 43, 0.2)', stripe: 'rgba(178, 18, 43, 0.02)', hover: '#8e0e22', dark: '#7a0c1d', hoverDark: '#e84a60', darkDark: '#B2122B' },
                 weather: {
                     today: { temp: 46, condition: 'Mostly sunny', icon: '🌤️' },
                     forecast: {
@@ -6333,8 +6970,328 @@
             }
         }
 
+        // =============================================
+        // BOOKING MODAL
+        // =============================================
+        let currentModalFacility = null;
+        let currentModalDistrict = null;
+        let selectedModalSlot = null;
+
+        function openBookingModal(facilityName, preselectedSlot) {
+            const currentKey = document.getElementById('districtSwitcher').value;
+            const d = districts[currentKey];
+            if (!d) return;
+
+            const f = d.facilities.find(fac => fac.name === facilityName);
+            if (!f) return;
+
+            currentModalFacility = f;
+            currentModalDistrict = d;
+            selectedModalSlot = preselectedSlot || null;
+
+            // Populate header
+            document.getElementById('modalFacilityName').textContent = f.name;
+            document.getElementById('modalFacilityLocation').textContent = f.location;
+
+            // Image
+            const img = document.getElementById('modalFacilityImg');
+            if (f.image) { img.src = f.image; img.alt = f.name; img.style.display = ''; }
+            else { img.style.display = 'none'; }
+
+            // Weather badge
+            const wb = document.getElementById('modalWeatherBadge');
+            if (f.outdoor && d.weather) {
+                const activeDate = document.getElementById('modalDate').value || document.getElementById('searchDate').value || '';
+                const wData = activeDate && d.weather.forecast && d.weather.forecast[activeDate] ? d.weather.forecast[activeDate] : d.weather.today;
+                if (wData) {
+                    wb.innerHTML = `${wData.icon} ${wData.temp}°F - ${wData.condition}`;
+                    wb.style.display = 'flex';
+                } else { wb.style.display = 'none'; }
+            } else {
+                wb.innerHTML = 'Indoors';
+                wb.style.display = 'flex';
+            }
+
+            // Info grid
+            const capNum = f.capacity.replace(/[^0-9,]/g, '') || f.capacity;
+            const sizeEst = f.type.includes('Stadium') || f.type.includes('Field') ? '~80,000 sq ft' : f.type.includes('Gymnasium') ? '~12,000 sq ft' : f.type.includes('Auditorium') ? '~8,000 sq ft' : '~5,000 sq ft';
+            document.getElementById('modalInfoGrid').innerHTML = `
+                <div class="modal-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <div><div class="info-label">Capacity</div><div class="info-value">${f.capacity}</div></div>
+                </div>
+                <div class="modal-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                    <div><div class="info-label">Est. Size</div><div class="info-value">${sizeEst}</div></div>
+                </div>
+                <div class="modal-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3v4"/><path d="M8 3v4"/></svg>
+                    <div><div class="info-label">Type</div><div class="info-value">${f.type}</div></div>
+                </div>
+                <div class="modal-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8a8 8 0 0 1 16 0c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div><div class="info-label">Setting</div><div class="info-value">${f.outdoor ? 'Outdoor' : 'Indoor'}</div></div>
+                </div>
+            `;
+
+            // Features
+            const featureList = [];
+            if (!f.outdoor) featureList.push('Climate Control');
+            featureList.push('Parking', 'Restrooms', 'ADA Accessible');
+            if (f.type.includes('Gymnasium')) featureList.push('Bleachers', 'Scoreboard');
+            if (f.type.includes('Stadium') || f.type.includes('Field')) featureList.push('Field Lighting', 'Press Box');
+            if (f.type.includes('Auditorium')) featureList.push('Stage', 'Sound System', 'Lighting Rig');
+            if (f.type.includes('Cafeteria')) featureList.push('Kitchen Access', 'Tables & Chairs');
+            document.getElementById('modalFeatures').innerHTML = featureList.map(feat =>
+                `<span class="modal-feature-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>${feat}</span>`
+            ).join('');
+
+            // Amenities
+            const amenityData = [];
+            if (f.type.includes('Stadium') || f.type.includes('Field')) {
+                amenityData.push({ name: 'Scoreboard', price: '$100' }, { name: 'Field Lighting', price: '$150' }, { name: 'PA System', price: '$75' }, { name: 'Security', price: '$250' });
+            } else if (f.type.includes('Auditorium')) {
+                amenityData.push({ name: 'Advanced Lighting', price: '$250' }, { name: 'Curtains/Drapery', price: '$200' }, { name: 'Sound System', price: '$40' }, { name: 'Projector', price: '$50' });
+            } else if (f.type.includes('Gymnasium')) {
+                amenityData.push({ name: 'Scoreboard', price: '$100' }, { name: 'Bleacher Setup', price: '$75' }, { name: 'A/V Equipment', price: '$50' }, { name: 'Locker Rooms', price: '$40' });
+            } else {
+                amenityData.push({ name: 'A/V Equipment', price: '$50' }, { name: 'Extra Tables', price: '$30' }, { name: 'Cleanup Crew', price: '$75' });
+            }
+            document.getElementById('modalAmenities').innerHTML = amenityData.map(a =>
+                `<div class="modal-amenity-item"><span class="modal-amenity-name">${a.name}</span><span class="modal-amenity-price">${a.price}</span></div>`
+            ).join('');
+
+            // Policies
+            const policies = d.info && d.info.thingsToKnow ? d.info.thingsToKnow : [];
+            document.getElementById('modalPolicies').innerHTML = policies.map(p =>
+                `<div class="modal-policy"><div class="modal-policy-title">${p.title}</div><div class="modal-policy-text">${p.text}</div></div>`
+            ).join('');
+
+            // Price
+            document.getElementById('modalPrice').textContent = f.price.replace('/hr', '');
+
+            // Availability
+            const availMap = { high: 'High availability', medium: 'Limited availability', low: 'Almost full' };
+            const avail = f.availability || 'medium';
+            document.getElementById('modalAvailability').innerHTML = `<span class="avail-dot ${avail}"></span><span>${availMap[avail] || 'Available'}</span>`;
+
+            // Pre-fill date from search
+            const searchDateVal = document.getElementById('searchDate').value;
+            const modalDateInput = document.getElementById('modalDate');
+            if (searchDateVal) {
+                modalDateInput.value = searchDateVal;
+            } else {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                modalDateInput.value = `${yyyy}-${mm}-${dd}`;
+            }
+
+            // Pre-fill duration from search
+            const durSlider = document.getElementById('searchDuration');
+            if (durSlider) document.getElementById('modalDuration').value = durSlider.value;
+
+            // Pre-fill group size from search
+            const gsSlider = document.getElementById('searchGuests');
+            if (gsSlider) {
+                const gsMap = { '0': '', '1': '1-10', '2': '11-50', '3': '51-100', '4': '101-200', '5': '201-500', '6': '500+' };
+                document.getElementById('modalGroupSize').value = gsMap[gsSlider.value] || '';
+            }
+
+            // Pre-fill activity from search
+            const activitySelect = document.getElementById('activityType');
+            const modalActivity = document.getElementById('modalActivity');
+            // Populate modal activity dropdown with same options
+            const actOptions = activitySelect ? activitySelect.innerHTML : '';
+            modalActivity.innerHTML = actOptions;
+            if (activitySelect && activitySelect.value) {
+                modalActivity.value = activitySelect.value;
+            }
+
+            // Render time slots for date
+            renderModalSlots();
+
+            // Show modal
+            document.getElementById('bookingModalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+            currentModalFacility = null;
+            currentModalDistrict = null;
+            selectedModalSlot = null;
+        }
+
+        function renderModalSlots() {
+            const container = document.getElementById('modalSlots');
+            const dateVal = document.getElementById('modalDate').value;
+
+            if (!dateVal || !currentModalFacility) {
+                container.innerHTML = '<span style="font-size:13px;color:var(--text-secondary)">Select a date to view availability</span>';
+                return;
+            }
+
+            const f = currentModalFacility;
+            const d = currentModalDistrict;
+
+            // Update weather badge for selected date
+            const wb = document.getElementById('modalWeatherBadge');
+            if (f.outdoor && d.weather) {
+                const wData = d.weather.forecast && d.weather.forecast[dateVal] ? d.weather.forecast[dateVal] : d.weather.today;
+                if (wData) {
+                    wb.innerHTML = `${wData.icon} ${wData.temp}°F - ${wData.condition}`;
+                    wb.style.display = 'flex';
+                }
+            }
+
+            // Generate slots using same logic as main app
+            const dayOfWeek = new Date(dateVal + 'T12:00:00').getDay();
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+            const allSlots = isWeekend
+                ? ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM']
+                : ['4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM'];
+
+            const seed = (f.name + dateVal).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+            const bookedCount = Math.floor((seed % 5) + 1);
+            const bookedSet = new Set();
+            for (let i = 0; i < bookedCount && i < allSlots.length - 1; i++) {
+                bookedSet.add(allSlots[(seed + i * 3) % allSlots.length]);
+            }
+
+            container.innerHTML = allSlots.map(slot => {
+                const isBooked = bookedSet.has(slot);
+                const isSelected = selectedModalSlot === slot && !isBooked;
+                return `<button class="modal-slot-btn${isBooked ? ' booked' : ''}${isSelected ? ' selected' : ''}" ${isBooked ? 'disabled' : ''} onclick="selectModalSlot(this,'${slot}')">${slot}</button>`;
+            }).join('');
+
+            // Show advance booking notice
+            const notice = document.getElementById('modalNotice');
+            const today = new Date();
+            const selDate = new Date(dateVal + 'T12:00:00');
+            const diffDays = Math.ceil((selDate - today) / (1000 * 60 * 60 * 24));
+            if (diffDays < 2) {
+                document.getElementById('modalNoticeText').textContent = 'This facility requires at least 2 days advance booking. Please select a later date.';
+                notice.style.display = 'flex';
+            } else {
+                notice.style.display = 'none';
+            }
+        }
+
+        function selectModalSlot(btn, slot) {
+            if (btn.classList.contains('booked')) return;
+            document.querySelectorAll('#modalSlots .modal-slot-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedModalSlot = slot;
+        }
+
+        function submitBooking(action) {
+            const dateVal = document.getElementById('modalDate').value;
+            if (!dateVal) { alert('Please select a date.'); return; }
+            if (!selectedModalSlot) { alert('Please select a time slot.'); return; }
+
+            const f = currentModalFacility;
+            const duration = document.getElementById('modalDuration').value;
+            const dateObj = new Date(dateVal + 'T12:00:00');
+            const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+            const checkoutBtn = document.getElementById('modalBookBtn');
+            const continueBtn = document.getElementById('modalAddContinueBtn');
+            const notice = document.getElementById('modalNotice');
+
+            // Success feedback on both buttons
+            const clickedBtn = action === 'continue' ? continueBtn : checkoutBtn;
+            const origHTML = clickedBtn.innerHTML;
+            clickedBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Slot Added!';
+            checkoutBtn.disabled = true;
+            continueBtn.disabled = true;
+
+            // Show confirmation
+            notice.style.display = 'flex';
+            notice.style.background = '#f0fdf4';
+            notice.style.borderColor = '#bbf7d0';
+            notice.style.color = '#166534';
+            document.getElementById('modalNoticeText').textContent =
+                `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''}) added to your booking.`;
+
+            if (action === 'continue') {
+                // Close modal after brief confirmation, return to browsing
+                setTimeout(() => {
+                    clickedBtn.innerHTML = origHTML;
+                    checkoutBtn.disabled = false;
+                    continueBtn.disabled = false;
+                    notice.style.display = 'none';
+                    notice.style.background = '';
+                    notice.style.borderColor = '';
+                    notice.style.color = '';
+                    closeBookingModal();
+                }, 1500);
+            } else {
+                // "Checkout" - show fuller confirmation then close
+                document.getElementById('modalNoticeText').textContent =
+                    `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''}) added. Redirecting to checkout...`;
+                setTimeout(() => {
+                    clickedBtn.innerHTML = origHTML;
+                    checkoutBtn.disabled = false;
+                    continueBtn.disabled = false;
+                    notice.style.display = 'none';
+                    notice.style.background = '';
+                    notice.style.borderColor = '';
+                    notice.style.color = '';
+                    closeBookingModal();
+                }, 2500);
+            }
+        }
+
+        // Date change updates slots
+        document.getElementById('modalDate').addEventListener('change', renderModalSlots);
+
+        // Escape key closes modal
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeBookingModal();
+        });
+
+        // =============================================
+        // WIRE UP CLICK HANDLERS (delegated)
+        // =============================================
+        document.addEventListener('click', function(e) {
+            // "View Details" button on facility cards
+            const viewBtn = e.target.closest('.btn-check-availability');
+            if (viewBtn) {
+                const card = viewBtn.closest('.facility-card');
+                if (card) {
+                    const name = card.querySelector('.facility-name')?.textContent;
+                    if (name) openBookingModal(name);
+                }
+                return;
+            }
+
+            // Time slot button on facility cards
+            const slotBtn = e.target.closest('.time-slot');
+            if (slotBtn) {
+                const card = slotBtn.closest('.facility-card');
+                if (card) {
+                    const name = card.querySelector('.facility-name')?.textContent;
+                    const time = slotBtn.textContent.trim();
+                    if (name) openBookingModal(name, time);
+                }
+                return;
+            }
+
+            // Facility list item in calendar view
+            const listItem = e.target.closest('.facility-list-item');
+            if (listItem) {
+                const name = listItem.querySelector('.list-item-name')?.textContent;
+                if (name) openBookingModal(name);
+                return;
+            }
+        });
+
         // Initialize with first district in selector
         switchDistrict(document.getElementById('districtSwitcher').value);
     </script>
+
 </body>
 </html>
