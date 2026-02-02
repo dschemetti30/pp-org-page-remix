@@ -28,12 +28,14 @@
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
             --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
             
-            /* Lovejoy ISD brand colors - Red/Maroon and Black */
-            --brand-primary: #8B0000;
+            /* Lovejoy ISD brand colors - Red and Black */
+            --brand-primary: #CC0000;
             --brand-secondary: #1a1a1a;
-            --brand-light: #f2e6e6;
-            --brand-hover: #6a0000;
-            --brand-dark: #4a0000;
+            --brand-light: #fce8e8;
+            --brand-hover: #a30000;
+            --brand-dark: #1a1a1a;
+            --brand-cta: #CC0000;
+            --brand-on-cta: #ffffff;
             --brand-on-primary: #ffffff;
             --brand-on-primary-muted: rgba(255,255,255,0.7);
             --share-text: #ffffff;
@@ -80,16 +82,18 @@
             --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
             
             /* Lovejoy ISD brand colors in dark mode */
-            --brand-primary: #dc4444;
+            --brand-primary: #ef4444;
             --brand-secondary: #555555;
             --brand-light: #2a1a1a;
-            --brand-hover: #c53030;
-            --brand-dark: #991b1b;
+            --brand-hover: #ef4444;
+            --brand-dark: #CC0000;
+            --brand-cta: #ef4444;
+            --brand-on-cta: #ffffff;
             --brand-on-primary: #ffffff;
             --share-text: #ffffff;
 
             /* Hero colors - dark mode */
-            --hero-bg: #4a0000;
+            --hero-bg: #8a0000;
             --hero-text: #ffffff;
             --hero-text-muted: rgba(255,255,255,0.6);
 
@@ -194,13 +198,6 @@
             margin-left: 8px;
         }
 
-        .demo-color-label {
-            font-size: 11px;
-            font-family: monospace;
-            color: rgba(255,255,255,0.8);
-            letter-spacing: 0.02em;
-        }
-
         .demo-input-label {
             display: flex;
             align-items: center;
@@ -254,6 +251,13 @@
             width: 14px;
             height: 14px;
             color: white;
+        }
+
+        .demo-divider {
+            width: 1px;
+            height: 20px;
+            background: rgba(255,255,255,0.25);
+            margin: 0 4px;
         }
 
         .powered-by-wordmark {
@@ -675,8 +679,8 @@
         }
 
         .btn-primary {
-            background: var(--brand-primary);
-            color: var(--brand-on-primary);
+            background: var(--brand-cta);
+            color: var(--brand-on-cta);
         }
 
         .btn-primary:hover {
@@ -1059,8 +1063,8 @@
 
         .search-btn {
             padding: 12px 24px;
-            background: var(--brand-secondary);
-            color: var(--share-text);
+            background: var(--brand-cta);
+            color: var(--brand-on-cta);
             font-size: 15px;
             font-weight: 600;
             border: none;
@@ -3526,12 +3530,12 @@
         .btn-check-availability {
             width: 100%;
             padding: 12px 20px;
-            background: var(--brand-secondary);
+            background: var(--brand-cta);
             border: none;
             border-radius: 6px;
             font-size: 14px;
             font-weight: 600;
-            color: var(--share-text);
+            color: var(--brand-on-cta);
             cursor: pointer;
             transition: all 0.15s ease;
             font-family: inherit;
@@ -3585,14 +3589,29 @@
 
         /* Modal Header */
         .modal-header {
-            background: var(--brand-primary);
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-hover) 100%);
             color: var(--brand-on-primary);
             padding: 20px 24px;
             display: flex;
             align-items: flex-start;
-            justify-content: space-between;
-            gap: 16px;
+            gap: 14px;
             flex-shrink: 0;
+        }
+        .modal-header-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .modal-header-logo img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
         .modal-header-info {
             flex: 1;
@@ -3604,6 +3623,7 @@
             font-weight: 700;
             margin: 0;
             line-height: 1.2;
+            color: inherit;
         }
         .modal-header-sub {
             font-size: 14px;
@@ -3690,6 +3710,8 @@
             margin: 0 0 12px 0;
             text-transform: uppercase;
             letter-spacing: 0.04em;
+            border-left: 3px solid var(--brand-primary);
+            padding-left: 10px;
         }
         .modal-info-grid {
             display: grid;
@@ -3708,7 +3730,7 @@
         .modal-info-item svg {
             width: 18px;
             height: 18px;
-            color: var(--brand-primary);
+            color: var(--text-secondary);
             flex-shrink: 0;
             margin-top: 1px;
         }
@@ -3744,7 +3766,7 @@
         .modal-feature-tag svg {
             width: 12px;
             height: 12px;
-            color: var(--brand-primary);
+            color: var(--text-secondary);
         }
         .modal-amenities-grid {
             display: grid;
@@ -3754,21 +3776,88 @@
         }
         .modal-amenity-item {
             background: var(--surface);
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: 8px;
             padding: 10px 12px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+        .modal-amenity-item:hover {
+            border-color: var(--brand-primary);
+            background: var(--brand-light);
+        }
+        .modal-amenity-item.selected {
+            border-color: var(--brand-primary);
+            background: var(--brand-light);
+        }
+        .modal-amenity-check {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.15s ease;
+        }
+        .modal-amenity-item.selected .modal-amenity-check {
+            background: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+        .modal-amenity-check svg {
+            width: 12px;
+            height: 12px;
+            stroke: #fff;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+        .modal-amenity-item.selected .modal-amenity-check svg {
+            opacity: 1;
+        }
+        .modal-amenity-info {
+            flex: 1;
+            min-width: 0;
         }
         .modal-amenity-name {
             font-size: 13px;
+            font-weight: 500;
             color: var(--text);
         }
         .modal-amenity-price {
             font-size: 12px;
             font-weight: 600;
-            color: var(--brand-primary);
+            color: #16a34a;
+        }
+        [data-theme="dark"] .modal-amenity-price {
+            color: #4ade80;
+        }
+        .modal-amenity-total {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+            margin-bottom: 20px;
+        }
+        .modal-amenity-total-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .modal-amenity-total-amount {
+            font-size: 14px;
+            font-weight: 700;
+            color: #16a34a;
+        }
+        [data-theme="dark"] .modal-amenity-total-amount {
+            color: #4ade80;
         }
         .modal-policy {
             background: var(--surface);
@@ -3799,6 +3888,7 @@
         .modal-price-banner {
             background: var(--surface);
             border: 1px solid var(--border);
+            border-left: 4px solid var(--brand-primary);
             border-radius: 10px;
             padding: 14px 16px;
             display: flex;
@@ -3809,7 +3899,10 @@
             font-family: var(--ff);
             font-size: 24px;
             font-weight: 800;
-            color: var(--text);
+            color: #16a34a;
+        }
+        [data-theme="dark"] .modal-price-amount {
+            color: #4ade80;
         }
         .modal-price-unit {
             font-size: 14px;
@@ -3880,6 +3973,49 @@
             pointer-events: none;
         }
 
+        /* Modal Date Picker */
+        .modal-date-field {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: border-color 0.15s ease;
+        }
+        .modal-date-field:hover {
+            border-color: var(--brand-primary);
+        }
+        .modal-date-display {
+            flex: 1;
+            font-size: 14px;
+            font-family: var(--ff);
+            color: var(--text);
+        }
+        .modal-date-display.placeholder {
+            color: var(--text-secondary);
+        }
+        .modal-datepicker {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 280px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            padding: 16px;
+            z-index: 10001;
+            font-family: inherit;
+        }
+        .modal-datepicker.open {
+            display: block;
+        }
+
         /* Time Slot Picker */
         .modal-slots-grid {
             display: flex;
@@ -3900,7 +4036,7 @@
         }
         .modal-slot-btn:hover {
             border-color: var(--brand-primary);
-            background: var(--chip-bg);
+            background: var(--brand-light);
         }
         .modal-slot-btn.selected {
             background: var(--brand-primary);
@@ -3938,11 +4074,12 @@
 
         .modal-btn-group {
             display: flex;
+            flex-direction: column;
             gap: 10px;
         }
         .modal-book-btn {
-            background: var(--brand-primary);
-            color: var(--brand-on-primary);
+            background: var(--brand-cta);
+            color: var(--brand-on-cta);
             border: none;
             border-radius: 10px;
             padding: 14px 24px;
@@ -3951,7 +4088,6 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.15s ease;
-            flex: 1;
             text-align: center;
             display: flex;
             align-items: center;
@@ -3973,11 +4109,11 @@
         }
         .modal-book-btn.secondary {
             background: transparent;
-            color: var(--brand-primary);
-            border: 2px solid var(--brand-primary);
+            color: var(--brand-cta);
+            border: 2px solid var(--brand-cta);
         }
         .modal-book-btn.secondary:hover {
-            background: var(--chip-bg);
+            background: var(--brand-light);
             filter: none;
         }
         .modal-book-btn svg {
@@ -3986,7 +4122,7 @@
             flex-shrink: 0;
         }
         .modal-book-btn.secondary svg {
-            stroke: var(--brand-primary);
+            stroke: var(--brand-cta);
         }
         .modal-login-hint {
             text-align: center;
@@ -4442,16 +4578,21 @@
             <option value="reynoldsburg">Reynoldsburg City Schools - Reynoldsburg, OH</option>
         </select>
         <div class="demo-palette" id="demoPalette">
-            <label class="demo-input-label">Light
+            <label class="demo-input-label">Primary
                 <input type="color" id="customColor1" value="#1a1a1a" onchange="updateDistrictColors()">
             </label>
-            <span class="demo-color-label" id="colorLabel1">#1A1A1A</span>
-            <button class="demo-swap-btn" onclick="swapDistrictColors()" title="Swap light and dark">
+            <button class="demo-swap-btn" onclick="swapDistrictColors()" title="Swap primary and secondary">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
             </button>
-            <span class="demo-color-label" id="colorLabel2">#8B0000</span>
-            <label class="demo-input-label">Dark
-                <input type="color" id="customColor2" value="#8B0000" onchange="updateDistrictColors()">
+            <label class="demo-input-label">Secondary
+                <input type="color" id="customColor2" value="#CC0000" onchange="updateDistrictColors()">
+            </label>
+            <span class="demo-divider"></span>
+            <label class="demo-input-label">Button
+                <input type="color" id="customColorCta" value="#CC0000" onchange="updateDistrictColors()">
+            </label>
+            <label class="demo-input-label">Header
+                <input type="color" id="customColorHeader" value="#CC0000" onchange="updateDistrictColors()">
             </label>
         </div>
     </div>
@@ -4494,7 +4635,7 @@
                 </div>
                 <div class="header-user-wrapper" id="userMenuWrapper">
                     <div class="header-user" onclick="document.getElementById('userMenuWrapper').classList.toggle('open')">
-                        <div class="header-user-avatar">JB</div>
+                        <div class="header-user-avatar"><img src="https://res.cloudinary.com/dpj2i1xui/image/upload/v1770056001/brochu_py2zps.jpg" alt="John Brochu" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
                         <div class="header-user-info">
                             <span class="header-user-name">John Brochu</span>
                             <span class="header-user-role">Participant</span>
@@ -5253,6 +5394,7 @@
     <div class="booking-modal-overlay" id="bookingModalOverlay" onclick="if(event.target===this)closeBookingModal()">
         <div class="booking-modal">
             <div class="modal-header">
+                <div class="modal-header-logo" id="modalHeaderLogo"></div>
                 <div class="modal-header-info">
                     <h2 id="modalFacilityName">Facility Name</h2>
                     <div class="modal-header-sub">
@@ -5280,6 +5422,10 @@
 
                     <h4 class="modal-section-title">Add-on Amenities</h4>
                     <div class="modal-amenities-grid" id="modalAmenities"></div>
+                    <div class="modal-amenity-total" id="modalAmenityTotal" style="display:none">
+                        <span class="modal-amenity-total-label">Selected add-ons</span>
+                        <span class="modal-amenity-total-amount" id="modalAmenityTotalAmount">$0</span>
+                    </div>
 
                     <h4 class="modal-section-title">Policies</h4>
                     <div id="modalPolicies"></div>
@@ -5300,7 +5446,21 @@
 
                     <div class="modal-form-group">
                         <label class="modal-form-label">Select a Date</label>
-                        <input type="date" class="modal-form-input" id="modalDate">
+                        <div class="modal-date-field" id="modalDateField">
+                            <input type="hidden" id="modalDate">
+                            <span class="modal-date-display" id="modalDateDisplay">Select a date</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--text-secondary);flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <div class="modal-datepicker" id="modalDatepicker">
+                                <div class="dp-header">
+                                    <button class="dp-nav" id="mdpPrev" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+                                    <span class="dp-month" id="mdpMonth"></span>
+                                    <button class="dp-nav" id="mdpNext" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+                                </div>
+                                <div class="dp-weekdays"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+                                <div class="dp-days" id="mdpDays"></div>
+                                <button class="dp-clear" id="mdpClear" type="button">Clear date</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal-form-group">
@@ -6328,7 +6488,7 @@
                 location: 'Lucas, Texas',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_3lovejoy-logo_tebuxt.svg',
                 logoScale: 0.82,
-                colors: { light: '#1a1a1a', dark: '#1a1a1a', primary: '#CC0000', secondary: '#1a1a1a', brandLight: '#fce8e8', brandLightAlt: '#f8d4d4', chipBg: '#fce8e8', heroBg: '#CC0000', heroBgDark: '#8a0000', primaryDark: '#ef4444', secondaryDark: '#555555', lightDark: '#2a1a1a', hoverShadow: 'rgba(204, 0, 0, 0.2)', stripe: 'rgba(204, 0, 0, 0.02)', hover: '#a30000', dark: '#1a1a1a', hoverDark: '#ef4444', darkDark: '#CC0000' },
+                colors: { light: '#1a1a1a', dark: '#1a1a1a', primary: '#CC0000', secondary: '#1a1a1a', cta: '#CC0000', ctaDark: '#ef4444', brandLight: '#fce8e8', brandLightAlt: '#f8d4d4', chipBg: '#fce8e8', heroBg: '#CC0000', heroBgDark: '#8a0000', primaryDark: '#ef4444', secondaryDark: '#555555', lightDark: '#2a1a1a', hoverShadow: 'rgba(204, 0, 0, 0.2)', stripe: 'rgba(204, 0, 0, 0.02)', hover: '#a30000', dark: '#1a1a1a', hoverDark: '#ef4444', darkDark: '#CC0000' },
                 weather: {
                     today: { temp: 50, condition: 'Sunny', icon: '☀️' },
                     forecast: {
@@ -6373,7 +6533,7 @@
                 location: 'Gonzales, Louisiana',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_1ascension-logo_zwj5tq.svg',
                 logoScale: 0.82,
-                colors: { light: '#8C8C8C', dark: '#B2122B', primary: '#B2122B', secondary: '#8C8C8C', brandLight: '#fae8eb', brandLightAlt: '#f5d5da', chipBg: '#fae8eb', heroBg: '#B2122B', heroBgDark: '#7a0c1d', primaryDark: '#e84a60', secondaryDark: '#b0b0b0', lightDark: '#2a1a1d', hoverShadow: 'rgba(178, 18, 43, 0.2)', stripe: 'rgba(178, 18, 43, 0.02)', hover: '#8e0e22', dark: '#7a0c1d', hoverDark: '#e84a60', darkDark: '#B2122B' },
+                colors: { light: '#8C8C8C', dark: '#B2122B', primary: '#B2122B', secondary: '#8C8C8C', cta: '#B2122B', ctaDark: '#e84a60', brandLight: '#fae8eb', brandLightAlt: '#f5d5da', chipBg: '#fae8eb', heroBg: '#B2122B', heroBgDark: '#7a0c1d', primaryDark: '#e84a60', secondaryDark: '#b0b0b0', lightDark: '#2a1a1d', hoverShadow: 'rgba(178, 18, 43, 0.2)', stripe: 'rgba(178, 18, 43, 0.02)', hover: '#8e0e22', dark: '#7a0c1d', hoverDark: '#e84a60', darkDark: '#B2122B' },
                 weather: {
                     today: { temp: 46, condition: 'Mostly sunny', icon: '🌤️' },
                     forecast: {
@@ -6425,7 +6585,7 @@
                 location: 'Reynoldsburg, Ohio',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_2reynoldsburg-logo_eh32yp.svg',
                 logoScale: 0.82,
-                colors: { light: '#f5a623', dark: '#6B2D8B', primary: '#6B2D8B', secondary: '#f5a623', brandLight: '#e0d2ea', brandLightAlt: '#e9e0ee', chipBg: '#e0d2ea', heroBg: '#6B2D8B', heroBgDark: '#3a1850', primaryDark: '#b07cd8', secondaryDark: '#ffd966', lightDark: '#2a1a3a', hoverShadow: 'rgba(107, 45, 139, 0.2)', stripe: 'rgba(107, 45, 139, 0.02)', hover: '#552270', dark: '#3a1850', hoverDark: '#9a6ac0', darkDark: '#6B2D8B' },
+                colors: { light: '#f5a623', dark: '#6B2D8B', primary: '#6B2D8B', secondary: '#f5a623', cta: '#6B2D8B', ctaDark: '#b07cd8', brandLight: '#e0d2ea', brandLightAlt: '#e9e0ee', chipBg: '#e0d2ea', heroBg: '#6B2D8B', heroBgDark: '#3a1850', primaryDark: '#b07cd8', secondaryDark: '#ffd966', lightDark: '#2a1a3a', hoverShadow: 'rgba(107, 45, 139, 0.2)', stripe: 'rgba(107, 45, 139, 0.02)', hover: '#552270', dark: '#3a1850', hoverDark: '#9a6ac0', darkDark: '#6B2D8B' },
                 weather: {
                     today: { temp: 19, condition: 'Partly sunny', icon: '⛅' },
                     forecast: {
@@ -6472,7 +6632,7 @@
                 location: 'Farmville, Virginia',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_4princeedward-logo_g5yw94.svg',
                 logoScale: 1,
-                colors: { light: '#00a84f', dark: '#0076bb', primary: '#0076bb', secondary: '#00a84f', brandLight: '#d9f2e5', brandLightAlt: '#d9eaf5', chipBg: '#d9f2e5', heroBg: '#0076bb', heroBgDark: '#005383', primaryDark: '#4d9fcf', secondaryDark: '#33b972', lightDark: '#0076bb1a', hoverShadow: 'rgba(0, 118, 187, 0.2)', stripe: 'rgba(0, 118, 187, 0.04)', hover: '#00649f', brandDark: '#00598c', hoverDark: '#3391c9', darkDark: '#0076bb' },
+                colors: { light: '#00a84f', dark: '#0076bb', primary: '#0076bb', secondary: '#00a84f', cta: '#0076bb', ctaDark: '#4d9fcf', brandLight: '#d9f2e5', brandLightAlt: '#d9eaf5', chipBg: '#d9f2e5', heroBg: '#0076bb', heroBgDark: '#005383', primaryDark: '#4d9fcf', secondaryDark: '#33b972', lightDark: '#0076bb1a', hoverShadow: 'rgba(0, 118, 187, 0.2)', stripe: 'rgba(0, 118, 187, 0.04)', hover: '#00649f', brandDark: '#00598c', hoverDark: '#3391c9', darkDark: '#0076bb' },
                 weather: {
                     today: { temp: 42, condition: 'Partly cloudy', icon: '⛅' },
                     forecast: {
@@ -6517,13 +6677,15 @@
         function syncPalette(c) {
             const lightVal = c.light || c.secondary || c.primary;
             const darkVal = c.dark || c.primary;
+            const ctaVal = c.cta || c.primary;
+            const headerVal = c.heroBg || c.primary;
             document.getElementById('customColor1').value = lightVal;
             document.getElementById('customColor2').value = darkVal;
-            document.getElementById('colorLabel1').textContent = lightVal.toUpperCase();
-            document.getElementById('colorLabel2').textContent = darkVal.toUpperCase();
+            document.getElementById('customColorCta').value = ctaVal;
+            document.getElementById('customColorHeader').value = headerVal;
         }
-        // Init
-        syncPalette(districts.lovejoy.colors);
+        // Init palette (syncs on first switchDistrict call)
+        syncPalette(districts.ascension.colors);
 
         // Luminance & contrast helpers
         function hexToRgb(hex) {
@@ -6629,10 +6791,16 @@
             if (!d) return;
             const lightColor = document.getElementById('customColor1').value;
             const darkColor = document.getElementById('customColor2').value;
-            document.getElementById('colorLabel1').textContent = lightColor.toUpperCase();
-            document.getElementById('colorLabel2').textContent = darkColor.toUpperCase();
+            const ctaColor = document.getElementById('customColorCta').value;
+            const headerColor = document.getElementById('customColorHeader').value;
             // Reset aboutBg so deriveColors fully recomputes
             const derived = deriveColors(lightColor, darkColor);
+            derived.cta = ctaColor;
+            derived.ctaDark = lightenHex(ctaColor, 0.25);
+            derived.heroBg = headerColor;
+            derived.heroBgDark = darkenHex(headerColor, 0.3);
+            derived.heroText = contrastText(headerColor);
+            derived.heroTextMuted = derived.heroText === '#ffffff' ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)';
             Object.assign(d.colors, derived);
             // Clear cached aboutBg so switchDistrict re-derives properly
             d.colors.aboutBg = derived.aboutBg;
@@ -6750,6 +6918,8 @@
 
             root.style.setProperty('--brand-primary', c.primary);
             root.style.setProperty('--brand-secondary', c.secondary);
+            root.style.setProperty('--brand-cta', c.cta || c.primary);
+            root.style.setProperty('--brand-on-cta', contrastText(c.cta || c.primary));
             root.style.setProperty('--brand-light', c.brandLight || c.light);
             root.style.setProperty('--brand-hover', c.hover);
             root.style.setProperty('--brand-dark', c.brandDark || c.dark);
@@ -6778,7 +6948,7 @@
                 .hero::after { background: linear-gradient(90deg, ${c.primary} 0%, ${c.secondary} 50%, ${c.primary} 100%) !important; }
                 .main::before { background: linear-gradient(135deg, ${gradLight} 0%, var(--bg) 25%, var(--bg) 55%, ${gradAlt} 80%, var(--bg) 100%) !important; }
                 .btn-white { color: ${c.primary}; }
-                [data-theme="dark"] { --brand-primary: ${c.primaryDark}; --brand-secondary: ${c.secondaryDark}; --brand-light: ${gradLightDk}; --brand-hover: ${c.hoverDark}; --brand-dark: ${c.darkDark}; --hero-bg: ${c.heroBgDark}; --chip-bg: ${c.lightDark || c.light}; --chip-text: ${c.primaryDark}; --brand-on-primary: ${contrastText(c.primaryDark)}; --share-text: ${contrastText(c.secondaryDark)}; }
+                [data-theme="dark"] { --brand-primary: ${c.primaryDark}; --brand-secondary: ${c.secondaryDark}; --brand-cta: ${c.ctaDark || c.primaryDark}; --brand-on-cta: ${contrastText(c.ctaDark || c.primaryDark)}; --brand-light: ${gradLightDk}; --brand-hover: ${c.hoverDark}; --brand-dark: ${c.darkDark}; --hero-bg: ${c.heroBgDark}; --chip-bg: ${c.lightDark || c.light}; --chip-text: ${c.primaryDark}; --brand-on-primary: ${contrastText(c.primaryDark)}; --share-text: ${contrastText(c.secondaryDark)}; }
                 [data-theme="dark"] .facility-card:hover { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4); }
                 [data-theme="dark"] .main::before { background: linear-gradient(135deg, ${gradLightDk} 0%, var(--bg) 25%, var(--bg) 55%, ${gradAltDk} 80%, var(--bg) 100%) !important; }
             `;
@@ -6976,6 +7146,7 @@
         let currentModalFacility = null;
         let currentModalDistrict = null;
         let selectedModalSlot = null;
+        let selectedAmenities = new Set();
 
         function openBookingModal(facilityName, preselectedSlot) {
             const currentKey = document.getElementById('districtSwitcher').value;
@@ -6992,6 +7163,14 @@
             // Populate header
             document.getElementById('modalFacilityName').textContent = f.name;
             document.getElementById('modalFacilityLocation').textContent = f.location;
+
+            // District logo in modal header
+            const modalLogo = document.getElementById('modalHeaderLogo');
+            if (d.logo) {
+                modalLogo.innerHTML = `<img src="${d.logo}" alt="${d.name}" style="transform:scale(${d.logoScale || 1})">`;
+            } else {
+                modalLogo.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:24px;height:24px"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`;
+            }
 
             // Image
             const img = document.getElementById('modalFacilityImg');
@@ -7047,19 +7226,27 @@
             ).join('');
 
             // Amenities
+            selectedAmenities = new Set();
             const amenityData = [];
             if (f.type.includes('Stadium') || f.type.includes('Field')) {
-                amenityData.push({ name: 'Scoreboard', price: '$100' }, { name: 'Field Lighting', price: '$150' }, { name: 'PA System', price: '$75' }, { name: 'Security', price: '$250' });
+                amenityData.push({ name: 'Scoreboard', price: 100 }, { name: 'Field Lighting', price: 150 }, { name: 'PA System', price: 75 }, { name: 'Security', price: 250 });
             } else if (f.type.includes('Auditorium')) {
-                amenityData.push({ name: 'Advanced Lighting', price: '$250' }, { name: 'Curtains/Drapery', price: '$200' }, { name: 'Sound System', price: '$40' }, { name: 'Projector', price: '$50' });
+                amenityData.push({ name: 'Advanced Lighting', price: 250 }, { name: 'Curtains/Drapery', price: 200 }, { name: 'Sound System', price: 40 }, { name: 'Projector', price: 50 });
             } else if (f.type.includes('Gymnasium')) {
-                amenityData.push({ name: 'Scoreboard', price: '$100' }, { name: 'Bleacher Setup', price: '$75' }, { name: 'A/V Equipment', price: '$50' }, { name: 'Locker Rooms', price: '$40' });
+                amenityData.push({ name: 'Scoreboard', price: 100 }, { name: 'Bleacher Setup', price: 75 }, { name: 'A/V Equipment', price: 50 }, { name: 'Locker Rooms', price: 40 });
             } else {
-                amenityData.push({ name: 'A/V Equipment', price: '$50' }, { name: 'Extra Tables', price: '$30' }, { name: 'Cleanup Crew', price: '$75' });
+                amenityData.push({ name: 'A/V Equipment', price: 50 }, { name: 'Extra Tables', price: 30 }, { name: 'Cleanup Crew', price: 75 });
             }
-            document.getElementById('modalAmenities').innerHTML = amenityData.map(a =>
-                `<div class="modal-amenity-item"><span class="modal-amenity-name">${a.name}</span><span class="modal-amenity-price">${a.price}</span></div>`
+            // Store on window so toggle can access
+            window._modalAmenityData = amenityData;
+            document.getElementById('modalAmenities').innerHTML = amenityData.map((a, i) =>
+                `<div class="modal-amenity-item" data-amenity-idx="${i}" data-amenity-price="${a.price}" onclick="toggleAmenity(this)">
+                    <span class="modal-amenity-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    <span class="modal-amenity-info"><span class="modal-amenity-name">${a.name}</span></span>
+                    <span class="modal-amenity-price">$${a.price.toFixed(2)}</span>
+                </div>`
             ).join('');
+            document.getElementById('modalAmenityTotal').style.display = 'none';
 
             // Policies
             const policies = d.info && d.info.thingsToKnow ? d.info.thingsToKnow : [];
@@ -7077,15 +7264,16 @@
 
             // Pre-fill date from search
             const searchDateVal = document.getElementById('searchDate').value;
-            const modalDateInput = document.getElementById('modalDate');
+            mdpViewDate = new Date();
             if (searchDateVal) {
-                modalDateInput.value = searchDateVal;
+                setModalDate(searchDateVal);
+                mdpViewDate = new Date(searchDateVal + 'T12:00:00');
             } else {
                 const today = new Date();
                 const yyyy = today.getFullYear();
                 const mm = String(today.getMonth() + 1).padStart(2, '0');
                 const dd = String(today.getDate()).padStart(2, '0');
-                modalDateInput.value = `${yyyy}-${mm}-${dd}`;
+                setModalDate(`${yyyy}-${mm}-${dd}`);
             }
 
             // Pre-fill duration from search
@@ -7111,6 +7299,11 @@
 
             // Render time slots for date
             renderModalSlots();
+
+            // Reset scroll positions to top
+            document.querySelector('.modal-left').scrollTop = 0;
+            document.querySelector('.modal-right').scrollTop = 0;
+            document.querySelector('.modal-body').scrollTop = 0;
 
             // Show modal
             document.getElementById('bookingModalOverlay').classList.add('active');
@@ -7187,6 +7380,33 @@
             selectedModalSlot = slot;
         }
 
+        function toggleAmenity(el) {
+            const idx = el.dataset.amenityIdx;
+            el.classList.toggle('selected');
+            if (el.classList.contains('selected')) {
+                selectedAmenities.add(idx);
+            } else {
+                selectedAmenities.delete(idx);
+            }
+            updateAmenityTotal();
+        }
+
+        function updateAmenityTotal() {
+            const totalEl = document.getElementById('modalAmenityTotal');
+            const amountEl = document.getElementById('modalAmenityTotalAmount');
+            if (selectedAmenities.size === 0) {
+                totalEl.style.display = 'none';
+                return;
+            }
+            let total = 0;
+            selectedAmenities.forEach(idx => {
+                const a = window._modalAmenityData[parseInt(idx)];
+                if (a) total += a.price;
+            });
+            amountEl.textContent = '+$' + total.toFixed(2);
+            totalEl.style.display = 'flex';
+        }
+
         function submitBooking(action) {
             const dateVal = document.getElementById('modalDate').value;
             if (!dateVal) { alert('Please select a date.'); return; }
@@ -7196,6 +7416,17 @@
             const duration = document.getElementById('modalDuration').value;
             const dateObj = new Date(dateVal + 'T12:00:00');
             const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+            // Build amenity summary
+            let amenitySummary = '';
+            if (selectedAmenities.size > 0) {
+                const names = [];
+                selectedAmenities.forEach(idx => {
+                    const a = window._modalAmenityData[parseInt(idx)];
+                    if (a) names.push(a.name);
+                });
+                amenitySummary = ` + ${names.join(', ')}`;
+            }
 
             const checkoutBtn = document.getElementById('modalBookBtn');
             const continueBtn = document.getElementById('modalAddContinueBtn');
@@ -7214,7 +7445,7 @@
             notice.style.borderColor = '#bbf7d0';
             notice.style.color = '#166534';
             document.getElementById('modalNoticeText').textContent =
-                `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''}) added to your booking.`;
+                `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''})${amenitySummary} added to your booking.`;
 
             if (action === 'continue') {
                 // Close modal after brief confirmation, return to browsing
@@ -7231,7 +7462,7 @@
             } else {
                 // "Checkout" - show fuller confirmation then close
                 document.getElementById('modalNoticeText').textContent =
-                    `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''}) added. Redirecting to checkout...`;
+                    `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''})${amenitySummary} added. Redirecting to checkout...`;
                 setTimeout(() => {
                     clickedBtn.innerHTML = origHTML;
                     checkoutBtn.disabled = false;
@@ -7245,8 +7476,116 @@
             }
         }
 
-        // Date change updates slots
-        document.getElementById('modalDate').addEventListener('change', renderModalSlots);
+        // =============================================
+        // MODAL DATE PICKER
+        // =============================================
+        const modalDateField = document.getElementById('modalDateField');
+        const modalDatepicker = document.getElementById('modalDatepicker');
+        const mdpDays = document.getElementById('mdpDays');
+        const mdpMonth = document.getElementById('mdpMonth');
+        const mdpPrev = document.getElementById('mdpPrev');
+        const mdpNext = document.getElementById('mdpNext');
+        const mdpClear = document.getElementById('mdpClear');
+        const modalDateInput = document.getElementById('modalDate');
+        const modalDateDisplay = document.getElementById('modalDateDisplay');
+        let mdpViewDate = new Date();
+
+        function formatModalDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr + 'T12:00:00');
+            return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function renderModalDatepicker() {
+            const year = mdpViewDate.getFullYear();
+            const month = mdpViewDate.getMonth();
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            mdpMonth.textContent = months[month] + ' ' + year;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrev = new Date(year, month, 0).getDate();
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const selectedVal = modalDateInput.value;
+
+            // Adjust for Monday start
+            const startDay = firstDay === 0 ? 6 : firstDay - 1;
+
+            let html = '';
+            for (let i = startDay - 1; i >= 0; i--) {
+                const d = daysInPrev - i;
+                html += '<button class="dp-day other-month past" type="button" disabled>' + d + '</button>';
+            }
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateObj = new Date(year, month, d);
+                const dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                const isPast = dateObj < today;
+                const isToday = dateObj.getTime() === today.getTime();
+                const isSelected = dateStr === selectedVal;
+                let cls = 'dp-day';
+                if (isPast) cls += ' past';
+                if (isToday) cls += ' today';
+                if (isSelected) cls += ' selected';
+                html += '<button class="' + cls + '" type="button" data-date="' + dateStr + '"' + (isPast ? ' disabled' : '') + '>' + d + '</button>';
+            }
+            const totalCells = startDay + daysInMonth;
+            const remaining = (7 - (totalCells % 7)) % 7;
+            for (let d = 1; d <= remaining; d++) {
+                html += '<button class="dp-day other-month" type="button" disabled>' + d + '</button>';
+            }
+            mdpDays.innerHTML = html;
+        }
+
+        function setModalDate(dateStr) {
+            modalDateInput.value = dateStr;
+            if (dateStr) {
+                modalDateDisplay.textContent = formatModalDate(dateStr);
+                modalDateDisplay.classList.remove('placeholder');
+            } else {
+                modalDateDisplay.textContent = 'Select a date';
+                modalDateDisplay.classList.add('placeholder');
+            }
+            renderModalSlots();
+        }
+
+        modalDateField.addEventListener('click', (e) => {
+            if (e.target.closest('.modal-datepicker')) return;
+            modalDatepicker.classList.toggle('open');
+            if (modalDatepicker.classList.contains('open')) renderModalDatepicker();
+        });
+
+        mdpDays.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const btn = e.target.closest('.dp-day[data-date]');
+            if (!btn || btn.disabled) return;
+            setModalDate(btn.dataset.date);
+            modalDatepicker.classList.remove('open');
+        });
+
+        mdpPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mdpViewDate.setMonth(mdpViewDate.getMonth() - 1);
+            renderModalDatepicker();
+        });
+
+        mdpNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mdpViewDate.setMonth(mdpViewDate.getMonth() + 1);
+            renderModalDatepicker();
+        });
+
+        mdpClear.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setModalDate('');
+            modalDatepicker.classList.remove('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!modalDateField.contains(e.target)) {
+                modalDatepicker.classList.remove('open');
+            }
+        });
 
         // Escape key closes modal
         document.addEventListener('keydown', e => {
