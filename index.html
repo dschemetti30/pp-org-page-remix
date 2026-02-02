@@ -5471,7 +5471,7 @@
 
                 html += `
                     <div class="facility-list-item">
-                        <div class="list-item-icon">${d.logo ? `<img src="${d.logo}" alt="${d.name}" style="width:22px;height:22px;object-fit:contain;">` : `<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>`}</div>
+                        <div class="list-item-icon">${d.logo ? `<img src="${d.logo}" alt="${d.name}" style="width:22px;height:22px;object-fit:contain;transform:scale(${d.logoScale || 1})">` : `<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>`}</div>
                         <div class="list-item-content">
                             <div class="list-item-name">${f.name}</div>
                             <div class="list-item-location">${f.location}</div>
@@ -5690,6 +5690,7 @@
                 name: 'Lovejoy ISD',
                 location: 'Lucas, Texas',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_3lovejoy-logo_tebuxt.svg',
+                logoScale: 0.82,
                 colors: { light: '#1a1a1a', dark: '#8B0000', primary: '#8B0000', secondary: '#1a1a1a', brandLight: '#f2e6e6', brandLightAlt: '#eed9d9', chipBg: '#f2e6e6', heroBg: '#8B0000', heroBgDark: '#4a0000', primaryDark: '#dc4444', secondaryDark: '#555555', lightDark: '#2a1a1a', hoverShadow: 'rgba(139, 0, 0, 0.2)', stripe: 'rgba(139, 0, 0, 0.02)', hover: '#6a0000', dark: '#4a0000', hoverDark: '#c53030', darkDark: '#991b1b' },
                 weather: {
                     today: { temp: 50, condition: 'Sunny', icon: '☀️' },
@@ -5734,6 +5735,7 @@
                 name: 'Ascension Parish Schools',
                 location: 'Gonzales, Louisiana',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_1ascension-logo_zwj5tq.svg',
+                logoScale: 0.82,
                 colors: { light: '#c8a415', dark: '#002855', primary: '#002855', secondary: '#c8a415', brandLight: '#d6dfe8', brandLightAlt: '#d9dfe6', chipBg: '#d6dfe8', heroBg: '#002855', heroBgDark: '#001433', primaryDark: '#5b9bd5', secondaryDark: '#f0d060', lightDark: '#1a2433', hoverShadow: 'rgba(0, 40, 85, 0.2)', stripe: 'rgba(0, 40, 85, 0.02)', hover: '#001d40', dark: '#001433', hoverDark: '#4a88c2', darkDark: '#002855' },
                 weather: {
                     today: { temp: 46, condition: 'Mostly sunny', icon: '🌤️' },
@@ -5785,6 +5787,7 @@
                 name: 'Reynoldsburg City Schools',
                 location: 'Reynoldsburg, Ohio',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_2reynoldsburg-logo_eh32yp.svg',
+                logoScale: 0.82,
                 colors: { light: '#f5a623', dark: '#6B2D8B', primary: '#6B2D8B', secondary: '#f5a623', brandLight: '#e0d2ea', brandLightAlt: '#e9e0ee', chipBg: '#e0d2ea', heroBg: '#6B2D8B', heroBgDark: '#3a1850', primaryDark: '#b07cd8', secondaryDark: '#ffd966', lightDark: '#2a1a3a', hoverShadow: 'rgba(107, 45, 139, 0.2)', stripe: 'rgba(107, 45, 139, 0.02)', hover: '#552270', dark: '#3a1850', hoverDark: '#9a6ac0', darkDark: '#6B2D8B' },
                 weather: {
                     today: { temp: 19, condition: 'Partly sunny', icon: '⛅' },
@@ -5831,6 +5834,7 @@
                 name: 'Prince Edward County',
                 location: 'Farmville, Virginia',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_4princeedward-logo_g5yw94.svg',
+                logoScale: 1,
                 colors: { light: '#00a84f', dark: '#0076bb', primary: '#0076bb', secondary: '#00a84f', brandLight: '#d9f2e5', brandLightAlt: '#d9eaf5', chipBg: '#d9f2e5', heroBg: '#0076bb', heroBgDark: '#005383', primaryDark: '#4d9fcf', secondaryDark: '#33b972', lightDark: '#0076bb1a', hoverShadow: 'rgba(0, 118, 187, 0.2)', stripe: 'rgba(0, 118, 187, 0.04)', hover: '#00649f', brandDark: '#00598c', hoverDark: '#3391c9', darkDark: '#0076bb' },
                 weather: {
                     today: { temp: 42, condition: 'Partly cloudy', icon: '⛅' },
@@ -6083,7 +6087,7 @@
             const headerLogo = document.getElementById('districtLogo');
             if (headerLogo) {
                 if (d.logo) {
-                    headerLogo.innerHTML = `<img src="${d.logo}" alt="${d.name}">`;
+                    headerLogo.innerHTML = `<img src="${d.logo}" alt="${d.name}" style="transform:scale(${d.logoScale || 1})">`;
                 } else {
                     headerLogo.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>';
                 }
@@ -6231,7 +6235,7 @@
                                 </span>
                             </div>
                             <div class="facility-body">
-                                <div class="facility-type-icon">${d.logo ? `<img src="${d.logo}" alt="${d.name}">` : `<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>`}</div>
+                                <div class="facility-type-icon">${d.logo ? `<img src="${d.logo}" alt="${d.name}" style="transform:scale(${d.logoScale || 1})">` : `<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>`}</div>
                                 <h3 class="facility-name">${f.name}</h3>
                                 <div class="facility-location">${f.location}</div>
                                 <div class="facility-price-line">${f.price}</div>
