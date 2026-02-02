@@ -205,27 +205,161 @@
             font-size: 11px;
             color: rgba(255,255,255,0.8);
             font-weight: 500;
+            position: relative;
         }
 
         .demo-input-label input[type="color"] {
+            width: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        .demo-swatch {
             width: 22px;
             height: 22px;
             border: 1.5px solid rgba(255,255,255,0.4);
             border-radius: 4px;
             cursor: pointer;
-            padding: 0;
-            background: none;
-            -webkit-appearance: none;
-            appearance: none;
+            flex-shrink: 0;
+            position: relative;
         }
 
-        .demo-input-label input[type="color"]::-webkit-color-swatch-wrapper {
-            padding: 1px;
+        .demo-swatch:hover {
+            border-color: rgba(255,255,255,0.8);
         }
 
-        .demo-input-label input[type="color"]::-webkit-color-swatch {
-            border: none;
-            border-radius: 2px;
+        .demo-color-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 9999;
+            min-width: 164px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .demo-color-dropdown.open {
+            display: block;
+        }
+
+        .demo-color-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 8px;
+            height: 8px;
+            background: #1e293b;
+            border-left: 1px solid rgba(255,255,255,0.15);
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .demo-dd-label {
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 6px;
+        }
+
+        .demo-dd-swatches {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .demo-dd-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.1s, transform 0.1s;
+            position: relative;
+        }
+
+        .demo-dd-swatch:hover {
+            transform: scale(1.12);
+        }
+
+        .demo-dd-swatch.active {
+            border-color: #ffffff;
+        }
+
+        .demo-dd-swatch::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 4px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            white-space: nowrap;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s;
+        }
+
+        .demo-dd-swatch:hover::after {
+            opacity: 1;
+        }
+
+        .demo-dd-hex-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .demo-dd-hex {
+            flex: 1;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            color: #ffffff;
+            font-family: monospace;
+            font-size: 12px;
+            padding: 5px 8px;
+            width: 100%;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        .demo-dd-hex:focus {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .demo-dd-more {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 5px;
+            color: rgba(255,255,255,0.7);
+            font-size: 11px;
+            padding: 5px 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.1s;
+        }
+
+        .demo-dd-more:hover {
+            background: rgba(255,255,255,0.18);
+            color: #fff;
         }
 
         .demo-swap-btn {
@@ -4572,28 +4706,64 @@
     <div class="demo-bar">
         <span class="demo-bar-label">Demo</span>
         <select id="districtSwitcher" onchange="switchDistrict(this.value)">
+            <option value="reynoldsburg">Reynoldsburg City Schools - Reynoldsburg, OH</option>
             <option value="ascension">Ascension Parish Schools - Gonzales, LA</option>
             <option value="lovejoy">Lovejoy ISD - Lucas, TX</option>
             <option value="princeedward">Prince Edward County - Farmville, VA</option>
-            <option value="reynoldsburg">Reynoldsburg City Schools - Reynoldsburg, OH</option>
         </select>
         <div class="demo-palette" id="demoPalette">
-            <label class="demo-input-label">Primary
-                <input type="color" id="customColor1" value="#1a1a1a" onchange="updateDistrictColors()">
-            </label>
+            <div class="demo-input-label">Primary
+                <div class="demo-swatch" id="swatchPrimary" onclick="toggleColorDropdown('primary')"></div>
+                <input type="color" id="customColor1" value="#6B2D8B" onchange="updateDistrictColors()">
+                <div class="demo-color-dropdown" id="ddPrimary">
+                    <div class="demo-dd-label">District Brand</div>
+                    <div class="demo-dd-swatches" id="ddPrimarySwatches"></div>
+                    <div class="demo-dd-hex-row">
+                        <input type="text" class="demo-dd-hex" id="hexPrimary" maxlength="7" placeholder="#000000" onkeydown="if(event.key==='Enter'){applyHexInput('primary')}">
+                        <button class="demo-dd-more" onclick="openNativePicker('customColor1','primary')">More</button>
+                    </div>
+                </div>
+            </div>
             <button class="demo-swap-btn" onclick="swapDistrictColors()" title="Swap primary and secondary">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
             </button>
-            <label class="demo-input-label">Secondary
-                <input type="color" id="customColor2" value="#CC0000" onchange="updateDistrictColors()">
-            </label>
+            <div class="demo-input-label">Secondary
+                <div class="demo-swatch" id="swatchSecondary" onclick="toggleColorDropdown('secondary')"></div>
+                <input type="color" id="customColor2" value="#f5a623" onchange="updateDistrictColors()">
+                <div class="demo-color-dropdown" id="ddSecondary">
+                    <div class="demo-dd-label">District Brand</div>
+                    <div class="demo-dd-swatches" id="ddSecondarySwatches"></div>
+                    <div class="demo-dd-hex-row">
+                        <input type="text" class="demo-dd-hex" id="hexSecondary" maxlength="7" placeholder="#000000" onkeydown="if(event.key==='Enter'){applyHexInput('secondary')}">
+                        <button class="demo-dd-more" onclick="openNativePicker('customColor2','secondary')">More</button>
+                    </div>
+                </div>
+            </div>
             <span class="demo-divider"></span>
-            <label class="demo-input-label">Button
-                <input type="color" id="customColorCta" value="#CC0000" onchange="updateDistrictColors()">
-            </label>
-            <label class="demo-input-label">Header
-                <input type="color" id="customColorHeader" value="#CC0000" onchange="updateDistrictColors()">
-            </label>
+            <div class="demo-input-label">Button
+                <div class="demo-swatch" id="swatchButton" onclick="toggleColorDropdown('button')"></div>
+                <input type="color" id="customColorCta" value="#6B2D8B" onchange="updateDistrictColors()">
+                <div class="demo-color-dropdown" id="ddButton">
+                    <div class="demo-dd-label">District Brand</div>
+                    <div class="demo-dd-swatches" id="ddButtonSwatches"></div>
+                    <div class="demo-dd-hex-row">
+                        <input type="text" class="demo-dd-hex" id="hexButton" maxlength="7" placeholder="#000000" onkeydown="if(event.key==='Enter'){applyHexInput('button')}">
+                        <button class="demo-dd-more" onclick="openNativePicker('customColorCta','button')">More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-input-label">Header
+                <div class="demo-swatch" id="swatchHeader" onclick="toggleColorDropdown('header')"></div>
+                <input type="color" id="customColorHeader" value="#6B2D8B" onchange="updateDistrictColors()">
+                <div class="demo-color-dropdown" id="ddHeader">
+                    <div class="demo-dd-label">District Brand</div>
+                    <div class="demo-dd-swatches" id="ddHeaderSwatches"></div>
+                    <div class="demo-dd-hex-row">
+                        <input type="text" class="demo-dd-hex" id="hexHeader" maxlength="7" placeholder="#000000" onkeydown="if(event.key==='Enter'){applyHexInput('header')}">
+                        <button class="demo-dd-more" onclick="openNativePicker('customColorHeader','header')">More</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -6673,19 +6843,153 @@
             }
         };
 
+        // Snapshot each district's original brand colors (immutable reference for picker presets)
+        const districtOriginalColors = {};
+        Object.keys(districts).forEach(key => {
+            const c = districts[key].colors;
+            const seen = new Set();
+            const colors = [];
+            const candidates = [
+                { hex: c.light || c.secondary || c.primary, label: 'Primary' },
+                { hex: c.dark || c.primary, label: 'Secondary' },
+                { hex: c.cta || c.primary, label: 'Button' },
+                { hex: c.heroBg || c.primary, label: 'Header' }
+            ];
+            candidates.forEach(item => {
+                const norm = item.hex.toUpperCase();
+                if (!seen.has(norm)) {
+                    seen.add(norm);
+                    colors.push({ hex: item.hex, label: item.label });
+                }
+            });
+            districtOriginalColors[key] = colors;
+        });
+
         // Sync picker inputs + hex labels to current district colors
         function syncPalette(c) {
             const lightVal = c.light || c.secondary || c.primary;
             const darkVal = c.dark || c.primary;
             const ctaVal = c.cta || c.primary;
             const headerVal = c.heroBg || c.primary;
+            // Hidden native inputs
             document.getElementById('customColor1').value = lightVal;
             document.getElementById('customColor2').value = darkVal;
             document.getElementById('customColorCta').value = ctaVal;
             document.getElementById('customColorHeader').value = headerVal;
+            // Visible swatches
+            document.getElementById('swatchPrimary').style.background = lightVal;
+            document.getElementById('swatchSecondary').style.background = darkVal;
+            document.getElementById('swatchButton').style.background = ctaVal;
+            document.getElementById('swatchHeader').style.background = headerVal;
+            // Hex inputs
+            document.getElementById('hexPrimary').value = lightVal.toUpperCase();
+            document.getElementById('hexSecondary').value = darkVal.toUpperCase();
+            document.getElementById('hexButton').value = ctaVal.toUpperCase();
+            document.getElementById('hexHeader').value = headerVal.toUpperCase();
+            // Populate brand preset swatches
+            populateBrandSwatches();
         }
+
+        // Get the 4 unique default brand colors for the current district
+        function getDistrictBrandColors() {
+            const key = document.getElementById('districtSwitcher').value;
+            return districtOriginalColors[key] || [];
+        }
+
+        function populateBrandSwatches() {
+            const brandColors = getDistrictBrandColors();
+            ['Primary', 'Secondary', 'Button', 'Header'].forEach(picker => {
+                const container = document.getElementById('dd' + picker + 'Swatches');
+                if (!container) return;
+                container.innerHTML = '';
+                const currentVal = document.getElementById(
+                    picker === 'Primary' ? 'customColor1' :
+                    picker === 'Secondary' ? 'customColor2' :
+                    picker === 'Button' ? 'customColorCta' : 'customColorHeader'
+                ).value.toUpperCase();
+                brandColors.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'demo-dd-swatch' + (item.hex.toUpperCase() === currentVal ? ' active' : '');
+                    el.style.background = item.hex;
+                    el.setAttribute('data-tooltip', item.label);
+                    el.onclick = function(e) {
+                        e.stopPropagation();
+                        applyColorToPicker(picker.toLowerCase(), item.hex);
+                    };
+                    container.appendChild(el);
+                });
+            });
+        }
+
+        function toggleColorDropdown(picker) {
+            const dd = document.getElementById('dd' + picker.charAt(0).toUpperCase() + picker.slice(1));
+            const wasOpen = dd.classList.contains('open');
+            // Close all
+            document.querySelectorAll('.demo-color-dropdown').forEach(d => d.classList.remove('open'));
+            if (!wasOpen) {
+                dd.classList.add('open');
+                // Focus hex input
+                const hexInput = dd.querySelector('.demo-dd-hex');
+                if (hexInput) setTimeout(() => hexInput.select(), 50);
+            }
+        }
+
+        function applyColorToPicker(picker, hex) {
+            const inputId = picker === 'primary' ? 'customColor1' :
+                            picker === 'secondary' ? 'customColor2' :
+                            picker === 'button' ? 'customColorCta' : 'customColorHeader';
+            const swatchId = 'swatch' + picker.charAt(0).toUpperCase() + picker.slice(1);
+            const hexId = 'hex' + picker.charAt(0).toUpperCase() + picker.slice(1);
+            document.getElementById(inputId).value = hex;
+            document.getElementById(swatchId).style.background = hex;
+            document.getElementById(hexId).value = hex.toUpperCase();
+            document.querySelectorAll('.demo-color-dropdown').forEach(d => d.classList.remove('open'));
+            updateDistrictColors();
+        }
+
+        function applyHexInput(picker) {
+            const hexId = 'hex' + picker.charAt(0).toUpperCase() + picker.slice(1);
+            let val = document.getElementById(hexId).value.trim();
+            if (!val.startsWith('#')) val = '#' + val;
+            if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                applyColorToPicker(picker, val);
+            }
+        }
+
+        function openNativePicker(inputId, picker) {
+            document.querySelectorAll('.demo-color-dropdown').forEach(d => d.classList.remove('open'));
+            const input = document.getElementById(inputId);
+            // Temporarily make visible so browser can open the picker
+            input.style.visibility = 'visible';
+            input.style.pointerEvents = 'auto';
+            // Listen for change to sync swatch and re-hide
+            const syncAndHide = function() {
+                const swatchId = 'swatch' + picker.charAt(0).toUpperCase() + picker.slice(1);
+                const hexId = 'hex' + picker.charAt(0).toUpperCase() + picker.slice(1);
+                document.getElementById(swatchId).style.background = input.value;
+                document.getElementById(hexId).value = input.value.toUpperCase();
+                updateDistrictColors();
+            };
+            input.addEventListener('input', syncAndHide);
+            input.addEventListener('change', function onDone() {
+                syncAndHide();
+                input.style.visibility = 'hidden';
+                input.style.pointerEvents = 'none';
+                input.removeEventListener('input', syncAndHide);
+                input.removeEventListener('change', onDone);
+            });
+            input.click();
+        }
+
+        // Close dropdowns on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.demo-input-label')) {
+                document.querySelectorAll('.demo-color-dropdown').forEach(d => d.classList.remove('open'));
+            }
+        });
+
         // Init palette (syncs on first switchDistrict call)
-        syncPalette(districts.ascension.colors);
+        syncPalette(districts.reynoldsburg.colors);
 
         // Luminance & contrast helpers
         function hexToRgb(hex) {
