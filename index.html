@@ -708,8 +708,19 @@
             overflow: hidden;
         }
 
-        [data-theme="dark"] .hero {
-            background: linear-gradient(135deg, var(--hero-bg) 0%, var(--brand-dark) 100%);
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?w=1400&h=600&fit=crop&auto=format');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.18;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] .hero::before {
+            opacity: 0.12;
         }
 
         /* Gradient accent line under hero */
@@ -730,6 +741,7 @@
             padding: 48px 24px 44px;
             position: relative;
             text-align: center;
+            z-index: 1;
         }
 
         .hero-content {
@@ -4329,7 +4341,7 @@
             <!-- Card 1 -->
             <div class="facility-card">
                 <div class="facility-image">
-                    <img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=600&h=360&fit=crop" alt="Main Gym" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format" alt="Main Gym" loading="lazy">
                     <div class="weather-badge">
                         <span class="weather-badge-desc">Indoors</span>
                     </div>
@@ -4368,7 +4380,7 @@
             <!-- Card 2 -->
             <div class="facility-card">
                 <div class="facility-image">
-                    <img src="https://images.unsplash.com/photo-1487466365202-1afdb86c764e?w=600&h=360&fit=crop" alt="Leopard Stadium" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format" alt="Leopard Stadium" loading="lazy">
                     <div class="weather-badge">
                         <span class="weather-badge-icon">☀️</span>
                         <span class="weather-badge-temp">50°F</span>
@@ -4411,7 +4423,7 @@
             <!-- Card 3 -->
             <div class="facility-card">
                 <div class="facility-image">
-                    <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&h=360&fit=crop" alt="Performing Arts Center" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format" alt="Performing Arts Center" loading="lazy">
                     <div class="weather-badge">
                         <span class="weather-badge-desc">Indoors</span>
                     </div>
@@ -4449,7 +4461,7 @@
             <!-- Card 4 -->
             <div class="facility-card">
                 <div class="facility-image">
-                    <img src="https://images.unsplash.com/photo-1504450758481-7338bbe75005?w=600&h=360&fit=crop" alt="Gymnasium" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format" alt="Gymnasium" loading="lazy">
                     <div class="weather-badge">
                         <span class="weather-badge-desc">Indoors</span>
                     </div>
@@ -5662,10 +5674,10 @@
                     { value: 'puster-elem', label: 'Puster Elementary' }
                 ],
                 facilities: [
-                    { name: 'Main Gym', location: 'Lovejoy High School', icon: 'LHS', type: 'Gymnasium', price: '$75/hr', capacity: '500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=600&h=360&fit=crop' },
-                    { name: 'Leopard Stadium', location: 'Lovejoy High School', icon: 'LHS', type: 'Field', price: '$150/hr', capacity: '2,000 capacity', availability: 'high', outdoor: true, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1487466365202-1afdb86c764e?w=600&h=360&fit=crop' },
-                    { name: 'Performing Arts Center', location: 'Lovejoy High School', icon: 'LHS', type: 'Auditorium', price: '$200/hr', capacity: '800 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 5hrs ago', image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&h=360&fit=crop' },
-                    { name: 'Gymnasium', location: 'Hart Elementary', icon: 'HE', type: 'Gymnasium', price: '$40/hr', capacity: '200 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1504450758481-7338bbe75005?w=600&h=360&fit=crop' }
+                    { name: 'Main Gym', location: 'Lovejoy High School', icon: 'LHS', type: 'Gymnasium', price: '$75/hr', capacity: '500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Leopard Stadium', location: 'Lovejoy High School', icon: 'LHS', type: 'Field', price: '$150/hr', capacity: '2,000 capacity', availability: 'high', outdoor: true, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Performing Arts Center', location: 'Lovejoy High School', icon: 'LHS', type: 'Auditorium', price: '$200/hr', capacity: '800 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 5hrs ago', image: 'https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Gymnasium', location: 'Hart Elementary', icon: 'HE', type: 'Gymnasium', price: '$40/hr', capacity: '200 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format' }
                 ],
                 info: {
                     about: 'The Lovejoy Independent School District, founded in 1917, is a public school district located three miles east of Allen and about 25 miles north of Dallas in the rapidly growing region of central Collin County. Lovejoy ISD serves over 4,500 students across six campuses and is recognized for its strong academics and state-competitive athletics programs.',
@@ -5706,14 +5718,14 @@
                     { value: 'st-amant-ms', label: 'St. Amant Middle School' }
                 ],
                 facilities: [
-                    { name: 'Main Gymnasium', location: 'East Ascension High School', icon: 'EA', type: 'Gymnasium', price: '$60/hr', capacity: '2,000 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1577412647305-991150c7d163?w=600&h=360&fit=crop' },
-                    { name: 'Spartan Stadium', location: 'East Ascension High School', icon: 'EA', type: 'Stadium / Field', price: '$125/hr', capacity: '7,500 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&h=360&fit=crop' },
-                    { name: 'Griffin Stadium', location: 'Dutchtown High School', icon: 'DHS', type: 'Stadium / Field', price: '$125/hr', capacity: '6,000 capacity', availability: 'low', outdoor: true, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1556056504-5c7696c4c28d?w=600&h=360&fit=crop' },
-                    { name: 'Performing Arts Center', location: 'Dutchtown High School', icon: 'DHS', type: 'Auditorium', price: '$100/hr', capacity: '700 seats', availability: 'high', outdoor: false, lastBooked: 'Last booked 6hrs ago', image: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?w=600&h=360&fit=crop' },
-                    { name: 'Gator Gymnasium', location: 'St. Amant High School', icon: 'SA', type: 'Gymnasium', price: '$55/hr', capacity: '1,800 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=600&h=360&fit=crop' },
-                    { name: 'Gymnasium', location: 'Galvez Middle School', icon: 'GMS', type: 'Gymnasium', price: '$35/hr', capacity: '500 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1504450758481-7338bbe75005?w=600&h=360&fit=crop' },
-                    { name: 'Cafeteria', location: 'Dutchtown Middle School', icon: 'DMS', type: 'Cafeteria', price: '$40/hr', capacity: '300 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&h=360&fit=crop' },
-                    { name: 'Hurricane Arena', location: 'Prairieville High School', icon: 'PHS', type: 'Gymnasium', price: '$65/hr', capacity: '2,200 capacity', availability: 'low', outdoor: false, lastBooked: 'Last booked 30min ago', image: 'https://images.unsplash.com/photo-1577412647305-991150c7d163?w=600&h=360&fit=crop' }
+                    { name: 'Main Gymnasium', location: 'East Ascension High School', icon: 'EA', type: 'Gymnasium', price: '$60/hr', capacity: '2,000 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Spartan Stadium', location: 'East Ascension High School', icon: 'EA', type: 'Stadium / Field', price: '$125/hr', capacity: '7,500 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Griffin Stadium', location: 'Dutchtown High School', icon: 'DHS', type: 'Stadium / Field', price: '$125/hr', capacity: '6,000 capacity', availability: 'low', outdoor: true, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Performing Arts Center', location: 'Dutchtown High School', icon: 'DHS', type: 'Auditorium', price: '$100/hr', capacity: '700 seats', availability: 'high', outdoor: false, lastBooked: 'Last booked 6hrs ago', image: 'https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Gator Gymnasium', location: 'St. Amant High School', icon: 'SA', type: 'Gymnasium', price: '$55/hr', capacity: '1,800 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Gymnasium', location: 'Galvez Middle School', icon: 'GMS', type: 'Gymnasium', price: '$35/hr', capacity: '500 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Cafeteria', location: 'Dutchtown Middle School', icon: 'DMS', type: 'Cafeteria', price: '$40/hr', capacity: '300 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1631193659550-5c8a2cc57015?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Hurricane Arena', location: 'Prairieville High School', icon: 'PHS', type: 'Gymnasium', price: '$65/hr', capacity: '2,200 capacity', availability: 'low', outdoor: false, lastBooked: 'Last booked 30min ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' }
                 ],
                 info: {
                     about: 'Ascension Parish Schools serves over 23,000 students across 29 schools in one of Louisiana\'s fastest-growing parishes. Located along the Mississippi River between Baton Rouge and New Orleans, the district is known for strong athletic programs and modern facilities that serve both students and the broader community.',
@@ -5751,12 +5763,12 @@
                     { value: 'rhs-rose', label: 'Rose Hill Elementary' }
                 ],
                 facilities: [
-                    { name: 'Main Gymnasium', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Gymnasium', price: '$60/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1577412647305-991150c7d163?w=600&h=360&fit=crop' },
-                    { name: 'Raider Stadium', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Stadium / Field', price: '$125/hr', capacity: '5,000 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1487466365202-1afdb86c764e?w=600&h=360&fit=crop' },
-                    { name: 'Performing Arts Center', location: 'Lincoln High School', icon: 'LN', type: 'Auditorium', price: '$100/hr', capacity: '750 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 45min ago', image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&h=360&fit=crop' },
-                    { name: 'Auxiliary Gym', location: 'Summit Road Middle School', icon: 'SR', type: 'Gymnasium', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1504450758481-7338bbe75005?w=600&h=360&fit=crop' },
-                    { name: 'Competition Gym', location: 'Hannah Ashton Middle School', icon: 'HA', type: 'Gymnasium', price: '$45/hr', capacity: '600 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1578022761797-b8636ac1773c?w=600&h=360&fit=crop' },
-                    { name: 'Cafeteria', location: 'Rose Hill Elementary', icon: 'RH', type: 'Cafeteria', price: '$35/hr', capacity: '300 capacity', availability: 'high', outdoor: false, lastBooked: 'Recently added to PracticePlan', image: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&h=360&fit=crop' }
+                    { name: 'Main Gymnasium', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Gymnasium', price: '$60/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Raider Stadium', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Stadium / Field', price: '$125/hr', capacity: '5,000 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Performing Arts Center', location: 'Lincoln High School', icon: 'LN', type: 'Auditorium', price: '$100/hr', capacity: '750 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 45min ago', image: 'https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Auxiliary Gym', location: 'Summit Road Middle School', icon: 'SR', type: 'Gymnasium', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Competition Gym', location: 'Hannah Ashton Middle School', icon: 'HA', type: 'Gymnasium', price: '$45/hr', capacity: '600 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Cafeteria', location: 'Rose Hill Elementary', icon: 'RH', type: 'Cafeteria', price: '$35/hr', capacity: '300 capacity', availability: 'high', outdoor: false, lastBooked: 'Recently added to PracticePlan', image: 'https://images.unsplash.com/photo-1631193659550-5c8a2cc57015?w=600&h=360&fit=crop&auto=format' }
                 ],
                 info: {
                     about: 'Reynoldsburg City Schools serves approximately 8,200 students in the eastern Columbus metro area. The district operates under an innovative eSTEM model integrating science, technology, engineering, and math across all grade levels. Its facilities host a wide range of community sports leagues, performing arts events, and recreational programming year-round.',
@@ -5792,11 +5804,11 @@
                     { value: 'pe-elem', label: 'Prince Edward Elementary' }
                 ],
                 facilities: [
-                    { name: 'Eagle Gymnasium', location: 'Prince Edward County High School', icon: 'PE', type: 'Gymnasium', price: '$50/hr', capacity: '1,200 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1577412647305-991150c7d163?w=600&h=360&fit=crop' },
-                    { name: 'Eagle Stadium', location: 'Prince Edward County High School', icon: 'PE', type: 'Stadium / Field', price: '$100/hr', capacity: '3,000 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&h=360&fit=crop' },
-                    { name: 'Auditorium', location: 'Prince Edward County High School', icon: 'PE', type: 'Auditorium', price: '$75/hr', capacity: '500 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 5hrs ago', image: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?w=600&h=360&fit=crop' },
-                    { name: 'Competition Gym', location: 'Prince Edward County Middle School', icon: 'MS', type: 'Gymnasium', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1504450758481-7338bbe75005?w=600&h=360&fit=crop' },
-                    { name: 'Multipurpose Room', location: 'Prince Edward Elementary', icon: 'PEE', type: 'Cafeteria', price: '$25/hr', capacity: '200 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&h=360&fit=crop' }
+                    { name: 'Eagle Gymnasium', location: 'Prince Edward County High School', icon: 'PE', type: 'Gymnasium', price: '$50/hr', capacity: '1,200 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Eagle Stadium', location: 'Prince Edward County High School', icon: 'PE', type: 'Stadium / Field', price: '$100/hr', capacity: '3,000 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Auditorium', location: 'Prince Edward County High School', icon: 'PE', type: 'Auditorium', price: '$75/hr', capacity: '500 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 5hrs ago', image: 'https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Competition Gym', location: 'Prince Edward County Middle School', icon: 'MS', type: 'Gymnasium', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Multipurpose Room', location: 'Prince Edward Elementary', icon: 'PEE', type: 'Cafeteria', price: '$25/hr', capacity: '200 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1631193659550-5c8a2cc57015?w=600&h=360&fit=crop&auto=format' }
                 ],
                 info: {
                     about: 'Prince Edward County Public Schools serves approximately 1,800 students across three campuses in Farmville, Virginia. The district holds deep historical significance as the site of the 1951 student walkout at Moton High School, a pivotal moment in the Civil Rights Movement that contributed to Brown v. Board of Education. Today, the Eagles carry forward a legacy of courage and community with competitive athletics and growing facility rental partnerships.',
