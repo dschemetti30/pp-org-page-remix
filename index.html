@@ -3208,8 +3208,20 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
             cursor: pointer;
-            border-top: 3px solid var(--brand-primary);
             isolation: isolate;
+            position: relative;
+        }
+
+        .facility-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-primary);
+            z-index: 3;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
 
         .facility-card:hover {
@@ -3920,10 +3932,10 @@
     <div class="demo-bar">
         <span class="demo-bar-label">Demo</span>
         <select id="districtSwitcher" onchange="switchDistrict(this.value)">
-            <option value="lovejoy">Lovejoy ISD - Lucas, TX</option>
             <option value="ascension">Ascension Parish Schools - Gonzales, LA</option>
-            <option value="reynoldsburg">Reynoldsburg City Schools - Reynoldsburg, OH</option>
+            <option value="lovejoy">Lovejoy ISD - Lucas, TX</option>
             <option value="princeedward">Prince Edward County - Farmville, VA</option>
+            <option value="reynoldsburg">Reynoldsburg City Schools - Reynoldsburg, OH</option>
         </select>
         <div class="demo-palette" id="demoPalette">
             <label class="demo-input-label">Light
@@ -6278,6 +6290,9 @@
                 renderFacilityList();
             }
         }
+
+        // Initialize with first district in selector
+        switchDistrict(document.getElementById('districtSwitcher').value);
     </script>
 </body>
 </html>
