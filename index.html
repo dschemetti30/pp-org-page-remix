@@ -2751,6 +2751,55 @@
             position: relative;
         }
 
+        .map-placeholder::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.15);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .map-pin-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -80%);
+            z-index: 2;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .map-pin-dot {
+            width: 14px;
+            height: 14px;
+            background: var(--brand-primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .map-pin-pulse {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--brand-primary);
+            opacity: 0.2;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: mapPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes mapPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
+            50% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+        }
+
         .map-placeholder iframe {
             width: 100%;
             height: 100%;
@@ -4541,6 +4590,10 @@
                 <h2>Where You'll Be</h2>
                 <div class="map-placeholder" id="districtMapPlaceholder">
                     <iframe id="districtMapFrame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26800!2d-96.585!3d33.084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c15f2b4fd0001%3A0x7f3e1e9b9b0b0b0b!2sLucas%2C+TX!5e0!3m2!1sen!2sus!4v1706000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="map-pin-overlay">
+                        <div class="map-pin-pulse"></div>
+                        <div class="map-pin-dot"></div>
+                    </div>
                 </div>
                 <div class="map-actions">
                     <a href="#" class="map-directions-btn" id="districtMapLink" target="_blank" rel="noopener noreferrer">
