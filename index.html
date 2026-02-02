@@ -533,6 +533,14 @@
             fill: var(--brand-on-primary);
         }
 
+        .district-logo img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
         .district-logo::after {
             content: '';
             position: absolute;
@@ -3318,6 +3326,14 @@
             fill: var(--brand-on-primary);
         }
 
+        .facility-type-icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
         .facility-card:hover .facility-image img {
             transform: scale(1.05);
         }
@@ -3957,7 +3973,7 @@
         <div class="header-inner">
             <div class="header-left">
                 <div class="district-brand">
-                    <div class="district-logo">
+                    <div class="district-logo" id="districtLogo">
                         <svg viewBox="0 0 24 24">
                             <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/>
                         </svg>
@@ -5455,7 +5471,7 @@
 
                 html += `
                     <div class="facility-list-item">
-                        <div class="list-item-icon"><svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg></div>
+                        <div class="list-item-icon">${d.logo ? `<img src="${d.logo}" alt="${d.name}" style="width:22px;height:22px;object-fit:contain;">` : `<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>`}</div>
                         <div class="list-item-content">
                             <div class="list-item-name">${f.name}</div>
                             <div class="list-item-location">${f.location}</div>
@@ -5673,6 +5689,7 @@
             lovejoy: {
                 name: 'Lovejoy ISD',
                 location: 'Lucas, Texas',
+                logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_3lovejoy-logo_tebuxt.svg',
                 colors: { light: '#1a1a1a', dark: '#8B0000', primary: '#8B0000', secondary: '#1a1a1a', brandLight: '#f2e6e6', brandLightAlt: '#eed9d9', chipBg: '#f2e6e6', heroBg: '#8B0000', heroBgDark: '#4a0000', primaryDark: '#dc4444', secondaryDark: '#555555', lightDark: '#2a1a1a', hoverShadow: 'rgba(139, 0, 0, 0.2)', stripe: 'rgba(139, 0, 0, 0.02)', hover: '#6a0000', dark: '#4a0000', hoverDark: '#c53030', darkDark: '#991b1b' },
                 weather: {
                     today: { temp: 50, condition: 'Sunny', icon: '☀️' },
@@ -5693,8 +5710,10 @@
                     { value: 'puster-elem', label: 'Puster Elementary' }
                 ],
                 facilities: [
-                    { name: 'Main Gym', location: 'Lovejoy High School', icon: 'LHS', type: 'Gymnasium', price: '$75/hr', capacity: '500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Leopard Stadium', location: 'Lovejoy High School', icon: 'LHS', type: 'Field', price: '$150/hr', capacity: '2,000 capacity', availability: 'high', outdoor: true, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Practice Fields', location: 'Lovejoy High School', icon: 'LHS', type: 'Field', price: '$60/hr', capacity: 'Open field', availability: 'high', outdoor: true, lastBooked: 'Last booked 1hr ago', image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Sloan Creek Sports Complex', location: 'Sloan Creek Intermediate', icon: 'SC', type: 'Field', price: '$80/hr', capacity: '500 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Main Gym', location: 'Lovejoy High School', icon: 'LHS', type: 'Gymnasium', price: '$75/hr', capacity: '500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Performing Arts Center', location: 'Lovejoy High School', icon: 'LHS', type: 'Auditorium', price: '$200/hr', capacity: '800 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 5hrs ago', image: 'https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Gymnasium', location: 'Hart Elementary', icon: 'HE', type: 'Gymnasium', price: '$40/hr', capacity: '200 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1740635341299-3b8e3490f546?w=600&h=360&fit=crop&auto=format' }
                 ],
@@ -5714,6 +5733,7 @@
             ascension: {
                 name: 'Ascension Parish Schools',
                 location: 'Gonzales, Louisiana',
+                logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_1ascension-logo_zwj5tq.svg',
                 colors: { light: '#c8a415', dark: '#002855', primary: '#002855', secondary: '#c8a415', brandLight: '#d6dfe8', brandLightAlt: '#d9dfe6', chipBg: '#d6dfe8', heroBg: '#002855', heroBgDark: '#001433', primaryDark: '#5b9bd5', secondaryDark: '#f0d060', lightDark: '#1a2433', hoverShadow: 'rgba(0, 40, 85, 0.2)', stripe: 'rgba(0, 40, 85, 0.02)', hover: '#001d40', dark: '#001433', hoverDark: '#4a88c2', darkDark: '#002855' },
                 weather: {
                     today: { temp: 46, condition: 'Mostly sunny', icon: '🌤️' },
@@ -5725,7 +5745,7 @@
                         '2026-02-05': { temp: 55, condition: 'Sunny', icon: '☀️' }
                     }
                 },
-                stats: { facilities: '8', startingPrice: '$35', avgResponse: '<3hr' },
+                stats: { facilities: '10', startingPrice: '$35', avgResponse: '<3hr' },
                 schools: [
                     { value: 'east-ascension', label: 'East Ascension High School' },
                     { value: 'dutchtown-hs', label: 'Dutchtown High School' },
@@ -5737,9 +5757,11 @@
                     { value: 'st-amant-ms', label: 'St. Amant Middle School' }
                 ],
                 facilities: [
-                    { name: 'Main Gymnasium', location: 'East Ascension High School', icon: 'EA', type: 'Gymnasium', price: '$60/hr', capacity: '2,000 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Spartan Stadium', location: 'East Ascension High School', icon: 'EA', type: 'Stadium / Field', price: '$125/hr', capacity: '7,500 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Griffin Stadium', location: 'Dutchtown High School', icon: 'DHS', type: 'Stadium / Field', price: '$125/hr', capacity: '6,000 capacity', availability: 'low', outdoor: true, lastBooked: 'Last booked 1hr ago', image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Practice Fields', location: 'East Ascension High School', icon: 'EA', type: 'Field', price: '$50/hr', capacity: 'Open field', availability: 'high', outdoor: true, lastBooked: 'Last booked 45min ago', image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Gator Field', location: 'St. Amant High School', icon: 'SA', type: 'Field', price: '$75/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Main Gymnasium', location: 'East Ascension High School', icon: 'EA', type: 'Gymnasium', price: '$60/hr', capacity: '2,000 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Performing Arts Center', location: 'Dutchtown High School', icon: 'DHS', type: 'Auditorium', price: '$100/hr', capacity: '700 seats', availability: 'high', outdoor: false, lastBooked: 'Last booked 6hrs ago', image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Gator Gymnasium', location: 'St. Amant High School', icon: 'SA', type: 'Gymnasium', price: '$55/hr', capacity: '1,800 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 2hrs ago', image: 'https://plus.unsplash.com/premium_photo-1675364966937-c2bdf5bce9b5?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Gymnasium', location: 'Galvez Middle School', icon: 'GMS', type: 'Gymnasium', price: '$35/hr', capacity: '500 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format' },
@@ -5762,6 +5784,7 @@
             reynoldsburg: {
                 name: 'Reynoldsburg City Schools',
                 location: 'Reynoldsburg, Ohio',
+                logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_2reynoldsburg-logo_eh32yp.svg',
                 colors: { light: '#f5a623', dark: '#6B2D8B', primary: '#6B2D8B', secondary: '#f5a623', brandLight: '#e0d2ea', brandLightAlt: '#e9e0ee', chipBg: '#e0d2ea', heroBg: '#6B2D8B', heroBgDark: '#3a1850', primaryDark: '#b07cd8', secondaryDark: '#ffd966', lightDark: '#2a1a3a', hoverShadow: 'rgba(107, 45, 139, 0.2)', stripe: 'rgba(107, 45, 139, 0.02)', hover: '#552270', dark: '#3a1850', hoverDark: '#9a6ac0', darkDark: '#6B2D8B' },
                 weather: {
                     today: { temp: 19, condition: 'Partly sunny', icon: '⛅' },
@@ -5773,7 +5796,7 @@
                         '2026-02-05': { temp: 21, condition: 'Cloudy', icon: '☁️' }
                     }
                 },
-                stats: { facilities: '7', startingPrice: '$35', avgResponse: '<3hr' },
+                stats: { facilities: '8', startingPrice: '$35', avgResponse: '<3hr' },
                 schools: [
                     { value: 'rhs-eacad', label: 'Reynoldsburg eSTEM Academy' },
                     { value: 'rhs-lincoln', label: 'Lincoln High School' },
@@ -5782,8 +5805,10 @@
                     { value: 'rhs-rose', label: 'Rose Hill Elementary' }
                 ],
                 facilities: [
-                    { name: 'Main Gymnasium', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Gymnasium', price: '$60/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Raider Stadium', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Stadium / Field', price: '$125/hr', capacity: '5,000 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Track & Field Complex', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Field', price: '$60/hr', capacity: '1,000 capacity', availability: 'high', outdoor: true, lastBooked: 'Last booked 1hr ago', image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Summit Road Practice Fields', location: 'Summit Road Middle School', icon: 'SR', type: 'Field', price: '$40/hr', capacity: 'Open field', availability: 'high', outdoor: true, lastBooked: 'Last booked 3hrs ago', image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Main Gymnasium', location: 'Reynoldsburg eSTEM Academy', icon: 'RHS', type: 'Gymnasium', price: '$60/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Performing Arts Center', location: 'Lincoln High School', icon: 'LN', type: 'Auditorium', price: '$100/hr', capacity: '750 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 45min ago', image: 'https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Auxiliary Gym', location: 'Summit Road Middle School', icon: 'SR', type: 'Gymnasium', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 4hrs ago', image: 'https://plus.unsplash.com/premium_photo-1675364966937-c2bdf5bce9b5?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Competition Gym', location: 'Hannah Ashton Middle School', icon: 'HA', type: 'Gymnasium', price: '$45/hr', capacity: '600 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format' },
@@ -5805,6 +5830,7 @@
             princeedward: {
                 name: 'Prince Edward County',
                 location: 'Farmville, Virginia',
+                logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_4princeedward-logo_g5yw94.svg',
                 colors: { light: '#00a84f', dark: '#0076bb', primary: '#0076bb', secondary: '#00a84f', brandLight: '#d9f2e5', brandLightAlt: '#d9eaf5', chipBg: '#d9f2e5', heroBg: '#0076bb', heroBgDark: '#005383', primaryDark: '#4d9fcf', secondaryDark: '#33b972', lightDark: '#0076bb1a', hoverShadow: 'rgba(0, 118, 187, 0.2)', stripe: 'rgba(0, 118, 187, 0.04)', hover: '#00649f', brandDark: '#00598c', hoverDark: '#3391c9', darkDark: '#0076bb' },
                 weather: {
                     today: { temp: 42, condition: 'Partly cloudy', icon: '⛅' },
@@ -5816,15 +5842,17 @@
                         '2026-02-05': { temp: 50, condition: 'Sunny', icon: '☀️' }
                     }
                 },
-                stats: { facilities: '5', startingPrice: '$25', avgResponse: '<2hr' },
+                stats: { facilities: '7', startingPrice: '$25', avgResponse: '<2hr' },
                 schools: [
                     { value: 'pe-hs', label: 'Prince Edward County High School' },
                     { value: 'pe-ms', label: 'Prince Edward County Middle School' },
                     { value: 'pe-elem', label: 'Prince Edward Elementary' }
                 ],
                 facilities: [
-                    { name: 'Eagle Gymnasium', location: 'Prince Edward County High School', icon: 'PE', type: 'Gymnasium', price: '$50/hr', capacity: '1,200 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Eagle Stadium', location: 'Prince Edward County High School', icon: 'PE', type: 'Stadium / Field', price: '$100/hr', capacity: '3,000 capacity', availability: 'medium', outdoor: true, lastBooked: 'Last booked 2hrs ago', image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Baseball Diamond', location: 'Prince Edward County High School', icon: 'PE', type: 'Field', price: '$60/hr', capacity: '500 capacity', availability: 'high', outdoor: true, lastBooked: 'Last booked 4hrs ago', image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Middle School Practice Field', location: 'Prince Edward County Middle School', icon: 'MS', type: 'Field', price: '$35/hr', capacity: 'Open field', availability: 'high', outdoor: true, lastBooked: 'Last booked 1hr ago', image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format' },
+                    { name: 'Eagle Gymnasium', location: 'Prince Edward County High School', icon: 'PE', type: 'Gymnasium', price: '$50/hr', capacity: '1,200 capacity', availability: 'medium', outdoor: false, lastBooked: 'Last booked 3hrs ago', image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Auditorium', location: 'Prince Edward County High School', icon: 'PE', type: 'Auditorium', price: '$75/hr', capacity: '500 seats', availability: 'low', outdoor: false, lastBooked: 'Last booked 5hrs ago', image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Competition Gym', location: 'Prince Edward County Middle School', icon: 'MS', type: 'Gymnasium', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, lastBooked: 'Last booked 1hr ago', image: 'https://plus.unsplash.com/premium_photo-1675364966937-c2bdf5bce9b5?w=600&h=360&fit=crop&auto=format' },
                     { name: 'Multipurpose Room', location: 'Prince Edward Elementary', icon: 'PEE', type: 'Cafeteria', price: '$25/hr', capacity: '200 capacity', availability: 'high', outdoor: false, lastBooked: 'New listing - be the first to book', image: 'https://images.unsplash.com/photo-1740635341299-3b8e3490f546?w=600&h=360&fit=crop&auto=format' }
@@ -6051,6 +6079,16 @@
             document.querySelector('.district-info h1').textContent = d.name;
             document.querySelector('.district-location').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' + d.location;
 
+            // Update header logo
+            const headerLogo = document.getElementById('districtLogo');
+            if (headerLogo) {
+                if (d.logo) {
+                    headerLogo.innerHTML = `<img src="${d.logo}" alt="${d.name}">`;
+                } else {
+                    headerLogo.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>';
+                }
+            }
+
             // Update CSS variables
             const root = document.documentElement;
             const c = d.colors;
@@ -6193,7 +6231,7 @@
                                 </span>
                             </div>
                             <div class="facility-body">
-                                <div class="facility-type-icon"><svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg></div>
+                                <div class="facility-type-icon">${d.logo ? `<img src="${d.logo}" alt="${d.name}">` : `<svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 12.27L4 10.5V16l8 4.5 8-4.5v-5.5l-8 4.77z"/></svg>`}</div>
                                 <h3 class="facility-name">${f.name}</h3>
                                 <div class="facility-location">${f.location}</div>
                                 <div class="facility-price-line">${f.price}</div>
