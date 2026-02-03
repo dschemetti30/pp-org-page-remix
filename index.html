@@ -4200,6 +4200,19 @@
             cursor: not-allowed;
             text-decoration: line-through;
         }
+        .modal-slot-btn.reserved {
+            opacity: 0.55;
+            cursor: not-allowed;
+            background: #fef3c7;
+            border-color: #fcd34d;
+            color: #92400e;
+            position: relative;
+        }
+        [data-theme="dark"] .modal-slot-btn.reserved {
+            background: rgba(251, 191, 36, 0.15);
+            border-color: rgba(251, 191, 36, 0.35);
+            color: #fcd34d;
+        }
         .modal-slot-btn.past-slot {
             opacity: 0.3;
             cursor: not-allowed;
@@ -6678,7 +6691,7 @@
                     <div class="help-popover">
                         <div class="help-popover-title">Need help?</div>
                         <div class="help-popover-text">Our team is here to help you find and book the right space. Reach out anytime.</div>
-                        <a href="mailto:info@practiceplan.io" class="help-popover-email">
+                        <a href="/cdn-cgi/l/email-protection#573e3931381727253634233e3432273b3639793e38" class="help-popover-email">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
                             Contact us
                         </a>
@@ -7869,7 +7882,7 @@
 
             <div class="confirm-contact">
                 <div class="confirm-contact-label">Questions about your reservation?</div>
-                <a href="mailto:info@practiceplan.io" class="confirm-contact-email">
+                <a href="/cdn-cgi/l/email-protection#3851565e5778484a595b4c515b5d48545956165157" class="confirm-contact-email">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;vertical-align:-3px;margin-right:5px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>Contact us
                 </a>
             </div>
@@ -7910,7 +7923,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Search bar elements
         const searchDate = document.getElementById('searchDate');
         const datePlaceholder = document.getElementById('datePlaceholder');
@@ -8489,6 +8502,16 @@
                 bookedSet.add(allSlots[(seed + i * 3) % allSlots.length]);
             }
 
+            // Determine which slots are pending in the current session cart
+            const reservedSet = new Set();
+            if (typeof cartItems !== 'undefined') {
+                cartItems.forEach(ci => {
+                    if (ci.facilityName === facilityName && ci.date === dateStr) {
+                        reservedSet.add(ci.time);
+                    }
+                });
+            }
+
             // Filter past slots if date is today
             const now = new Date();
             const isToday = new Date(dateStr + 'T12:00:00').toDateString() === now.toDateString();
@@ -8508,12 +8531,13 @@
 
             const slots = allSlots.map(slot => {
                 const isBooked = bookedSet.has(slot);
+                const isReserved = reservedSet.has(slot);
                 let isPast = false;
                 if (isToday) {
                     const t = toHour24(slot);
                     isPast = t.h < currentHour || (t.h === currentHour && t.m <= currentMinute);
                 }
-                return { time: slot, booked: isBooked, past: isPast, available: !isBooked && !isPast };
+                return { time: slot, booked: isBooked, reserved: isReserved, past: isPast, available: !isBooked && !isReserved && !isPast };
             });
 
             const availableSlots = slots.filter(s => s.available);
@@ -9912,11 +9936,12 @@
             const slotData = getSlotData(f.name, dateVal);
 
             container.innerHTML = slotData.allSlots.map(slot => {
-                const isDisabled = slot.booked || slot.past;
+                const isDisabled = slot.booked || slot.past || slot.reserved;
                 const isSelected = selectedModalSlot === slot.time && !isDisabled;
                 let cls = 'modal-slot-btn';
-                if (slot.booked) cls += ' booked';
-                if (slot.past && !slot.booked) cls += ' past-slot';
+                if (slot.reserved) cls += ' reserved';
+                else if (slot.booked) cls += ' booked';
+                if (slot.past && !slot.booked && !slot.reserved) cls += ' past-slot';
                 if (isSelected) cls += ' selected';
                 // Abbreviate: "4:00 PM" -> "4 PM", "12:00 PM" -> "12 PM"
                 const shortTime = slot.time.replace(':00 ', ' ');
@@ -9951,6 +9976,8 @@
             } else {
                 notice.style.display = 'none';
             }
+
+            validateModalForm();
         }
 
         function balanceSlotGrid(container, count) {
@@ -9974,11 +10001,44 @@
         }
 
         function selectModalSlot(btn, slot) {
-            if (btn.classList.contains('booked')) return;
+            if (btn.classList.contains('booked') || btn.classList.contains('reserved')) return;
             document.querySelectorAll('#modalSlots .modal-slot-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             selectedModalSlot = slot;
             validateModalForm();
+        }
+
+        // Refresh card slot buttons to remove/restore slots based on cartItems
+        function refreshCardSlots() {
+            const currentKey = document.getElementById('districtSwitcher').value;
+            const d = districts[currentKey];
+            if (!d) return;
+            const selectedDate = document.getElementById('searchDate') ? document.getElementById('searchDate').value : '';
+            if (!selectedDate) return; // Cards only show slots when a date is searched
+
+            const effectiveDate = selectedDate;
+            const cards = document.querySelectorAll('#facilityGrid .facility-card');
+            cards.forEach(card => {
+                const nameEl = card.querySelector('.facility-name');
+                if (!nameEl) return;
+                const facilityName = nameEl.textContent;
+                const slotData = getSlotData(facilityName, effectiveDate);
+                const slotsContainer = card.querySelector('.time-slots-searched');
+                if (!slotsContainer) return;
+                slotsContainer.innerHTML = slotData.availableSlots.map(t =>
+                    '<button class="time-slot">' + t + '</button>'
+                ).join('');
+                if (slotData.availableSlots.length === 0) {
+                    slotsContainer.innerHTML = '<span style="font-size:12px;color:var(--text-secondary)">No slots available</span>';
+                }
+
+                // Update availability indicator
+                const availDot = card.querySelector('.availability-indicator');
+                if (availDot) {
+                    availDot.className = 'availability-indicator ' + slotData.availability;
+                    availDot.title = slotData.availability + ' availability';
+                }
+            });
         }
 
         function validateModalForm() {
@@ -10263,6 +10323,11 @@
             cartItems.push(item);
             updateCartUI();
 
+            // Clear selection and refresh slot displays so reserved slot is removed/disabled
+            selectedModalSlot = null;
+            renderModalSlots();
+            refreshCardSlots();
+
             // Trigger animation
             if (action === 'continue') {
                 showAddedAnimation(item, false);
@@ -10525,10 +10590,14 @@
                 setTimeout(() => {
                     cartItems = cartItems.filter(i => i.id !== id);
                     updateCartUI();
+                    refreshCardSlots();
+                    if (currentModalFacility) renderModalSlots();
                 }, 350);
             } else {
                 cartItems = cartItems.filter(i => i.id !== id);
                 updateCartUI();
+                refreshCardSlots();
+                if (currentModalFacility) renderModalSlots();
             }
         }
 
@@ -10573,6 +10642,8 @@
             if (!confirm('Remove all reservations?')) return;
             cartItems = [];
             updateCartUI();
+            refreshCardSlots();
+            if (currentModalFacility) renderModalSlots();
         }
 
         function toggleCartDrawer() {
