@@ -4064,6 +4064,22 @@
             flex-direction: column;
             gap: 6px;
         }
+        .modal-form-group.field-incomplete .modal-form-select {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 2px rgba(245,158,11,0.15);
+        }
+        [data-theme="dark"] .modal-form-group.field-incomplete .modal-form-select {
+            border-color: #d97706;
+            box-shadow: 0 0 0 2px rgba(217,119,6,0.15);
+        }
+        .modal-form-group.field-incomplete .modal-form-label::after {
+            content: ' *';
+            color: #f59e0b;
+            font-weight: 400;
+        }
+        [data-theme="dark"] .modal-form-group.field-incomplete .modal-form-label::after {
+            color: #fbbf24;
+        }
         .modal-form-label {
             font-size: 13px;
             font-weight: 600;
@@ -4182,6 +4198,19 @@
             cursor: not-allowed;
             text-decoration: line-through;
         }
+        .modal-slot-btn.past-slot {
+            opacity: 0.3;
+            cursor: not-allowed;
+            color: var(--text-secondary);
+        }
+        .modal-slot-btn.past-slot::after {
+            content: '';
+        }
+        .modal-slot-btn:disabled:hover {
+            border-color: var(--border);
+            background: var(--surface);
+            transform: none;
+        }
 
         .modal-notice {
             background: #eff6ff;
@@ -4236,10 +4265,87 @@
             transform: translateY(0);
         }
         .modal-book-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
             transform: none;
             filter: none;
+        }
+        .modal-validation-hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+        }
+        .modal-validation-hint svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            color: var(--text-secondary);
+        }
+        .modal-validation-hint .vhint-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+        }
+        .modal-validation-hint .vhint-step {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .modal-validation-hint .vhint-step.done {
+            color: #16a34a;
+        }
+        [data-theme="dark"] .modal-validation-hint .vhint-step.done {
+            color: #4ade80;
+        }
+        .modal-validation-hint .vhint-step .vhint-icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .modal-validation-hint .vhint-step.done .vhint-icon {
+            background: #16a34a;
+            border-color: #16a34a;
+        }
+        [data-theme="dark"] .modal-validation-hint .vhint-step.done .vhint-icon {
+            background: #4ade80;
+            border-color: #4ade80;
+        }
+        .modal-validation-hint .vhint-step.done .vhint-icon svg {
+            stroke: #fff;
+        }
+        .modal-validation-hint .vhint-icon svg {
+            width: 8px;
+            height: 8px;
+            stroke: transparent;
+            stroke-width: 3;
+        }
+        .modal-validation-hint.all-done {
+            border-style: solid;
+            border-color: #16a34a;
+            background: #f0fdf4;
+            color: #166534;
+        }
+        [data-theme="dark"] .modal-validation-hint.all-done {
+            border-color: rgba(74,222,128,0.3);
+            background: rgba(74,222,128,0.08);
+            color: #4ade80;
+        }
+        .modal-validation-hint.all-done svg:first-child {
+            color: #16a34a;
+        }
+        [data-theme="dark"] .modal-validation-hint.all-done svg:first-child {
+            color: #4ade80;
         }
         .modal-book-btn.secondary {
             background: transparent;
@@ -4275,31 +4381,345 @@
             margin: 2px 0;
         }
 
-        /* Responsive */
+        /* Desktop: hide the mobile-only bottom bar */
+        .modal-bottom-bar {
+            display: none;
+        }
+        /* Desktop: hide the details toggle (mobile only) */
+        .modal-details-toggle {
+            display: none;
+        }
+
+        /* Responsive - Modal */
         @media (max-width: 768px) {
-            .booking-modal {
-                max-height: 95vh;
-                border-radius: 12px;
-            }
+            /* Overlay: full screen */
             .booking-modal-overlay {
-                padding: 10px;
+                padding: 0;
+                align-items: flex-end;
             }
-            .modal-body {
-                grid-template-columns: 1fr;
+
+            /* Modal: full-height sheet, slide up */
+            .booking-modal {
+                max-height: 100vh;
+                max-height: 100dvh;
+                height: 100vh;
+                height: 100dvh;
+                border-radius: 0;
+                max-width: 100%;
+                transform: translateY(100%);
+                transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
             }
-            .modal-left {
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-                max-height: 40vh;
+            .booking-modal-overlay.active .booking-modal {
+                transform: translateY(0);
+            }
+
+            /* Header: compact, non-scrolling */
+            .modal-header {
+                padding: 12px 16px;
+                gap: 10px;
+                flex-shrink: 0;
+            }
+            .modal-header-logo {
+                width: 34px;
+                height: 34px;
+                border-radius: 8px;
+            }
+            .modal-header-logo img {
+                width: 24px;
+                height: 24px;
             }
             .modal-header-info h2 {
-                font-size: 17px;
+                font-size: 15px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .modal-header-sub {
+                font-size: 11px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .modal-close-btn {
+                width: 34px;
+                height: 34px;
+            }
+
+            /* Body: single-column scroll area between header and bottom bar */
+            .modal-body {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                flex: 1;
+                min-height: 0;
+            }
+
+            /* Left panel: image + collapsible details */
+            .modal-left {
+                border-right: none;
+                border-bottom: none;
+                max-height: none;
+                overflow: visible;
+                padding: 0;
+            }
+
+            /* Facility image: edge-to-edge, shorter */
+            .modal-facility-image {
+                aspect-ratio: 2.4/1;
+                margin-bottom: 0;
+                border-radius: 0;
+            }
+
+            /* Details toggle: visible on mobile */
+            .modal-details-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 16px;
+                background: var(--surface);
+                border: none;
+                border-bottom: 1px solid var(--border);
+                width: 100%;
+                font-family: var(--ff);
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--text-secondary);
+                cursor: pointer;
+                letter-spacing: 0.03em;
+                text-transform: uppercase;
+            }
+            .modal-details-toggle svg {
+                width: 16px;
+                height: 16px;
+                color: var(--text-secondary);
+                transition: transform 0.25s ease;
+                flex-shrink: 0;
+            }
+            .modal-details-toggle.expanded svg {
+                transform: rotate(180deg);
+            }
+
+            /* Collapsible content area */
+            .modal-details-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.35s ease;
+            }
+            .modal-details-content.expanded {
+                max-height: 3000px;
+            }
+            .modal-details-inner {
+                padding: 14px 16px 16px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            /* Section titles */
+            .modal-section-title {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+
+            /* Info grid */
+            .modal-info-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+                margin-bottom: 14px;
+            }
+            .modal-info-item {
+                padding: 8px 10px;
+            }
+            .modal-info-item svg {
+                width: 15px;
+                height: 15px;
+            }
+            .modal-info-item .info-label {
+                font-size: 10px;
+            }
+            .modal-info-item .info-value {
+                font-size: 12px;
+            }
+
+            /* Features */
+            .modal-features {
+                margin-bottom: 14px;
+                gap: 4px;
+            }
+            .modal-feature-tag {
+                padding: 3px 8px;
+                font-size: 10px;
+            }
+
+            /* Amenities */
+            .modal-amenities-grid {
+                grid-template-columns: 1fr;
+                gap: 5px;
+                margin-bottom: 10px;
+            }
+            .modal-amenity-item {
+                padding: 8px 10px;
+            }
+            .modal-amenity-name {
+                font-size: 12px;
+            }
+            .modal-amenity-price {
+                font-size: 11px;
+            }
+
+            /* Right panel: booking form */
+            .modal-right {
+                padding: 14px 16px 16px;
+                gap: 12px;
+                overflow: visible;
+                border-top: none;
+            }
+
+            /* Price banner */
+            .modal-price-banner {
+                padding: 10px 12px;
+                border-radius: 8px;
+            }
+            .modal-price-amount {
+                font-size: 20px;
+            }
+            .modal-price-availability {
+                font-size: 11px;
+            }
+
+            /* Form fields */
+            .modal-form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .modal-form-label {
+                font-size: 12px;
+            }
+            .modal-form-input,
+            .modal-form-select {
+                padding: 12px;
+                font-size: 16px; /* 16px prevents iOS zoom on focus */
+            }
+            .modal-date-field {
+                padding: 12px;
+            }
+            .modal-date-display {
+                font-size: 14px;
+            }
+            .modal-datepicker {
+                left: 0;
+                right: 0;
+                width: auto;
+            }
+
+            /* Time slots */
+            .modal-slots-grid {
+                gap: 5px;
+            }
+            .modal-slot-btn {
+                padding: 9px 8px;
+                font-size: 12px;
+                flex: 1 1 auto;
+                min-width: 70px;
+                text-align: center;
+            }
+
+            /* Notice */
+            .modal-notice {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            /* Divider */
+            .modal-divider {
+                margin: 2px 0;
+            }
+
+            /* Policies */
+            .modal-policy {
+                padding: 8px;
+            }
+
+            /* Hide the inline btn-group and login-hint (moved to bottom bar) */
+            .modal-right > .modal-btn-group,
+            .modal-right > .modal-login-hint {
+                display: none;
+            }
+
+            /* Fixed bottom CTA bar */
+            .modal-bottom-bar {
+                display: flex;
+                flex-direction: column;
+                flex-shrink: 0;
+                background: var(--bg);
+                border-top: 1px solid var(--border);
+                padding: 10px 16px;
+                padding-bottom: max(10px, env(safe-area-inset-bottom));
+                gap: 8px;
+                box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+            }
+            .modal-bottom-bar .modal-btn-row {
+                display: flex;
+                gap: 8px;
+            }
+            .modal-bottom-bar .modal-book-btn {
+                flex: 1;
+                padding: 13px 12px;
+                font-size: 13px;
+                border-radius: 10px;
+            }
+            .modal-bottom-bar .modal-book-btn svg {
+                width: 15px;
+                height: 15px;
+            }
+            .modal-bottom-bar .modal-login-hint {
+                display: block;
+                text-align: center;
+                font-size: 10px;
+                padding: 0;
+                margin: 0;
+            }
+            .modal-bottom-bar .modal-validation-hint {
+                font-size: 12px;
+                padding: 6px 10px;
+                gap: 6px;
+            }
+            .modal-bottom-bar .modal-validation-hint svg:first-child {
+                width: 14px;
+                height: 14px;
+            }
+            .modal-bottom-bar .vhint-steps {
+                gap: 3px 10px;
+            }
+            .modal-bottom-bar .vhint-icon {
+                width: 12px;
+                height: 12px;
+            }
+            .modal-bottom-bar .vhint-icon svg {
+                width: 7px;
+                height: 7px;
+            }
+            /* Hide desktop hint on mobile, show mobile one */
+            .modal-right > .modal-validation-hint {
+                display: none;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .modal-header-info h2 {
+                font-size: 13px;
+            }
+            .modal-header-sub {
+                font-size: 10px;
             }
             .modal-info-grid {
                 grid-template-columns: 1fr;
             }
-            .modal-amenities-grid {
-                grid-template-columns: 1fr;
+            .modal-price-amount {
+                font-size: 18px;
+            }
+            .modal-bottom-bar .modal-book-btn {
+                padding: 12px 10px;
+                font-size: 12px;
             }
         }
 
@@ -5584,6 +6004,14 @@
                         <div class="modal-weather-badge" id="modalWeatherBadge" style="display:none"></div>
                     </div>
 
+                    <!-- Toggle for mobile collapsible details -->
+                    <button class="modal-details-toggle" id="modalDetailsToggle" onclick="toggleModalDetails()">
+                        <span>Facility Details, Amenities & Policies</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="modal-details-content" id="modalDetailsContent">
+                        <div class="modal-details-inner">
+
                     <h4 class="modal-section-title">Facility Details</h4>
                     <div class="modal-info-grid" id="modalInfoGrid"></div>
 
@@ -5599,6 +6027,9 @@
 
                     <h4 class="modal-section-title">Policies</h4>
                     <div id="modalPolicies"></div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Right Column - Booking Form -->
@@ -5661,7 +6092,7 @@
                         <div class="modal-form-group">
                             <label class="modal-form-label">Group Size</label>
                             <div class="modal-select-wrapper">
-                                <select class="modal-form-select" id="modalGroupSize">
+                                <select class="modal-form-select" id="modalGroupSize" onchange="validateModalForm()">
                                     <option value="">Select</option>
                                     <option value="1-10">1 - 10 people</option>
                                     <option value="11-50">11 - 50 people</option>
@@ -5678,7 +6109,7 @@
                         <div class="modal-form-group">
                             <label class="modal-form-label">Booking Type</label>
                             <div class="modal-select-wrapper">
-                                <select class="modal-form-select" id="modalBookingType">
+                                <select class="modal-form-select" id="modalBookingType" onchange="validateModalForm()">
                                     <option value="">Select type</option>
                                     <option value="practice">Practice / Training</option>
                                     <option value="game">Game / Match</option>
@@ -5693,7 +6124,7 @@
                         <div class="modal-form-group">
                             <label class="modal-form-label">Activity</label>
                             <div class="modal-select-wrapper" id="modalActivityWrapper">
-                                <select class="modal-form-select" id="modalActivity">
+                                <select class="modal-form-select" id="modalActivity" onchange="validateModalForm()">
                                     <option value="">Select activity</option>
                                 </select>
                             </div>
@@ -5710,12 +6141,16 @@
                         <span id="modalNoticeText"></span>
                     </div>
 
+                    <div class="modal-validation-hint" id="modalValidationHint">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <div class="vhint-steps" id="modalValidationSteps"></div>
+                    </div>
                     <div class="modal-btn-group">
-                        <button class="modal-book-btn secondary" id="modalAddContinueBtn" onclick="submitBooking('continue')">
+                        <button class="modal-book-btn secondary" id="modalAddContinueBtn" onclick="submitBooking('continue')" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             Add & Keep Browsing
                         </button>
-                        <button class="modal-book-btn" id="modalBookBtn" onclick="submitBooking('checkout')">
+                        <button class="modal-book-btn" id="modalBookBtn" onclick="submitBooking('checkout')" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                             Add & Checkout
                         </button>
@@ -5724,6 +6159,24 @@
                         By adding a slot, you agree to the district's <a href="#">rental terms</a>.
                     </div>
                 </div>
+            </div>
+            <!-- Mobile fixed bottom bar -->
+            <div class="modal-bottom-bar" id="modalBottomBar">
+                <div class="modal-validation-hint" id="modalValidationHintMobile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <div class="vhint-steps" id="modalValidationStepsMobile"></div>
+                </div>
+                <div class="modal-btn-row">
+                    <button class="modal-book-btn secondary" id="modalAddContinueBtnMobile" onclick="submitBooking('continue')" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Add & Browse
+                    </button>
+                    <button class="modal-book-btn" id="modalBookBtnMobile" onclick="submitBooking('checkout')" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        Checkout
+                    </button>
+                </div>
+                <div class="modal-login-hint">By adding a slot, you agree to the district's <a href="#">rental terms</a>.</div>
             </div>
         </div>
     </div>
@@ -5989,6 +6442,12 @@
                 html += '<button class="dp-day other-month" type="button" disabled>' + d + '</button>';
             }
             dpDays.innerHTML = html;
+
+            // Dim prev arrow when on current month
+            const now = new Date();
+            const isCurrentMonth = year === now.getFullYear() && month === now.getMonth();
+            dpPrev.style.opacity = isCurrentMonth ? '0.25' : '';
+            dpPrev.style.pointerEvents = isCurrentMonth ? 'none' : '';
         }
 
         dateField.addEventListener('click', (e) => {
@@ -6008,6 +6467,12 @@
 
         dpPrev.addEventListener('click', (e) => {
             e.stopPropagation();
+            const now = new Date();
+            const prevMonth = new Date(dpViewDate);
+            prevMonth.setMonth(prevMonth.getMonth() - 1);
+            // Don't navigate before the current month
+            if (prevMonth.getFullYear() < now.getFullYear() ||
+                (prevMonth.getFullYear() === now.getFullYear() && prevMonth.getMonth() < now.getMonth())) return;
             dpViewDate.setMonth(dpViewDate.getMonth() - 1);
             renderDatepicker();
         });
@@ -6275,42 +6740,78 @@
         }
 
         // Generate date-specific availability and time slots for a facility
-        function getDateAvailability(facilityName, dateStr) {
-            // Use facility name + date to generate consistent but varied data
-            const seed = (facilityName.length * 7 + dateStr.split('-').reduce((a,b) => a + parseInt(b), 0)) % 10;
-            const dayOfWeek = new Date(dateStr).getDay();
+        function getSlotData(facilityName, dateStr) {
+            // Single source of truth for time slot availability across cards, list, and modal
+            const dayOfWeek = new Date(dateStr + 'T12:00:00').getDay();
             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-            // Available windows: Weekdays 5-8 PM, Weekends 9 AM-8 PM
+            // Consistent slot windows
             const allSlots = isWeekend
                 ? ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM']
-                : ['5:00 PM', '6:00 PM', '7:00 PM'];
+                : ['4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM'];
 
-            // Generate availability level based on seed
-            let availability, slotsCount;
-            if (seed < 3) {
-                availability = 'low';
-                slotsCount = isWeekend ? 1 : 1;
-            } else if (seed < 6) {
-                availability = 'medium';
-                slotsCount = isWeekend ? 3 : 2;
-            } else {
-                availability = 'high';
-                slotsCount = isWeekend ? 5 : 3;
+            // Deterministic seed from facility + date
+            const seed = (facilityName + dateStr).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+
+            // Determine which slots are booked
+            const bookedCount = Math.floor((seed % 5) + 1);
+            const bookedSet = new Set();
+            for (let i = 0; i < bookedCount && i < allSlots.length - 1; i++) {
+                bookedSet.add(allSlots[(seed + i * 3) % allSlots.length]);
             }
 
-            // Pick slots pseudo-randomly from the window
-            const shuffled = allSlots.slice().sort((a, b) => {
-                const ha = a.charCodeAt(0) * seed + a.charCodeAt(3);
-                const hb = b.charCodeAt(0) * seed + b.charCodeAt(3);
-                return ha - hb;
-            });
-            const picked = shuffled.slice(0, Math.min(slotsCount, allSlots.length));
-            // Sort chronologically
-            const toMin = s => { const [t, p] = s.split(' '); const [h, m] = t.split(':').map(Number); return ((h % 12) + (p === 'PM' ? 12 : 0)) * 60 + m; };
-            const slots = picked.sort((a, b) => toMin(a) - toMin(b));
+            // Filter past slots if date is today
+            const now = new Date();
+            const isToday = new Date(dateStr + 'T12:00:00').toDateString() === now.toDateString();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
 
-            return { availability, slots, slotsCount };
+            const toHour24 = (slot) => {
+                const parts = slot.match(/(\d+):(\d+)\s*(AM|PM)/i);
+                if (!parts) return 0;
+                let h = parseInt(parts[1]);
+                const m = parseInt(parts[2]);
+                const ampm = parts[3].toUpperCase();
+                if (ampm === 'PM' && h !== 12) h += 12;
+                if (ampm === 'AM' && h === 12) h = 0;
+                return { h, m };
+            };
+
+            const slots = allSlots.map(slot => {
+                const isBooked = bookedSet.has(slot);
+                let isPast = false;
+                if (isToday) {
+                    const t = toHour24(slot);
+                    isPast = t.h < currentHour || (t.h === currentHour && t.m <= currentMinute);
+                }
+                return { time: slot, booked: isBooked, past: isPast, available: !isBooked && !isPast };
+            });
+
+            const availableSlots = slots.filter(s => s.available);
+            const availCount = availableSlots.length;
+
+            let availability;
+            if (availCount === 0) availability = 'low';
+            else if (availCount <= 2) availability = 'low';
+            else if (availCount <= Math.ceil(allSlots.length / 2)) availability = 'medium';
+            else availability = 'high';
+
+            return {
+                allSlots: slots,
+                availableSlots: availableSlots.map(s => s.time),
+                availability,
+                isWeekend
+            };
+        }
+
+        // Backwards-compatible wrapper for calendar/list views
+        function getDateAvailability(facilityName, dateStr) {
+            const data = getSlotData(facilityName, dateStr);
+            return {
+                availability: data.availability,
+                slots: data.availableSlots,
+                slotsCount: data.availableSlots.length
+            };
         }
 
         // Update grid card availability indicators based on selected date
@@ -7278,25 +7779,15 @@
                 const selectedDate = document.getElementById('searchDate') ? document.getElementById('searchDate').value : '';
                 d.facilities.forEach((f, i) => {
 
-                    // Generate available time slots based on day of week
-                    // Weekdays: 5-8 PM window, Weekends: 9 AM-8 PM window
-                    const selDate = selectedDate ? new Date(selectedDate + 'T12:00:00') : new Date();
-                    const dayOfWeek = selDate.getDay(); // 0=Sun, 6=Sat
-                    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
-                    const allSlots = isWeekend
-                        ? ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM']
-                        : ['5:00 PM', '6:00 PM', '7:00 PM'];
-                    // Randomly mark some as booked, keep 1-3 available
-                    const seed = (f.name + selectedDate).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-                    const shuffled = allSlots.slice().sort(() => ((seed * (i + 1) * 7) % 100) / 100 - 0.5);
-                    const availCount = Math.max(1, Math.min(isWeekend ? 4 : 2, 1 + (seed % (isWeekend ? 4 : 2))));
-                    const timeSlots = shuffled.slice(0, availCount).sort((a, b) => {
-                        const toMin = s => { const [t, p] = s.split(' '); const [h, m] = t.split(':').map(Number); return ((h % 12) + (p === 'PM' ? 12 : 0)) * 60 + m; };
-                        return toMin(a) - toMin(b);
-                    });
-                    const slotHTML = timeSlots.map(t =>
+                    // Use unified slot data for consistent availability
+                    const effectiveDate = selectedDate || (() => { const t = new Date(); return t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0'); })();
+                    const slotData = getSlotData(f.name, effectiveDate);
+                    const slotHTML = slotData.availableSlots.map(t =>
                         '<button class="time-slot">' + t + '</button>'
                     ).join('');
+
+                    // Use availability from same data
+                    const cardAvail = selectedDate ? slotData.availability : f.availability;
 
                     // Weather logic: date-aware for outdoor, "Indoors" for indoor
                     let weatherHTML = '';
@@ -7325,13 +7816,6 @@
                     const sparkleSvg = '<svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21 8 14l-6-4.6h7.6z"/></svg>';
                     const statIcon = f.lastBooked.includes('Last booked') ? clockSvg : sparkleSvg;
                     const statHTML = '<div class="stat-item">' + statIcon + ' ' + f.lastBooked + '</div>';
-
-                    // Date-aware availability
-                    let cardAvail = f.availability;
-                    if (selectedDate) {
-                        const dateInfo = getDateAvailability(f.name, selectedDate);
-                        cardAvail = dateInfo.availability;
-                    }
 
                     grid.innerHTML += `
                         <div class="facility-card">
@@ -7566,18 +8050,24 @@
             const avail = f.availability || 'medium';
             document.getElementById('modalAvailability').innerHTML = `<span class="avail-dot ${avail}"></span><span>${availMap[avail] || 'Available'}</span>`;
 
-            // Pre-fill date from search
+            // Pre-fill date from search (but never a past date)
             const searchDateVal = document.getElementById('searchDate').value;
+            const now = new Date();
+            const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
             mdpViewDate = new Date();
-            if (searchDateVal) {
+
+            if (searchDateVal && searchDateVal >= todayStr) {
                 setModalDate(searchDateVal);
                 mdpViewDate = new Date(searchDateVal + 'T12:00:00');
             } else {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0');
-                const dd = String(today.getDate()).padStart(2, '0');
+                // Default to tomorrow to ensure full slot availability
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const yyyy = tomorrow.getFullYear();
+                const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+                const dd = String(tomorrow.getDate()).padStart(2, '0');
                 setModalDate(`${yyyy}-${mm}-${dd}`);
+                mdpViewDate = new Date(tomorrow);
             }
 
             // Pre-fill duration from search
@@ -7601,6 +8091,20 @@
                 modalActivity.value = activitySelect.value;
             }
 
+            // Auto-infer booking type from activity if available
+            const actVal = modalActivity.value;
+            const bookingTypeSelect = document.getElementById('modalBookingType');
+            if (actVal && !bookingTypeSelect.value) {
+                const sportsActivities = ['badminton','baseball','basketball','cheer','cross-country','field-hockey','fitness','football','golf','gymnastics','lacrosse','martial-arts','pickleball','soccer','swimming','tennis','track','volleyball','weightlifting','wrestling','yoga'];
+                const eventActivities = ['awards','concert','dance','fair','fundraiser','graduation','movie','party','pep-rally','theater'];
+                const meetingActivities = ['class','meeting','orientation','professional-dev','testing','training','tutoring'];
+                if (sportsActivities.includes(actVal)) bookingTypeSelect.value = 'practice';
+                else if (eventActivities.includes(actVal)) bookingTypeSelect.value = 'performance';
+                else if (actVal === 'camp') bookingTypeSelect.value = 'camp';
+                else if (meetingActivities.includes(actVal)) bookingTypeSelect.value = 'meeting';
+                else bookingTypeSelect.value = 'other';
+            }
+
             // Render time slots for date
             renderModalSlots();
 
@@ -7608,6 +8112,9 @@
             document.querySelector('.modal-left').scrollTop = 0;
             document.querySelector('.modal-right').scrollTop = 0;
             document.querySelector('.modal-body').scrollTop = 0;
+
+            // Set initial validation state
+            validateModalForm();
 
             // Show modal
             document.getElementById('bookingModalOverlay').classList.add('active');
@@ -7620,6 +8127,19 @@
             currentModalFacility = null;
             currentModalDistrict = null;
             selectedModalSlot = null;
+            // Collapse details on close
+            const toggle = document.getElementById('modalDetailsToggle');
+            const content = document.getElementById('modalDetailsContent');
+            if (toggle) toggle.classList.remove('expanded');
+            if (content) content.classList.remove('expanded');
+        }
+
+        function toggleModalDetails() {
+            const toggle = document.getElementById('modalDetailsToggle');
+            const content = document.getElementById('modalDetailsContent');
+            const isExpanded = content.classList.contains('expanded');
+            toggle.classList.toggle('expanded', !isExpanded);
+            content.classList.toggle('expanded', !isExpanded);
         }
 
         function renderModalSlots() {
@@ -7644,25 +8164,32 @@
                 }
             }
 
-            // Generate slots using same logic as main app
-            const dayOfWeek = new Date(dateVal + 'T12:00:00').getDay();
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-            const allSlots = isWeekend
-                ? ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM']
-                : ['4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM'];
+            // Use unified slot data (same source as cards and list)
+            const slotData = getSlotData(f.name, dateVal);
 
-            const seed = (f.name + dateVal).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-            const bookedCount = Math.floor((seed % 5) + 1);
-            const bookedSet = new Set();
-            for (let i = 0; i < bookedCount && i < allSlots.length - 1; i++) {
-                bookedSet.add(allSlots[(seed + i * 3) % allSlots.length]);
+            container.innerHTML = slotData.allSlots.map(slot => {
+                const isDisabled = slot.booked || slot.past;
+                const isSelected = selectedModalSlot === slot.time && !isDisabled;
+                let cls = 'modal-slot-btn';
+                if (slot.booked) cls += ' booked';
+                if (slot.past && !slot.booked) cls += ' past-slot';
+                if (isSelected) cls += ' selected';
+                return `<button class="${cls}" ${isDisabled ? 'disabled' : ''} onclick="selectModalSlot(this,'${slot.time}')">${slot.time}</button>`;
+            }).join('');
+
+            // If selected slot is now past or booked, clear it
+            if (selectedModalSlot) {
+                const selectedBtn = container.querySelector('.modal-slot-btn.selected');
+                if (!selectedBtn || selectedBtn.disabled) {
+                    selectedModalSlot = null;
+                }
             }
 
-            container.innerHTML = allSlots.map(slot => {
-                const isBooked = bookedSet.has(slot);
-                const isSelected = selectedModalSlot === slot && !isBooked;
-                return `<button class="modal-slot-btn${isBooked ? ' booked' : ''}${isSelected ? ' selected' : ''}" ${isBooked ? 'disabled' : ''} onclick="selectModalSlot(this,'${slot}')">${slot}</button>`;
-            }).join('');
+            // Check if ALL slots are unavailable
+            const availableSlots = container.querySelectorAll('.modal-slot-btn:not([disabled])');
+            if (availableSlots.length === 0) {
+                container.innerHTML += '<div style="width:100%;text-align:center;padding:8px 0;font-size:13px;color:var(--text-secondary)">No available time slots for this date. Please select a different date.</div>';
+            }
 
             // Show advance booking notice
             const notice = document.getElementById('modalNotice');
@@ -7682,6 +8209,81 @@
             document.querySelectorAll('#modalSlots .modal-slot-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             selectedModalSlot = slot;
+            validateModalForm();
+        }
+
+        function validateModalForm() {
+            const hasDate = !!document.getElementById('modalDate').value;
+            const hasSlot = !!selectedModalSlot;
+            const hasDuration = !!document.getElementById('modalDuration').value;
+            const hasGroupSize = !!document.getElementById('modalGroupSize').value;
+            const hasBookingType = !!document.getElementById('modalBookingType').value;
+            const hasActivity = !!document.getElementById('modalActivity').value;
+
+            const fields = [
+                { label: 'Date', done: hasDate },
+                { label: 'Time slot', done: hasSlot },
+                { label: 'Group size', done: hasGroupSize },
+                { label: 'Booking type', done: hasBookingType },
+                { label: 'Activity', done: hasActivity }
+            ];
+            // Duration always has a default so skip it in the checklist
+
+            const isValid = fields.every(f => f.done);
+            const doneCount = fields.filter(f => f.done).length;
+
+            const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+            const stepHTML = (f) => {
+                return '<span class="vhint-step' + (f.done ? ' done' : '') + '"><span class="vhint-icon">' + (f.done ? checkSvg : '') + '</span> ' + f.label + '</span>';
+            };
+
+            // Build steps - show incomplete ones first, then completed
+            const incomplete = fields.filter(f => !f.done);
+            const complete = fields.filter(f => f.done);
+            let stepsHTML;
+            if (isValid) {
+                stepsHTML = '<span class="vhint-step done">Ready to book!</span>';
+            } else {
+                stepsHTML = incomplete.map(stepHTML).join('') + complete.map(stepHTML).join('');
+            }
+
+            // Desktop hint
+            const hintD = document.getElementById('modalValidationHint');
+            const stepsD = document.getElementById('modalValidationSteps');
+            if (hintD && stepsD) {
+                stepsD.innerHTML = stepsHTML;
+                hintD.classList.toggle('all-done', isValid);
+            }
+
+            // Mobile hint
+            const hintM = document.getElementById('modalValidationHintMobile');
+            const stepsM = document.getElementById('modalValidationStepsMobile');
+            if (hintM && stepsM) {
+                stepsM.innerHTML = stepsHTML;
+                hintM.classList.toggle('all-done', isValid);
+            }
+
+            // Enable/disable all CTA buttons (desktop + mobile)
+            const btns = [
+                document.getElementById('modalAddContinueBtn'),
+                document.getElementById('modalBookBtn'),
+                document.getElementById('modalAddContinueBtnMobile'),
+                document.getElementById('modalBookBtnMobile')
+            ];
+            btns.forEach(b => { if (b) b.disabled = !isValid; });
+
+            // Highlight incomplete selects with subtle ring
+            ['modalGroupSize', 'modalBookingType', 'modalActivity'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const wrapper = el.closest('.modal-form-group');
+                if (!wrapper) return;
+                if (!el.value) {
+                    wrapper.classList.add('field-incomplete');
+                } else {
+                    wrapper.classList.remove('field-incomplete');
+                }
+            });
         }
 
         function toggleAmenity(el) {
@@ -7713,8 +8315,8 @@
 
         function submitBooking(action) {
             const dateVal = document.getElementById('modalDate').value;
-            if (!dateVal) { alert('Please select a date.'); return; }
-            if (!selectedModalSlot) { alert('Please select a time slot.'); return; }
+            if (!dateVal) { return; }
+            if (!selectedModalSlot) { return; }
 
             const f = currentModalFacility;
             const duration = document.getElementById('modalDuration').value;
@@ -7734,14 +8336,20 @@
 
             const checkoutBtn = document.getElementById('modalBookBtn');
             const continueBtn = document.getElementById('modalAddContinueBtn');
+            const checkoutBtnM = document.getElementById('modalBookBtnMobile');
+            const continueBtnM = document.getElementById('modalAddContinueBtnMobile');
             const notice = document.getElementById('modalNotice');
+            const allBtns = [checkoutBtn, continueBtn, checkoutBtnM, continueBtnM];
 
-            // Success feedback on both buttons
+            // Success feedback
             const clickedBtn = action === 'continue' ? continueBtn : checkoutBtn;
+            const clickedBtnM = action === 'continue' ? continueBtnM : checkoutBtnM;
             const origHTML = clickedBtn.innerHTML;
-            clickedBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Slot Added!';
-            checkoutBtn.disabled = true;
-            continueBtn.disabled = true;
+            const origHTMLM = clickedBtnM ? clickedBtnM.innerHTML : '';
+            const successHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Slot Added!';
+            clickedBtn.innerHTML = successHTML;
+            if (clickedBtnM) clickedBtnM.innerHTML = successHTML;
+            allBtns.forEach(b => { if (b) b.disabled = true; });
 
             // Show confirmation
             notice.style.display = 'flex';
@@ -7751,32 +8359,23 @@
             document.getElementById('modalNoticeText').textContent =
                 `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''})${amenitySummary} added to your booking.`;
 
+            const resetAll = () => {
+                clickedBtn.innerHTML = origHTML;
+                if (clickedBtnM) clickedBtnM.innerHTML = origHTMLM;
+                notice.style.display = 'none';
+                notice.style.background = '';
+                notice.style.borderColor = '';
+                notice.style.color = '';
+                validateModalForm();
+                closeBookingModal();
+            };
+
             if (action === 'continue') {
-                // Close modal after brief confirmation, return to browsing
-                setTimeout(() => {
-                    clickedBtn.innerHTML = origHTML;
-                    checkoutBtn.disabled = false;
-                    continueBtn.disabled = false;
-                    notice.style.display = 'none';
-                    notice.style.background = '';
-                    notice.style.borderColor = '';
-                    notice.style.color = '';
-                    closeBookingModal();
-                }, 1500);
+                setTimeout(resetAll, 1500);
             } else {
-                // "Checkout" - show fuller confirmation then close
                 document.getElementById('modalNoticeText').textContent =
                     `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''})${amenitySummary} added. Redirecting to checkout...`;
-                setTimeout(() => {
-                    clickedBtn.innerHTML = origHTML;
-                    checkoutBtn.disabled = false;
-                    continueBtn.disabled = false;
-                    notice.style.display = 'none';
-                    notice.style.background = '';
-                    notice.style.borderColor = '';
-                    notice.style.color = '';
-                    closeBookingModal();
-                }, 2500);
+                setTimeout(resetAll, 2500);
             }
         }
 
@@ -7839,6 +8438,12 @@
                 html += '<button class="dp-day other-month" type="button" disabled>' + d + '</button>';
             }
             mdpDays.innerHTML = html;
+
+            // Dim prev arrow when on current month
+            const nowDp = new Date();
+            const isCurrentMonth = year === nowDp.getFullYear() && month === nowDp.getMonth();
+            mdpPrev.style.opacity = isCurrentMonth ? '0.25' : '';
+            mdpPrev.style.pointerEvents = isCurrentMonth ? 'none' : '';
         }
 
         function setModalDate(dateStr) {
@@ -7850,7 +8455,10 @@
                 modalDateDisplay.textContent = 'Select a date';
                 modalDateDisplay.classList.add('placeholder');
             }
+            // Selecting a new date clears the slot selection
+            selectedModalSlot = null;
             renderModalSlots();
+            validateModalForm();
         }
 
         modalDateField.addEventListener('click', (e) => {
@@ -7869,6 +8477,11 @@
 
         mdpPrev.addEventListener('click', (e) => {
             e.stopPropagation();
+            const now = new Date();
+            const prevMonth = new Date(mdpViewDate);
+            prevMonth.setMonth(prevMonth.getMonth() - 1);
+            if (prevMonth.getFullYear() < now.getFullYear() ||
+                (prevMonth.getFullYear() === now.getFullYear() && prevMonth.getMonth() < now.getMonth())) return;
             mdpViewDate.setMonth(mdpViewDate.getMonth() - 1);
             renderModalDatepicker();
         });
