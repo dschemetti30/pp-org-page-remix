@@ -3905,7 +3905,7 @@
         .modal-amenities-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 20px;
         }
         .modal-amenity-item {
@@ -4168,21 +4168,23 @@
 
         /* Time Slot Picker */
         .modal-slots-grid {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
             gap: 6px;
         }
         .modal-slot-btn {
             background: var(--surface);
             border: 1.5px solid var(--border);
             border-radius: 8px;
-            padding: 8px 14px;
+            padding: 8px 6px;
             font-size: 13px;
             font-family: var(--ff);
             font-weight: 500;
             color: var(--text);
             cursor: pointer;
             transition: all 0.15s ease;
+            text-align: center;
+            white-space: nowrap;
         }
         .modal-slot-btn:hover {
             border-color: var(--brand-primary);
@@ -4210,6 +4212,42 @@
             border-color: var(--border);
             background: var(--surface);
             transform: none;
+        }
+        /* Time slots required indicator */
+        .modal-slots-wrapper.field-incomplete .modal-slots-grid {
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+        }
+        [data-theme="dark"] .modal-slots-wrapper.field-incomplete .modal-slots-grid {
+            border-color: #d97706;
+            box-shadow: 0 0 0 3px rgba(217,119,6,0.12);
+        }
+        .modal-slots-wrapper .slots-required-hint {
+            display: none;
+            font-size: 11px;
+            font-weight: 600;
+            color: #f59e0b;
+            margin-top: 6px;
+        }
+        [data-theme="dark"] .modal-slots-wrapper .slots-required-hint {
+            color: #fbbf24;
+        }
+        .modal-slots-wrapper.field-incomplete .slots-required-hint {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .modal-slots-wrapper.field-incomplete .slots-required-hint svg {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+        .modal-slots-wrapper.slot-selected .modal-slots-grid {
+            border: 2px solid var(--brand-cta);
+            border-radius: 10px;
+            padding: 8px;
         }
 
         .modal-notice {
@@ -4273,78 +4311,63 @@
         .modal-validation-hint {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
+            gap: 10px;
+            font-size: 12px;
             color: var(--text-secondary);
-            padding: 8px 12px;
+            padding: 10px 12px;
             background: var(--surface);
-            border: 1px dashed var(--border);
+            border: 1px solid var(--border);
             border-radius: 8px;
         }
         .modal-validation-hint svg {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-            color: var(--text-secondary);
+            display: none;
         }
-        .modal-validation-hint .vhint-steps {
+        .modal-validation-hint .vhint-bar-wrap {
+            flex: 1;
             display: flex;
-            flex-wrap: wrap;
-            gap: 4px 12px;
-        }
-        .modal-validation-hint .vhint-step {
-            display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 10px;
+            min-width: 0;
         }
-        .modal-validation-hint .vhint-step.done {
-            color: #16a34a;
-        }
-        [data-theme="dark"] .modal-validation-hint .vhint-step.done {
-            color: #4ade80;
-        }
-        .modal-validation-hint .vhint-step .vhint-icon {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 1.5px solid var(--border);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        .modal-validation-hint .vhint-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            white-space: nowrap;
             flex-shrink: 0;
         }
-        .modal-validation-hint .vhint-step.done .vhint-icon {
-            background: #16a34a;
-            border-color: #16a34a;
+        .modal-validation-hint .vhint-track {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-hover);
+            border-radius: 3px;
+            overflow: hidden;
+            min-width: 60px;
         }
-        [data-theme="dark"] .modal-validation-hint .vhint-step.done .vhint-icon {
-            background: #4ade80;
-            border-color: #4ade80;
-        }
-        .modal-validation-hint .vhint-step.done .vhint-icon svg {
-            stroke: #fff;
-        }
-        .modal-validation-hint .vhint-icon svg {
-            width: 8px;
-            height: 8px;
-            stroke: transparent;
-            stroke-width: 3;
+        .modal-validation-hint .vhint-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.35s ease, background 0.35s ease;
+            background: #f59e0b;
         }
         .modal-validation-hint.all-done {
-            border-style: solid;
             border-color: #16a34a;
             background: #f0fdf4;
-            color: #166534;
         }
         [data-theme="dark"] .modal-validation-hint.all-done {
             border-color: rgba(74,222,128,0.3);
             background: rgba(74,222,128,0.08);
-            color: #4ade80;
         }
-        .modal-validation-hint.all-done svg:first-child {
+        .modal-validation-hint.all-done .vhint-fill {
+            background: #16a34a;
+        }
+        [data-theme="dark"] .modal-validation-hint.all-done .vhint-fill {
+            background: #4ade80;
+        }
+        .modal-validation-hint.all-done .vhint-label {
             color: #16a34a;
         }
-        [data-theme="dark"] .modal-validation-hint.all-done svg:first-child {
+        [data-theme="dark"] .modal-validation-hint.all-done .vhint-label {
             color: #4ade80;
         }
         .modal-book-btn.secondary {
@@ -4379,6 +4402,910 @@
             height: 1px;
             background: var(--border);
             margin: 2px 0;
+        }
+
+        /* ============================================= */
+        /* RESERVATION SYSTEM                            */
+        /* ============================================= */
+
+        /* Header cart button */
+        .header-cart-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 2px;
+        }
+        .header-cart-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--text-secondary);
+        }
+        .header-cart-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text);
+        }
+        .header-cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--brand-cta);
+            color: var(--brand-on-cta);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--ff);
+            border: 2px solid var(--bg);
+            line-height: 1;
+        }
+        .header-cart-badge.visible {
+            display: flex;
+        }
+        .header-cart-badge.pop {
+            animation: cartBadgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes cartBadgePop {
+            0% { transform: scale(0.3); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+
+        /* Cart drawer overlay */
+        .cart-drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            backdrop-filter: blur(2px);
+        }
+        .cart-drawer-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Cart drawer panel */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 420px;
+            max-width: 92vw;
+            background: var(--bg);
+            z-index: 10001;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -8px 0 32px rgba(0,0,0,0.15);
+        }
+        .cart-drawer-overlay.open .cart-drawer {
+            transform: translateX(0);
+        }
+
+        .cart-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .cart-drawer-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cart-drawer-title svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text);
+        }
+        .cart-drawer-count {
+            background: var(--bg-hover);
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .cart-drawer-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-hover);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .cart-drawer-close:hover { background: var(--border); }
+        .cart-drawer-close svg { width: 16px; height: 16px; stroke: var(--text); }
+
+        /* Cart items list */
+        .cart-drawer-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 24px;
+        }
+        .cart-drawer-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+            text-align: center;
+            color: var(--text-secondary);
+            gap: 12px;
+        }
+        .cart-drawer-empty svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--border);
+            stroke-width: 1.5;
+        }
+        .cart-drawer-empty-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .cart-drawer-empty-text {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Individual cart item */
+        .cart-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .cart-item:hover {
+            border-color: var(--text-secondary);
+        }
+        .cart-item-layout {
+            display: flex;
+            gap: 12px;
+        }
+        /* Calendar-style date block */
+        .cart-item-date-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+            max-width: 50px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .cart-date-header {
+            width: 100%;
+            padding: 3px 0;
+            background: var(--brand-cta);
+            text-align: center;
+        }
+        .cart-date-month {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--brand-on-cta);
+            line-height: 1;
+        }
+        .cart-date-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3px 0 4px;
+            width: 100%;
+            background: var(--bg);
+        }
+        .cart-date-day {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.1;
+        }
+        .cart-date-weekday {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            line-height: 1;
+        }
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .cart-item-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 6px;
+        }
+        .cart-item-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+        }
+        .cart-item-location {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .cart-item-remove {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+        .cart-item-remove:hover {
+            background: #fef2f2;
+            color: #ef4444;
+            opacity: 1;
+        }
+        [data-theme="dark"] .cart-item-remove:hover {
+            background: rgba(239,68,68,0.15);
+            color: #f87171;
+        }
+        .cart-item-remove svg { width: 13px; height: 13px; }
+
+        .cart-item-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .cart-item-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 6px;
+            background: var(--bg-hover);
+            border-radius: 5px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .cart-item-tag svg {
+            width: 11px;
+            height: 11px;
+        }
+        .cart-item-addons {
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding-top: 6px;
+            border-top: 1px dashed var(--border);
+            margin-top: 4px;
+        }
+        /* Collapsible details toggle */
+        .cart-item-expand {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: var(--ff);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            transition: color 0.15s;
+        }
+        .cart-item-expand:hover { color: var(--text); }
+        .cart-item-expand svg {
+            width: 13px;
+            height: 13px;
+            transition: transform 0.25s ease;
+        }
+        .cart-item-expand.open svg {
+            transform: rotate(180deg);
+        }
+        /* Collapsible body */
+        .cart-item-collapse {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.25s ease;
+            opacity: 0;
+        }
+        .cart-item-collapse.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+        .cart-item-collapse-inner {
+            padding-top: 8px;
+            margin-top: 6px;
+            border-top: 1px dashed var(--border);
+        }
+        /* Detail rows inside collapse */
+        .cart-detail-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .cart-detail-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px 0;
+            font-size: 11px;
+        }
+        .cart-detail-label {
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .cart-detail-label svg {
+            width: 11px;
+            height: 11px;
+            flex-shrink: 0;
+        }
+        .cart-detail-value {
+            color: var(--text);
+            font-weight: 500;
+        }
+        .cart-detail-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 6px 0;
+        }
+        /* Cost breakdown rows */
+        .cart-cost-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px 0;
+            font-size: 11px;
+        }
+        .cart-cost-label {
+            color: var(--text-secondary);
+        }
+        .cart-cost-value {
+            color: var(--text);
+            font-weight: 500;
+        }
+        .cart-cost-total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 4px;
+            margin-top: 3px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+        }
+        .cart-cost-total-label {
+            font-weight: 700;
+            color: var(--text);
+        }
+        .cart-cost-total-value {
+            font-weight: 700;
+            color: #16a34a;
+        }
+        [data-theme="dark"] .cart-cost-total-value { color: #4ade80; }
+
+        .cart-item-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            margin-top: 10px;
+        }
+        .cart-item-price-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .cart-item-price-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #16a34a;
+        }
+        [data-theme="dark"] .cart-item-price-value {
+            color: #4ade80;
+        }
+        .cart-item.removing {
+            animation: cartItemRemove 0.35s ease forwards;
+        }
+        @keyframes cartItemRemove {
+            0% { opacity: 1; transform: translateX(0); max-height: 600px; margin-bottom: 12px; }
+            50% { opacity: 0; transform: translateX(40px); max-height: 600px; margin-bottom: 12px; }
+            100% { opacity: 0; transform: translateX(40px); max-height: 0; margin-bottom: 0; padding: 0; border: 0; overflow: hidden; }
+        }
+
+        /* Cart drawer footer */
+        .cart-drawer-footer {
+            border-top: 1px solid var(--border);
+            padding: 20px 24px;
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
+            flex-shrink: 0;
+            background: var(--bg);
+        }
+        .cart-total-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .cart-total-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .cart-total-value {
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        .cart-total-grand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            margin-top: 8px;
+            margin-bottom: 16px;
+        }
+        .cart-total-grand-label {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .cart-total-grand-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #16a34a;
+        }
+        [data-theme="dark"] .cart-total-grand-value {
+            color: #4ade80;
+        }
+        .cart-checkout-btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            background: var(--brand-cta);
+            color: var(--brand-on-cta);
+            font-family: var(--ff);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+        .cart-checkout-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .cart-checkout-btn:active { transform: translateY(0); }
+        .cart-checkout-btn svg { width: 18px; height: 18px; }
+        .cart-clear-btn {
+            width: 100%;
+            padding: 10px 24px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--ff);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.15s;
+        }
+        .cart-clear-btn:hover { border-color: #ef4444; color: #ef4444; }
+
+        /* Card action buttons row */
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+        .cart-item-action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: none;
+            cursor: pointer;
+            font-family: var(--ff);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .cart-item-action-btn:hover {
+            border-color: var(--text-secondary);
+            color: var(--text);
+            background: var(--bg-hover);
+        }
+        .cart-item-action-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+        .cart-item-action-btn.action-primary {
+            color: var(--brand-cta);
+            border-color: var(--brand-cta);
+        }
+        .cart-item-action-btn.action-primary:hover {
+            background: var(--brand-cta);
+            color: var(--brand-on-cta);
+        }
+
+        /* Drawer secondary buttons row */
+        .cart-secondary-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .cart-browse-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text);
+            font-family: var(--ff);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+        .cart-browse-btn:hover { border-color: var(--brand-cta); color: var(--brand-cta); }
+        .cart-browse-btn svg { width: 15px; height: 15px; }
+        .cart-secondary-actions .cart-clear-btn {
+            flex: 0 0 auto;
+            width: auto;
+            padding: 10px 16px;
+            margin-top: 0;
+            font-size: 13px;
+        }
+
+        /* Insurance upload section */
+        .modal-insurance {
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            position: relative;
+        }
+        .modal-insurance-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .modal-insurance-header svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        .modal-insurance-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .modal-insurance-subtitle {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .modal-insurance-upload {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .insurance-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-hover);
+            color: var(--text);
+            font-family: var(--ff);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .insurance-upload-btn:hover {
+            border-color: var(--brand-cta);
+            color: var(--brand-cta);
+        }
+        .insurance-upload-btn svg { width: 14px; height: 14px; }
+        .insurance-upload-btn input[type="file"] {
+            display: none;
+        }
+        /* Attached file state */
+        .modal-insurance.has-file {
+            border-style: solid;
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+        [data-theme="dark"] .modal-insurance.has-file {
+            border-color: #4ade80;
+            background: rgba(74,222,128,0.08);
+        }
+        .modal-insurance.has-file .modal-insurance-header svg {
+            color: #16a34a;
+        }
+        [data-theme="dark"] .modal-insurance.has-file .modal-insurance-header svg {
+            color: #4ade80;
+        }
+        .insurance-file-info {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            flex: 1;
+            min-width: 0;
+        }
+        .modal-insurance.has-file .insurance-file-info {
+            display: flex;
+        }
+        .modal-insurance.has-file .insurance-upload-btn {
+            display: none;
+        }
+        .modal-insurance.has-file .modal-insurance-subtitle {
+            display: none;
+        }
+        .insurance-file-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #dcfce7;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        [data-theme="dark"] .insurance-file-icon {
+            background: rgba(74,222,128,0.15);
+        }
+        .insurance-file-icon svg { width: 14px; height: 14px; color: #16a34a; }
+        [data-theme="dark"] .insurance-file-icon svg { color: #4ade80; }
+        .insurance-file-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            min-width: 0;
+        }
+        .insurance-file-size {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+        .insurance-file-remove {
+            padding: 2px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.15s;
+        }
+        .insurance-file-remove:hover { color: #ef4444; }
+        .insurance-file-remove svg { width: 14px; height: 14px; }
+        .insurance-retained-badge {
+            display: none;
+            font-size: 10px;
+            font-weight: 600;
+            color: #16a34a;
+            margin-top: 6px;
+        }
+        [data-theme="dark"] .insurance-retained-badge { color: #4ade80; }
+        .modal-insurance.has-file.retained .insurance-retained-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .insurance-retained-badge svg { width: 12px; height: 12px; }
+
+        /* Insurance badge on reservation cards */
+        .cart-item-insurance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 6px;
+            background: #dcfce7;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #16a34a;
+        }
+        [data-theme="dark"] .cart-item-insurance-badge {
+            background: rgba(74,222,128,0.12);
+            color: #4ade80;
+        }
+        .cart-item-insurance-badge svg { width: 10px; height: 10px; }
+
+        /* "Reserved" success overlay in modal */
+        .modal-success-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.92);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            border-radius: 16px;
+        }
+        [data-theme="dark"] .modal-success-overlay {
+            background: rgba(15,15,15,0.92);
+        }
+        .modal-success-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .success-checkmark-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #fefce8;
+            border: 3px solid #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        [data-theme="dark"] .success-checkmark-ring {
+            background: rgba(245,158,11,0.12);
+        }
+        .modal-success-overlay.active .success-checkmark-ring {
+            animation: successRingIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+        }
+        @keyframes successRingIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .success-checkmark-ring svg {
+            width: 36px;
+            height: 36px;
+            stroke: #f59e0b;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+        }
+        .modal-success-overlay.active .success-checkmark-ring svg {
+            animation: successCheckDraw 0.5s ease 0.4s forwards;
+        }
+        @keyframes successCheckDraw {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .success-text-main {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+            opacity: 0;
+        }
+        .modal-success-overlay.active .success-text-main {
+            animation: successTextIn 0.3s ease 0.55s forwards;
+        }
+        .success-text-sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 260px;
+            line-height: 1.5;
+            opacity: 0;
+        }
+        .modal-success-overlay.active .success-text-sub {
+            animation: successTextIn 0.3s ease 0.65s forwards;
+        }
+        @keyframes successTextIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .success-particles {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+        .success-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        .modal-success-overlay.active .success-particle {
+            animation: particleBurst 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        @keyframes particleBurst {
+            0% { opacity: 1; transform: translate(0,0) scale(1); }
+            100% { opacity: 0; transform: var(--particle-end) scale(0); }
+        }
+        .success-cart-hint {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: var(--bg-hover);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            opacity: 0;
+        }
+        .modal-success-overlay.active .success-cart-hint {
+            animation: successTextIn 0.3s ease 0.75s forwards;
+        }
+        .success-cart-hint svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text-secondary);
         }
 
         /* Desktop: hide the mobile-only bottom bar */
@@ -4454,6 +5381,10 @@
                 flex: 1;
                 min-height: 0;
             }
+
+            /* Mobile reorder: booking form first, facility info second */
+            .modal-right { order: 1; }
+            .modal-left { order: 2; border-top: 1px solid var(--border); }
 
             /* Left panel: image + collapsible details */
             .modal-left {
@@ -4613,14 +5544,12 @@
 
             /* Time slots */
             .modal-slots-grid {
+                grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
                 gap: 5px;
             }
             .modal-slot-btn {
-                padding: 9px 8px;
+                padding: 9px 4px;
                 font-size: 12px;
-                flex: 1 1 auto;
-                min-width: 70px;
-                text-align: center;
             }
 
             /* Notice */
@@ -4680,27 +5609,29 @@
             }
             .modal-bottom-bar .modal-validation-hint {
                 font-size: 12px;
-                padding: 6px 10px;
-                gap: 6px;
-            }
-            .modal-bottom-bar .modal-validation-hint svg:first-child {
-                width: 14px;
-                height: 14px;
-            }
-            .modal-bottom-bar .vhint-steps {
-                gap: 3px 10px;
-            }
-            .modal-bottom-bar .vhint-icon {
-                width: 12px;
-                height: 12px;
-            }
-            .modal-bottom-bar .vhint-icon svg {
-                width: 7px;
-                height: 7px;
+                padding: 8px 12px;
             }
             /* Hide desktop hint on mobile, show mobile one */
             .modal-right > .modal-validation-hint {
                 display: none;
+            }
+            /* Cart drawer mobile */
+            .cart-drawer {
+                width: 100%;
+                max-width: 100vw;
+            }
+            .cart-drawer-header { padding: 16px 20px; }
+            .cart-drawer-items { padding: 12px 16px; }
+            .cart-drawer-footer { padding: 16px 20px; }
+            .header-cart-btn {
+                width: 36px;
+                height: 36px;
+            }
+            .header-cart-btn svg { width: 16px; height: 16px; }
+            .header-cart-badge { width: 18px; height: 18px; font-size: 10px; }
+            /* Success overlay on mobile full-sheet modal */
+            .modal-success-overlay {
+                border-radius: 16px 16px 0 0;
             }
         }
 
@@ -5210,6 +6141,10 @@
                 </div>
             </div>
             <div class="header-right">
+                <button class="header-cart-btn" id="cartBtn" title="Your reservations" onclick="toggleCartDrawer()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span class="header-cart-badge" id="cartBadge">0</span>
+                </button>
                 <div class="header-help-wrapper" id="helpMenuWrapper">
                     <button class="header-help-btn" title="Help & Support" onclick="document.getElementById('helpMenuWrapper').classList.toggle('open')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -5982,7 +6917,20 @@
     </footer>
     <!-- Booking Modal -->
     <div class="booking-modal-overlay" id="bookingModalOverlay" onclick="if(event.target===this)closeBookingModal()">
-        <div class="booking-modal">
+        <div class="booking-modal" style="position:relative;">
+            <!-- Success overlay for pending reservation animation -->
+            <div class="modal-success-overlay" id="modalSuccessOverlay">
+                <div class="success-particles" id="successParticles"></div>
+                <div class="success-checkmark-ring">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="success-text-main">Request Submitted</div>
+                <div class="success-text-sub" id="successTextSub">Your reservation is pending facility approval.</div>
+                <div class="success-cart-hint">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span id="successCartCount">1 pending reservation</span>
+                </div>
+            </div>
             <div class="modal-header">
                 <div class="modal-header-logo" id="modalHeaderLogo"></div>
                 <div class="modal-header-info">
@@ -6006,7 +6954,7 @@
 
                     <!-- Toggle for mobile collapsible details -->
                     <button class="modal-details-toggle" id="modalDetailsToggle" onclick="toggleModalDetails()">
-                        <span>Facility Details, Amenities & Policies</span>
+                        <span>Facility info & add-ons</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="modal-details-content" id="modalDetailsContent">
@@ -6066,8 +7014,14 @@
 
                     <div class="modal-form-group">
                         <label class="modal-form-label">Available Time Slots</label>
-                        <div class="modal-slots-grid" id="modalSlots">
-                            <span style="font-size:13px;color:var(--text-secondary)">Select a date to view availability</span>
+                        <div class="modal-slots-wrapper" id="modalSlotsWrapper">
+                            <div class="modal-slots-grid" id="modalSlots">
+                                <span style="font-size:13px;color:var(--text-secondary)">Select a date to view availability</span>
+                            </div>
+                            <div class="slots-required-hint">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                Select a time slot to continue
+                            </div>
                         </div>
                     </div>
 
@@ -6136,47 +7090,127 @@
                         <textarea class="modal-form-input" id="modalNotes" rows="2" placeholder="Any special setup or access needs..." style="resize:vertical;min-height:44px;font-family:var(--ff)"></textarea>
                     </div>
 
+                    <div class="modal-insurance" id="modalInsurance">
+                        <div class="modal-insurance-header">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            <span class="modal-insurance-title">Proof of Insurance <span style="font-size:11px;font-weight:600;color:#f59e0b">(Required)</span></span>
+                        </div>
+                        <div class="modal-insurance-subtitle">This facility requires a certificate of liability insurance. Upload now or provide it after your reservation is approved - your booking will not be confirmed until insurance is verified.</div>
+                        <div class="modal-insurance-upload">
+                            <label class="insurance-upload-btn" id="insuranceUploadBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                Upload document
+                                <input type="file" id="insuranceFileInput" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp" onchange="handleInsuranceUpload(this)">
+                            </label>
+                            <div class="insurance-file-info" id="insuranceFileInfo">
+                                <div class="insurance-file-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                </div>
+                                <div style="flex:1;min-width:0">
+                                    <div class="insurance-file-name" id="insuranceFileName"></div>
+                                    <div class="insurance-file-size" id="insuranceFileSize"></div>
+                                </div>
+                                <button class="insurance-file-remove" onclick="removeInsuranceFile()" title="Remove file">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="insurance-retained-badge" id="insuranceRetainedBadge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            Automatically applied from previous upload
+                        </div>
+                    </div>
+
                     <div class="modal-notice" id="modalNotice" style="display:none">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         <span id="modalNoticeText"></span>
                     </div>
 
                     <div class="modal-validation-hint" id="modalValidationHint">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                        <div class="vhint-steps" id="modalValidationSteps"></div>
+                        <div class="vhint-bar-wrap">
+                            <span class="vhint-label" id="modalValidationLabel">0 of 5</span>
+                            <div class="vhint-track"><div class="vhint-fill" id="modalValidationFill" style="width:0%"></div></div>
+                        </div>
                     </div>
                     <div class="modal-btn-group">
                         <button class="modal-book-btn secondary" id="modalAddContinueBtn" onclick="submitBooking('continue')" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                            Add & Keep Browsing
+                            Submit & Keep Browsing
                         </button>
                         <button class="modal-book-btn" id="modalBookBtn" onclick="submitBooking('checkout')" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            Add & Checkout
+                            Submit Request
                         </button>
                     </div>
                     <div class="modal-login-hint">
-                        By adding a slot, you agree to the district's <a href="#">rental terms</a>.
+                        By submitting a request, you agree to the district's <a href="#">rental terms</a>.
                     </div>
                 </div>
             </div>
             <!-- Mobile fixed bottom bar -->
             <div class="modal-bottom-bar" id="modalBottomBar">
                 <div class="modal-validation-hint" id="modalValidationHintMobile">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    <div class="vhint-steps" id="modalValidationStepsMobile"></div>
+                    <div class="vhint-bar-wrap">
+                        <span class="vhint-label" id="modalValidationLabelMobile">0 of 5</span>
+                        <div class="vhint-track"><div class="vhint-fill" id="modalValidationFillMobile" style="width:0%"></div></div>
+                    </div>
                 </div>
                 <div class="modal-btn-row">
                     <button class="modal-book-btn secondary" id="modalAddContinueBtnMobile" onclick="submitBooking('continue')" disabled>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        Add & Browse
+                        Submit & Browse
                     </button>
                     <button class="modal-book-btn" id="modalBookBtnMobile" onclick="submitBooking('checkout')" disabled>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Checkout
+                        Submit
                     </button>
                 </div>
-                <div class="modal-login-hint">By adding a slot, you agree to the district's <a href="#">rental terms</a>.</div>
+                <div class="modal-login-hint">By submitting a request, you agree to the district's <a href="#">rental terms</a>.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer-overlay" id="cartDrawerOverlay" onclick="if(event.target===this)toggleCartDrawer()">
+        <div class="cart-drawer">
+            <div class="cart-drawer-header">
+                <div class="cart-drawer-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Your Reservations
+                    <span class="cart-drawer-count" id="cartDrawerCount">0 slots</span>
+                </div>
+                <button class="cart-drawer-close" onclick="toggleCartDrawer()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="cart-drawer-items" id="cartDrawerItems">
+                <div class="cart-drawer-empty" id="cartEmpty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <div class="cart-drawer-empty-title">No reservations yet</div>
+                    <div class="cart-drawer-empty-text">Browse facilities and reserve time slots to get started.</div>
+                </div>
+            </div>
+            <div class="cart-drawer-footer" id="cartDrawerFooter" style="display:none">
+                <div id="cartFooterLineItems"></div>
+                <div class="cart-total-row" style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)">
+                    <span class="cart-total-label">Reservation fee (10%)</span>
+                    <span class="cart-total-value" id="cartFeeTotal">$0.00</span>
+                </div>
+                <div class="cart-total-grand">
+                    <span class="cart-total-grand-label">Estimated total</span>
+                    <span class="cart-total-grand-value" id="cartGrandTotal">$0.00</span>
+                </div>
+                <button class="cart-checkout-btn" onclick="cartCheckout()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Submit All Requests
+                </button>
+                <div class="cart-secondary-actions">
+                    <button class="cart-browse-btn" onclick="browseMoreFacilities()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        Continue Browsing
+                    </button>
+                    <button class="cart-clear-btn" onclick="clearCart()">Clear All</button>
+                </div>
             </div>
         </div>
     </div>
@@ -8116,6 +9150,15 @@
             // Set initial validation state
             validateModalForm();
 
+            // Expand facility details by default
+            const dtToggle = document.getElementById('modalDetailsToggle');
+            const dtContent = document.getElementById('modalDetailsContent');
+            if (dtToggle) dtToggle.classList.add('expanded');
+            if (dtContent) dtContent.classList.add('expanded');
+
+            // Restore insurance if previously uploaded
+            restoreInsuranceState();
+
             // Show modal
             document.getElementById('bookingModalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -8123,15 +9166,21 @@
 
         function closeBookingModal() {
             document.getElementById('bookingModalOverlay').classList.remove('active');
-            document.body.style.overflow = '';
+            // Only restore body scroll if cart drawer isn't also open
+            if (!document.getElementById('cartDrawerOverlay').classList.contains('open')) {
+                document.body.style.overflow = '';
+            }
             currentModalFacility = null;
             currentModalDistrict = null;
             selectedModalSlot = null;
-            // Collapse details on close
+            // Clear success overlay
+            const so = document.getElementById('modalSuccessOverlay');
+            if (so) so.classList.remove('active');
+            // Keep details expanded for next open
             const toggle = document.getElementById('modalDetailsToggle');
             const content = document.getElementById('modalDetailsContent');
-            if (toggle) toggle.classList.remove('expanded');
-            if (content) content.classList.remove('expanded');
+            if (toggle) toggle.classList.add('expanded');
+            if (content) content.classList.add('expanded');
         }
 
         function toggleModalDetails() {
@@ -8174,8 +9223,13 @@
                 if (slot.booked) cls += ' booked';
                 if (slot.past && !slot.booked) cls += ' past-slot';
                 if (isSelected) cls += ' selected';
-                return `<button class="${cls}" ${isDisabled ? 'disabled' : ''} onclick="selectModalSlot(this,'${slot.time}')">${slot.time}</button>`;
+                // Abbreviate: "4:00 PM" -> "4 PM", "12:00 PM" -> "12 PM"
+                const shortTime = slot.time.replace(':00 ', ' ');
+                return `<button class="${cls}" ${isDisabled ? 'disabled' : ''} onclick="selectModalSlot(this,'${slot.time}')">${shortTime}</button>`;
             }).join('');
+
+            // Balance grid: pick column count that avoids orphan (1 item on last row)
+            balanceSlotGrid(container, slotData.allSlots.length);
 
             // If selected slot is now past or booked, clear it
             if (selectedModalSlot) {
@@ -8204,6 +9258,26 @@
             }
         }
 
+        function balanceSlotGrid(container, count) {
+            // Pick a column count (3-6) so rows are evenly filled (no single orphan)
+            if (count <= 5) {
+                // 5 or fewer: single row
+                container.style.gridTemplateColumns = `repeat(${count}, 1fr)`;
+                return;
+            }
+            // Try column counts from 6 down to 3, prefer the one with no orphan
+            const candidates = [6, 5, 4, 3];
+            let bestCols = 6;
+            for (const cols of candidates) {
+                const remainder = count % cols;
+                if (remainder === 0 || remainder >= 2) {
+                    bestCols = cols;
+                    break;
+                }
+            }
+            container.style.gridTemplateColumns = `repeat(${bestCols}, 1fr)`;
+        }
+
         function selectModalSlot(btn, slot) {
             if (btn.classList.contains('booked')) return;
             document.querySelectorAll('#modalSlots .modal-slot-btn').forEach(b => b.classList.remove('selected'));
@@ -8227,39 +9301,35 @@
                 { label: 'Booking type', done: hasBookingType },
                 { label: 'Activity', done: hasActivity }
             ];
-            // Duration always has a default so skip it in the checklist
 
-            const isValid = fields.every(f => f.done);
+            const total = fields.length;
             const doneCount = fields.filter(f => f.done).length;
+            const isValid = doneCount === total;
+            const pct = Math.round((doneCount / total) * 100);
 
-            const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
-            const stepHTML = (f) => {
-                return '<span class="vhint-step' + (f.done ? ' done' : '') + '"><span class="vhint-icon">' + (f.done ? checkSvg : '') + '</span> ' + f.label + '</span>';
-            };
+            // Find first incomplete for label
+            const firstIncomplete = fields.find(f => !f.done);
+            const labelText = isValid
+                ? 'Ready to submit'
+                : doneCount + ' of ' + total + ' - ' + (firstIncomplete ? 'Select ' + firstIncomplete.label.toLowerCase() : '');
 
-            // Build steps - show incomplete ones first, then completed
-            const incomplete = fields.filter(f => !f.done);
-            const complete = fields.filter(f => f.done);
-            let stepsHTML;
-            if (isValid) {
-                stepsHTML = '<span class="vhint-step done">Ready to book!</span>';
-            } else {
-                stepsHTML = incomplete.map(stepHTML).join('') + complete.map(stepHTML).join('');
-            }
-
-            // Desktop hint
+            // Update desktop bar
             const hintD = document.getElementById('modalValidationHint');
-            const stepsD = document.getElementById('modalValidationSteps');
-            if (hintD && stepsD) {
-                stepsD.innerHTML = stepsHTML;
+            const labelD = document.getElementById('modalValidationLabel');
+            const fillD = document.getElementById('modalValidationFill');
+            if (hintD) {
+                labelD.textContent = labelText;
+                fillD.style.width = pct + '%';
                 hintD.classList.toggle('all-done', isValid);
             }
 
-            // Mobile hint
+            // Update mobile bar
             const hintM = document.getElementById('modalValidationHintMobile');
-            const stepsM = document.getElementById('modalValidationStepsMobile');
-            if (hintM && stepsM) {
-                stepsM.innerHTML = stepsHTML;
+            const labelM = document.getElementById('modalValidationLabelMobile');
+            const fillM = document.getElementById('modalValidationFillMobile');
+            if (hintM) {
+                labelM.textContent = labelText;
+                fillM.style.width = pct + '%';
                 hintM.classList.toggle('all-done', isValid);
             }
 
@@ -8284,6 +9354,21 @@
                     wrapper.classList.remove('field-incomplete');
                 }
             });
+
+            // Highlight time slot wrapper when date is set but no slot selected
+            const slotsWrapper = document.getElementById('modalSlotsWrapper');
+            if (slotsWrapper) {
+                if (hasDate && !hasSlot) {
+                    slotsWrapper.classList.add('field-incomplete');
+                    slotsWrapper.classList.remove('slot-selected');
+                } else if (hasSlot) {
+                    slotsWrapper.classList.remove('field-incomplete');
+                    slotsWrapper.classList.add('slot-selected');
+                } else {
+                    slotsWrapper.classList.remove('field-incomplete');
+                    slotsWrapper.classList.remove('slot-selected');
+                }
+            }
         }
 
         function toggleAmenity(el) {
@@ -8313,71 +9398,456 @@
             totalEl.style.display = 'flex';
         }
 
+        // =============================================
+        // INSURANCE FILE MANAGEMENT
+        // =============================================
+        let retainedInsurance = null; // { name, size, data } - persists across bookings
+
+        function handleInsuranceUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            if (file.size > maxSize) {
+                alert('File must be under 10MB.');
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileData = { name: file.name, size: file.size, data: e.target.result };
+                retainedInsurance = fileData;
+                showInsuranceFile(fileData, false);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function showInsuranceFile(fileData, isRetained) {
+            const container = document.getElementById('modalInsurance');
+            document.getElementById('insuranceFileName').textContent = fileData.name;
+            const sizeKB = (fileData.size / 1024).toFixed(0);
+            const sizeMB = (fileData.size / (1024 * 1024)).toFixed(1);
+            document.getElementById('insuranceFileSize').textContent = fileData.size > 1024 * 1024 ? sizeMB + ' MB' : sizeKB + ' KB';
+            container.classList.add('has-file');
+            if (isRetained) {
+                container.classList.add('retained');
+            } else {
+                container.classList.remove('retained');
+            }
+        }
+
+        function removeInsuranceFile() {
+            retainedInsurance = null;
+            const container = document.getElementById('modalInsurance');
+            container.classList.remove('has-file', 'retained');
+            document.getElementById('insuranceFileInput').value = '';
+        }
+
+        function restoreInsuranceState() {
+            // If user has previously uploaded insurance, auto-apply it
+            if (retainedInsurance) {
+                showInsuranceFile(retainedInsurance, true);
+            } else {
+                const container = document.getElementById('modalInsurance');
+                container.classList.remove('has-file', 'retained');
+            }
+        }
+
+        // =============================================
+        // CART SYSTEM
+        // =============================================
+        let cartItems = [];
+        let cartIdCounter = 0;
+
         function submitBooking(action) {
             const dateVal = document.getElementById('modalDate').value;
-            if (!dateVal) { return; }
-            if (!selectedModalSlot) { return; }
+            if (!dateVal) return;
+            if (!selectedModalSlot) return;
 
             const f = currentModalFacility;
-            const duration = document.getElementById('modalDuration').value;
+            const d = currentModalDistrict;
+            const duration = parseInt(document.getElementById('modalDuration').value) || 2;
             const dateObj = new Date(dateVal + 'T12:00:00');
             const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
-            // Build amenity summary
-            let amenitySummary = '';
-            if (selectedAmenities.size > 0) {
-                const names = [];
-                selectedAmenities.forEach(idx => {
-                    const a = window._modalAmenityData[parseInt(idx)];
-                    if (a) names.push(a.name);
-                });
-                amenitySummary = ` + ${names.join(', ')}`;
-            }
+            // Parse price
+            const priceMatch = f.price.match(/\$(\d+)/);
+            const hourlyRate = priceMatch ? parseInt(priceMatch[1]) : 0;
+            const facilityTotal = hourlyRate * duration;
 
-            const checkoutBtn = document.getElementById('modalBookBtn');
-            const continueBtn = document.getElementById('modalAddContinueBtn');
-            const checkoutBtnM = document.getElementById('modalBookBtnMobile');
-            const continueBtnM = document.getElementById('modalAddContinueBtnMobile');
-            const notice = document.getElementById('modalNotice');
-            const allBtns = [checkoutBtn, continueBtn, checkoutBtnM, continueBtnM];
+            // Gather amenities
+            const amenities = [];
+            let amenityTotal = 0;
+            selectedAmenities.forEach(idx => {
+                const a = window._modalAmenityData[parseInt(idx)];
+                if (a) { amenities.push({ name: a.name, price: a.price }); amenityTotal += a.price; }
+            });
 
-            // Success feedback
-            const clickedBtn = action === 'continue' ? continueBtn : checkoutBtn;
-            const clickedBtnM = action === 'continue' ? continueBtnM : checkoutBtnM;
-            const origHTML = clickedBtn.innerHTML;
-            const origHTMLM = clickedBtnM ? clickedBtnM.innerHTML : '';
-            const successHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Slot Added!';
-            clickedBtn.innerHTML = successHTML;
-            if (clickedBtnM) clickedBtnM.innerHTML = successHTML;
-            allBtns.forEach(b => { if (b) b.disabled = true; });
-
-            // Show confirmation
-            notice.style.display = 'flex';
-            notice.style.background = '#f0fdf4';
-            notice.style.borderColor = '#bbf7d0';
-            notice.style.color = '#166534';
-            document.getElementById('modalNoticeText').textContent =
-                `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''})${amenitySummary} added to your booking.`;
-
-            const resetAll = () => {
-                clickedBtn.innerHTML = origHTML;
-                if (clickedBtnM) clickedBtnM.innerHTML = origHTMLM;
-                notice.style.display = 'none';
-                notice.style.background = '';
-                notice.style.borderColor = '';
-                notice.style.color = '';
-                validateModalForm();
-                closeBookingModal();
+            // Build cart item
+            const item = {
+                id: ++cartIdCounter,
+                facilityName: f.name,
+                location: f.location,
+                district: d.name,
+                date: dateVal,
+                dateLabel,
+                time: selectedModalSlot,
+                duration,
+                hourlyRate,
+                facilityTotal,
+                amenities,
+                amenityTotal,
+                lineTotal: facilityTotal + amenityTotal,
+                groupSize: document.getElementById('modalGroupSize').value,
+                bookingType: document.getElementById('modalBookingType').value,
+                activity: document.getElementById('modalActivity').value,
+                image: f.image || '',
+                hasInsurance: !!retainedInsurance,
+                insuranceFileName: retainedInsurance ? retainedInsurance.name : ''
             };
 
+            cartItems.push(item);
+            updateCartUI();
+
+            // Trigger animation
             if (action === 'continue') {
-                setTimeout(resetAll, 1500);
+                showAddedAnimation(item, false);
             } else {
-                document.getElementById('modalNoticeText').textContent =
-                    `${f.name} - ${dateLabel} at ${selectedModalSlot} (${duration}hr${duration > 1 ? 's' : ''})${amenitySummary} added. Redirecting to checkout...`;
-                setTimeout(resetAll, 2500);
+                showAddedAnimation(item, true);
             }
         }
+
+        function showAddedAnimation(item, goToCheckout) {
+            const overlay = document.getElementById('modalSuccessOverlay');
+            const sub = document.getElementById('successTextSub');
+            const countHint = document.getElementById('successCartCount');
+
+            sub.textContent = goToCheckout
+                ? `${item.facilityName} - ${item.dateLabel} at ${item.time}`
+                : 'Your reservation is pending facility approval.';
+            countHint.textContent = cartItems.length === 1
+                ? '1 pending reservation'
+                : cartItems.length + ' pending reservations';
+
+            // Generate particles (amber tones for pending)
+            const particlesEl = document.getElementById('successParticles');
+            const colors = ['#f59e0b', '#d97706', '#fbbf24', '#fcd34d', '#f97316', '#fb923c'];
+            let particlesHTML = '';
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * 360;
+                const dist = 60 + Math.random() * 40;
+                const x = Math.cos(angle * Math.PI / 180) * dist;
+                const y = Math.sin(angle * Math.PI / 180) * dist;
+                const color = colors[i % colors.length];
+                const delay = (Math.random() * 0.2).toFixed(2);
+                particlesHTML += `<span class="success-particle" style="background:${color};animation-delay:${delay}s;--particle-end:translate(${x}px,${y}px)"></span>`;
+            }
+            particlesEl.innerHTML = particlesHTML;
+
+            // Show overlay
+            overlay.classList.add('active');
+
+            // Animate cart badge
+            const badge = document.getElementById('cartBadge');
+            badge.classList.remove('pop');
+            void badge.offsetWidth;
+            badge.classList.add('pop');
+
+            // Auto-dismiss
+            const dismissMs = goToCheckout ? 1400 : 1800;
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                particlesEl.innerHTML = '';
+
+                if (goToCheckout) {
+                    closeBookingModal();
+                    setTimeout(() => toggleCartDrawer(), 250);
+                } else {
+                    closeBookingModal();
+                }
+            }, dismissMs);
+        }
+
+        function updateCartUI() {
+            const count = cartItems.length;
+            const badge = document.getElementById('cartBadge');
+            const drawerCount = document.getElementById('cartDrawerCount');
+            const itemsContainer = document.getElementById('cartDrawerItems');
+            const emptyState = document.getElementById('cartEmpty');
+            const footer = document.getElementById('cartDrawerFooter');
+
+            // Badge
+            badge.textContent = count;
+            if (count > 0) {
+                badge.classList.add('visible');
+            } else {
+                badge.classList.remove('visible');
+            }
+
+            // Drawer count
+            drawerCount.textContent = count === 1 ? '1 slot' : count + ' slots';
+
+            // Items
+            if (count === 0) {
+                itemsContainer.innerHTML = '';
+                itemsContainer.appendChild(emptyState.cloneNode ? createEmptyState() : emptyState);
+                footer.style.display = 'none';
+                return;
+            }
+
+            footer.style.display = '';
+
+            let html = '';
+            cartItems.forEach(item => {
+                // Parse date parts for the date block
+                const dObj = new Date(item.date + 'T12:00:00');
+                const dayName = dObj.toLocaleDateString('en-US', { weekday: 'short' });
+                const monthName = dObj.toLocaleDateString('en-US', { month: 'short' });
+                const dayNum = dObj.getDate();
+
+                // Format booking type / activity / group size labels
+                const typeLabel = item.bookingType ? item.bookingType.charAt(0).toUpperCase() + item.bookingType.slice(1) : '';
+                const actLabel = item.activity || '';
+                const gsLabel = item.groupSize || '';
+
+                // Build amenity line items
+                let amenityLines = '';
+                item.amenities.forEach(a => {
+                    amenityLines += `
+                        <div class="cart-cost-row">
+                            <span class="cart-cost-label">${a.name}</span>
+                            <span class="cart-cost-value">$${a.price.toFixed(2)}</span>
+                        </div>`;
+                });
+
+                // Unique collapse ID
+                const collapseId = 'cartCollapse' + item.id;
+
+                html += `
+                    <div class="cart-item" data-cart-id="${item.id}">
+                        <div class="cart-item-layout">
+                            <div class="cart-item-date-block">
+                                <div class="cart-date-header"><span class="cart-date-month">${monthName}</span></div>
+                                <div class="cart-date-body">
+                                    <span class="cart-date-day">${dayNum}</span>
+                                    <span class="cart-date-weekday">${dayName}</span>
+                                </div>
+                            </div>
+                            <div class="cart-item-info">
+                                <div class="cart-item-header">
+                                    <div class="cart-item-name">${item.facilityName}</div>
+                                </div>
+                                <div class="cart-item-location">${item.location}</div>
+                                <div class="cart-item-details">
+                                    <span class="cart-item-tag">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        ${item.time}
+                                    </span>
+                                    <span class="cart-item-tag">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+                                        ${item.duration}hr${item.duration > 1 ? 's' : ''}
+                                    </span>
+                                    ${item.hasInsurance ? `<span class="cart-item-insurance-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Insured</span>` : ''}
+                                    <span class="cart-item-price-value" style="margin-left:auto;font-size:14px">$${item.lineTotal.toFixed(2)}</span>
+                                </div>
+
+                                <div class="cart-item-actions">
+                                    <button class="cart-item-action-btn action-primary" onclick="bookAnotherTime('${item.facilityName.replace(/'/g, "\\'")}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                        Add time
+                                    </button>
+                                    <button class="cart-item-action-btn" onclick="toggleCartDetails(this, '${collapseId}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                        Details
+                                    </button>
+                                    <button class="cart-item-action-btn" onclick="removeCartItem(${item.id})" title="Remove reservation" style="margin-left:auto;color:var(--text-secondary);opacity:0.6">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    </button>
+                                </div>
+
+                                <div class="cart-item-collapse" id="${collapseId}">
+                                    <div class="cart-item-collapse-inner">
+                                        <div class="cart-detail-section-title">Booking info</div>
+                                        ${typeLabel ? `<div class="cart-detail-row">
+                                            <span class="cart-detail-label">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+                                                Type
+                                            </span>
+                                            <span class="cart-detail-value">${typeLabel}</span>
+                                        </div>` : ''}
+                                        ${actLabel ? `<div class="cart-detail-row">
+                                            <span class="cart-detail-label">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                                                Activity
+                                            </span>
+                                            <span class="cart-detail-value">${actLabel}</span>
+                                        </div>` : ''}
+                                        ${gsLabel ? `<div class="cart-detail-row">
+                                            <span class="cart-detail-label">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                                Group size
+                                            </span>
+                                            <span class="cart-detail-value">${gsLabel}</span>
+                                        </div>` : ''}
+                                        <div class="cart-detail-row">
+                                            <span class="cart-detail-label">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                                District
+                                            </span>
+                                            <span class="cart-detail-value">${item.district}</span>
+                                        </div>
+
+                                        <div class="cart-detail-divider"></div>
+                                        <div class="cart-detail-section-title">Cost breakdown</div>
+                                        <div class="cart-cost-row">
+                                            <span class="cart-cost-label">Facility rental ($${item.hourlyRate}/hr × ${item.duration}hr${item.duration > 1 ? 's' : ''})</span>
+                                            <span class="cart-cost-value">$${item.facilityTotal.toFixed(2)}</span>
+                                        </div>
+                                        ${amenityLines}
+                                        <div class="cart-cost-total">
+                                            <span class="cart-cost-total-label">Slot total</span>
+                                            <span class="cart-cost-total-value">$${item.lineTotal.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            itemsContainer.innerHTML = html;
+
+            // Totals
+            let subtotal = 0, addons = 0;
+            cartItems.forEach(item => {
+                subtotal += item.facilityTotal;
+                addons += item.amenityTotal;
+            });
+            const fee = (subtotal + addons) * 0.10;
+            const grand = subtotal + addons + fee;
+
+            // Build footer line items per reservation
+            let footerLines = '';
+            cartItems.forEach(item => {
+                const dObj = new Date(item.date + 'T12:00:00');
+                const shortDate = dObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                footerLines += `
+                    <div class="cart-total-row">
+                        <span class="cart-total-label">${item.facilityName} - ${shortDate}</span>
+                        <span class="cart-total-value">$${item.facilityTotal.toFixed(2)}</span>
+                    </div>`;
+                item.amenities.forEach(a => {
+                    footerLines += `
+                    <div class="cart-total-row" style="padding-left:12px">
+                        <span class="cart-total-label" style="font-size:12px;opacity:0.8">+ ${a.name}</span>
+                        <span class="cart-total-value" style="font-size:12px">$${a.price.toFixed(2)}</span>
+                    </div>`;
+                });
+            });
+
+            const footerItemsEl = document.getElementById('cartFooterLineItems');
+            footerItemsEl.innerHTML = footerLines;
+
+            document.getElementById('cartFeeTotal').textContent = '$' + fee.toFixed(2);
+            document.getElementById('cartGrandTotal').textContent = '$' + grand.toFixed(2);
+        }
+
+        function createEmptyState() {
+            const div = document.createElement('div');
+            div.className = 'cart-drawer-empty';
+            div.id = 'cartEmpty';
+            div.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <div class="cart-drawer-empty-title">No reservations yet</div>
+                <div class="cart-drawer-empty-text">Browse facilities and reserve time slots to get started.</div>
+            `;
+            return div;
+        }
+
+        function removeCartItem(id) {
+            const el = document.querySelector(`.cart-item[data-cart-id="${id}"]`);
+            if (el) {
+                el.classList.add('removing');
+                setTimeout(() => {
+                    cartItems = cartItems.filter(i => i.id !== id);
+                    updateCartUI();
+                }, 350);
+            } else {
+                cartItems = cartItems.filter(i => i.id !== id);
+                updateCartUI();
+            }
+        }
+
+        function toggleCartCollapse(btn, collapseId) {
+            const el = document.getElementById(collapseId);
+            if (!el) return;
+            const isOpen = el.classList.contains('open');
+            el.classList.toggle('open', !isOpen);
+            btn.classList.toggle('open', !isOpen);
+        }
+
+        function toggleCartDetails(btn, collapseId) {
+            const el = document.getElementById(collapseId);
+            if (!el) return;
+            const isOpen = el.classList.contains('open');
+            el.classList.toggle('open', !isOpen);
+            btn.classList.toggle('open', !isOpen);
+            // Rotate chevron
+            const svg = btn.querySelector('svg');
+            if (svg) svg.style.transform = isOpen ? '' : 'rotate(180deg)';
+        }
+
+        function bookAnotherTime(facilityName) {
+            // Close the drawer, then open the booking modal for the same facility
+            toggleCartDrawer();
+            setTimeout(() => {
+                openBookingModal(facilityName, null);
+            }, 300);
+        }
+
+        function browseMoreFacilities() {
+            // Close the drawer so user can browse the facility grid
+            toggleCartDrawer();
+            // Scroll to the results area
+            setTimeout(() => {
+                const results = document.getElementById('facilitiesGrid');
+                if (results) results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 350);
+        }
+
+        function clearCart() {
+            if (!confirm('Remove all reservations?')) return;
+            cartItems = [];
+            updateCartUI();
+        }
+
+        function toggleCartDrawer() {
+            const overlay = document.getElementById('cartDrawerOverlay');
+            overlay.classList.toggle('open');
+            document.body.style.overflow = overlay.classList.contains('open') ? 'hidden' : '';
+        }
+
+        function cartCheckout() {
+            const grand = document.getElementById('cartGrandTotal').textContent;
+            toggleCartDrawer();
+            setTimeout(() => {
+                alert('Reservation requests submitted!\n\nEstimated total: ' + grand + '\n' + cartItems.length + ' reservation' + (cartItems.length > 1 ? 's' : '') + ' pending approval.\n\nIn production, you would receive a notification when each facility reviews your request.');
+                cartItems = [];
+                updateCartUI();
+            }, 300);
+        }
+
+        // Close cart drawer on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('cartDrawerOverlay');
+                if (overlay.classList.contains('open')) {
+                    toggleCartDrawer();
+                    e.stopPropagation();
+                }
+            }
+        });
 
         // =============================================
         // MODAL DATE PICKER
@@ -8504,9 +9974,9 @@
             }
         });
 
-        // Escape key closes modal
+        // Escape key closes modal (only if cart drawer isn't open)
         document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeBookingModal();
+            if (e.key === 'Escape' && !document.getElementById('cartDrawerOverlay').classList.contains('open')) closeBookingModal();
         });
 
         // =============================================
