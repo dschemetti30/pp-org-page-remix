@@ -346,7 +346,7 @@
         .mp-card:hover .mp-card-image img { transform: scale(1.04); }
         .mp-card-badge {
             position: absolute;
-            top: 10px;
+            bottom: 10px;
             left: 10px;
             display: flex;
             align-items: center;
@@ -398,54 +398,48 @@
         .mp-card-fav.active svg { fill: #fff; stroke: #fff; }
         .mp-card-weather {
             position: absolute;
-            bottom: 10px;
+            top: 10px;
             left: 10px;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(6px);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 7px;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 6px;
+            font-size: 9px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.02em;
+            z-index: 2;
         }
-        .mp-card-type-tag {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(6px);
-            color: #fff;
+        .mp-card-weather .w-icon {
+            font-size: 10px;
+            line-height: 1;
+            filter: grayscale(1) brightness(2);
+        }
+        .mp-card-weather .w-temp {
             font-size: 10px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            padding: 4px 8px;
-            border-radius: 6px;
+        }
+        .mp-card-weather .w-div {
+            width: 1px;
+            height: 9px;
+            background: rgba(255,255,255,0.25);
+        }
+        .mp-card-weather .w-desc {
+            font-weight: 400;
+            opacity: 0.7;
         }
         .mp-card-body { padding: 14px 16px 16px; }
-        .mp-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 4px;
-        }
         .mp-card-name {
             font-size: 15px;
             font-weight: 700;
             color: var(--text);
             line-height: 1.3;
-            margin-right: 8px;
+            margin-bottom: 4px;
         }
-        .mp-card-rating {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text);
-            flex-shrink: 0;
-        }
-        .mp-card-rating svg { width: 12px; height: 12px; fill: var(--text); }
         .mp-card-location {
             font-size: 12px;
             color: var(--text-secondary);
@@ -1205,26 +1199,6 @@
         }
         .mp-state-section { margin-bottom: 32px; }
 
-        /* ===== RECOMMENDED BADGE ===== */
-        .mp-card-rec {
-            position: absolute;
-            top: 10px;
-            right: 46px;
-            background: rgba(0,168,79,0.9);
-            backdrop-filter: blur(4px);
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-        .mp-card-rec svg { width: 10px; height: 10px; fill: #fff; }
-
         /* ===== ANIMATIONS ===== */
         @keyframes mpFadeUp {
             from { opacity: 0; transform: translateY(12px); }
@@ -1616,6 +1590,7 @@
                 logoScale: 0.82,
                 color: '#6B2D8B',
                 coords: { lat: 39.96, lng: -82.80 },
+                weather: { temp: 19, condition: 'Partly sunny', icon: '⛅' },
                 facilities: [
                     { name: 'Raider Stadium', location: 'Reynoldsburg High School', type: 'Stadium / Field', price: '$125/hr', capacity: '5,500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.8, recommended: true },
                     { name: 'Summit Road Field Complex', location: 'Summit Road Campus', type: 'Field', price: '$60/hr', capacity: 'Open field', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.6 },
@@ -1639,6 +1614,7 @@
                 logoScale: 0.82,
                 color: '#B2122B',
                 coords: { lat: 30.24, lng: -90.92 },
+                weather: { temp: 46, condition: 'Mostly sunny', icon: '🌤️' },
                 facilities: [
                     { name: 'Spartan Stadium', location: 'East Ascension High School', type: 'Stadium / Field', price: '$125/hr', capacity: '7,500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.7, recommended: true },
                     { name: 'Griffin Stadium', location: 'Dutchtown High School', type: 'Stadium / Field', price: '$125/hr', capacity: '6,000 capacity', availability: 'low', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.8 },
@@ -1664,6 +1640,7 @@
                 logoScale: 0.82,
                 color: '#CC0000',
                 coords: { lat: 33.08, lng: -96.59 },
+                weather: { temp: 50, condition: 'Sunny', icon: '☀️' },
                 facilities: [
                     { name: 'Leopard Stadium', location: 'Lovejoy High School', type: 'Field', price: '$150/hr', capacity: '2,000 capacity', availability: 'high', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.9, recommended: true },
                     { name: 'Practice Fields', location: 'Lovejoy High School', type: 'Field', price: '$60/hr', capacity: 'Open field', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
@@ -1685,6 +1662,7 @@
                 logoScale: 1,
                 color: '#0076bb',
                 coords: { lat: 37.29, lng: -78.39 },
+                weather: { temp: 42, condition: 'Partly cloudy', icon: '⛅' },
                 facilities: [
                     { name: 'Eagle Stadium', location: 'Prince Edward County High School', type: 'Stadium / Field', price: '$100/hr', capacity: '3,000 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.6, recommended: true },
                     { name: 'Baseball Diamond', location: 'Prince Edward County High School', type: 'Field', price: '$60/hr', capacity: '500 capacity', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
@@ -1865,32 +1843,30 @@
         function renderCard(f) {
             const d = f.district;
             const availLabel = f.availability === 'high' ? 'Available' : f.availability === 'medium' ? 'Limited' : 'Almost full';
-            const typeShort = f.type.replace('Stadium / ', '').replace(' / Field', '');
-            const recBadge = f.recommended ? `<div class="mp-card-rec"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Top pick</div>` : '';
+
+            // Weather badge: outdoor gets live weather, indoor gets "Indoors" label
+            let weatherBadge = '';
+            if (f.outdoor && d.weather) {
+                weatherBadge = `<div class="mp-card-weather"><span class="w-icon">${d.weather.icon}</span><span class="w-temp">${d.weather.temp}°F</span><span class="w-div"></span><span class="w-desc">${d.weather.condition}</span></div>`;
+            } else {
+                weatherBadge = `<div class="mp-card-weather"><span class="w-desc">Indoors</span></div>`;
+            }
 
             return `
                 <div class="mp-card" onclick="goToFacility('${d.key}', '${f.name.replace(/'/g, "\\'")}')">
                     <div class="mp-card-image">
                         <img src="${f.image}" alt="${f.name}" loading="lazy">
+                        ${weatherBadge}
+                        <button class="mp-card-fav" onclick="event.stopPropagation(); this.classList.toggle('active')">
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </button>
                         <div class="mp-card-badge">
                             <img src="${d.logo}" alt="${d.name}" style="transform:scale(${d.logoScale || 1})">
                             ${d.shortName}
                         </div>
-                        ${recBadge}
-                        <button class="mp-card-fav" onclick="event.stopPropagation(); this.classList.toggle('active')">
-                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        </button>
-                        ${f.outdoor ? '<div class="mp-card-weather">Outdoor</div>' : ''}
-                        <div class="mp-card-type-tag">${typeShort}</div>
                     </div>
                     <div class="mp-card-body">
-                        <div class="mp-card-top">
-                            <div class="mp-card-name">${f.name}</div>
-                            <div class="mp-card-rating">
-                                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                ${f.rating}
-                            </div>
-                        </div>
+                        <div class="mp-card-name">${f.name}</div>
                         <div class="mp-card-location">
                             <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                             ${f.location}
