@@ -379,19 +379,23 @@
             right: 10px;
             width: 32px;
             height: 32px;
-            background: rgba(0,0,0,0.25);
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border: none;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: all 0.2s ease;
+            z-index: 3;
+            padding: 0;
         }
-        .mp-card-fav:hover { background: rgba(0,0,0,0.45); }
-        .mp-card-fav svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; }
-        .mp-card-fav.active svg { fill: #ef4444; stroke: #ef4444; }
+        .mp-card-fav:hover { background: rgba(0,0,0,0.55); transform: scale(1.1); }
+        .mp-card-fav svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; transition: all 0.2s ease; }
+        .mp-card-fav.active { background: #f59e0b; }
+        .mp-card-fav.active svg { fill: #fff; stroke: #fff; }
         .mp-card-weather {
             position: absolute;
             bottom: 10px;
@@ -664,6 +668,433 @@
         .mp-view-btn + .mp-view-btn { border-left: 1px solid var(--border); }
         .mp-view-btn.active { background: var(--border-light); color: var(--text); }
         .mp-view-btn svg { width: 16px; height: 16px; }
+
+        /* ===== BOOKING MODAL ===== */
+        .bm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+            padding: 20px;
+        }
+        .bm-overlay.active { opacity: 1; visibility: visible; }
+        .bm-modal {
+            background: var(--bg);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 920px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+            transform: translateY(20px) scale(0.97);
+            transition: transform 0.3s ease;
+        }
+        .bm-overlay.active .bm-modal { transform: translateY(0) scale(1); }
+        .bm-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .bm-header-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .bm-header-logo img { width: 32px; height: 32px; object-fit: contain; }
+        .bm-header-info { flex: 1; min-width: 0; }
+        .bm-header-info h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+            color: inherit;
+        }
+        .bm-header-sub {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .bm-header-sub svg { width: 14px; height: 14px; flex-shrink: 0; }
+        .bm-close {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: inherit;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.15s;
+        }
+        .bm-close:hover { background: rgba(255,255,255,0.25); }
+        .bm-close svg { width: 18px; height: 18px; }
+        .bm-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .bm-left {
+            padding: 24px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+        }
+        .bm-facility-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .bm-facility-img img { width: 100%; height: 100%; object-fit: cover; }
+        .bm-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin: 0 0 12px 0;
+            padding-left: 10px;
+        }
+        .bm-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .bm-info-item {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .bm-info-item svg {
+            width: 18px; height: 18px;
+            color: var(--text-secondary);
+            flex-shrink: 0; margin-top: 1px;
+        }
+        .bm-info-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
+        .bm-info-value { font-size: 14px; font-weight: 600; color: var(--text); }
+        .bm-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+        .bm-feature-tag {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .bm-feature-tag svg { width: 12px; height: 12px; color: var(--text-secondary); }
+        .bm-amenities {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+        .bm-amenity {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 13px;
+        }
+        .bm-amenity:hover { border-color: var(--pp-blue); }
+        .bm-amenity.selected { border-color: var(--pp-blue); background: var(--pp-blue-light); }
+        .bm-amenity-check {
+            width: 18px; height: 18px;
+            border-radius: 4px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .bm-amenity.selected .bm-amenity-check { background: var(--pp-blue); border-color: var(--pp-blue); }
+        .bm-amenity.selected .bm-amenity-check svg { display: block; }
+        .bm-amenity-check svg { display: none; width: 12px; height: 12px; stroke: #fff; stroke-width: 3; fill: none; }
+        .bm-amenity-label { flex: 1; }
+        .bm-amenity-price { font-weight: 600; color: #16a34a; font-size: 12px; }
+        [data-theme="dark"] .bm-amenity-price { color: #4ade80; }
+        .bm-amenity-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--surface);
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        .bm-amenity-total-amount { font-weight: 700; color: #16a34a; }
+        [data-theme="dark"] .bm-amenity-total-amount { color: #4ade80; }
+        .bm-right {
+            padding: 24px;
+            overflow-y: auto;
+        }
+        .bm-price-banner {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .bm-price-amount {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .bm-price-unit { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+        .bm-price-avail {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .bm-avail-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+        }
+        .bm-avail-dot.high { background: #16a34a; }
+        .bm-avail-dot.medium { background: #f59e0b; }
+        .bm-avail-dot.low { background: #ef4444; }
+        .bm-form-group { margin-bottom: 16px; }
+        .bm-form-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .bm-form-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--text);
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+        .bm-form-select:focus { border-color: var(--pp-blue); }
+        .bm-form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+        }
+        .bm-form-input:focus { border-color: var(--pp-blue); }
+        .bm-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .bm-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .bm-slot {
+            padding: 8px 4px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: var(--surface);
+            color: var(--text);
+        }
+        .bm-slot:hover:not(.booked):not(.selected) { border-color: var(--pp-blue); }
+        .bm-slot.selected { background: var(--pp-blue); color: #fff; border-color: var(--pp-blue); }
+        .bm-slot.booked {
+            background: var(--border-light);
+            color: var(--text-tertiary);
+            text-decoration: line-through;
+            cursor: not-allowed;
+        }
+        .bm-divider {
+            height: 1px;
+            background: var(--border-light);
+            margin: 16px 0;
+        }
+        .bm-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .bm-progress-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .bm-progress-bar {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border);
+            overflow: hidden;
+        }
+        .bm-progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s, background 0.3s;
+        }
+        .bm-submit-stack { display: flex; flex-direction: column; gap: 8px; }
+        .bm-submit-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .bm-submit-btn.primary {
+            background: var(--pp-blue);
+            color: #fff;
+        }
+        .bm-submit-btn.primary:hover { filter: brightness(1.1); }
+        .bm-submit-btn.primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: none;
+        }
+        .bm-submit-btn.secondary {
+            background: none;
+            border: 1.5px solid var(--border);
+            color: var(--text);
+        }
+        .bm-submit-btn.secondary:hover { border-color: var(--text-secondary); }
+        .bm-submit-btn svg { width: 16px; height: 16px; }
+
+        /* Modal success overlay */
+        .bm-success {
+            position: absolute;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .bm-success.active { opacity: 1; visibility: visible; }
+        .bm-success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #f59e0b22;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .bm-success-icon svg { width: 32px; height: 32px; color: #f59e0b; }
+        .bm-success-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .bm-success-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 300px;
+        }
+
+        /* Modal mobile responsive */
+        @media (max-width: 768px) {
+            .bm-overlay { padding: 0; align-items: flex-end; }
+            .bm-modal {
+                max-height: 95vh;
+                border-radius: 16px 16px 0 0;
+                max-width: 100%;
+            }
+            .bm-body {
+                grid-template-columns: 1fr;
+            }
+            .bm-left {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 16px;
+            }
+            .bm-right { padding: 16px; }
+            .bm-header { padding: 16px; }
+            .bm-header-info h2 { font-size: 17px; }
+            .bm-info-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .bm-amenities { grid-template-columns: 1fr; }
+            .bm-form-row { grid-template-columns: 1fr; }
+        }
 
         /* ===== PARTNER DIRECTORY ===== */
         .mp-partners {
@@ -1001,6 +1432,132 @@
         <div class="mp-partners-grid" id="partnerGrid"></div>
     </div>
 
+    <!-- Booking Modal -->
+    <div class="bm-overlay" id="bmOverlay" onclick="if(event.target===this)closeBM()">
+        <div class="bm-modal" style="position:relative">
+            <div class="bm-success" id="bmSuccess">
+                <div class="bm-success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="bm-success-title">Request Submitted</div>
+                <div class="bm-success-sub">Your reservation is pending facility approval. You'll receive an email confirmation shortly.</div>
+            </div>
+            <div class="bm-header" id="bmHeader">
+                <div class="bm-header-logo" id="bmHeaderLogo"></div>
+                <div class="bm-header-info">
+                    <h2 id="bmTitle">Facility Name</h2>
+                    <div class="bm-header-sub">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span id="bmLocation">School Name</span>
+                    </div>
+                </div>
+                <button class="bm-close" onclick="closeBM()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="bm-body">
+                <div class="bm-left">
+                    <div class="bm-facility-img">
+                        <img id="bmImage" src="" alt="">
+                    </div>
+                    <div class="bm-section-title" id="bmSectionDetails">Facility Details</div>
+                    <div class="bm-info-grid" id="bmInfoGrid"></div>
+                    <div class="bm-section-title">Features</div>
+                    <div class="bm-features" id="bmFeatures"></div>
+                    <div class="bm-section-title">Add-on Amenities</div>
+                    <div class="bm-amenities" id="bmAmenities"></div>
+                    <div class="bm-amenity-total" id="bmAmenityTotal" style="display:none">
+                        <span>Selected add-ons</span>
+                        <span class="bm-amenity-total-amount" id="bmAmenityAmount">$0</span>
+                    </div>
+                </div>
+                <div class="bm-right">
+                    <div class="bm-price-banner">
+                        <div>
+                            <span class="bm-price-amount" id="bmPrice">$75</span>
+                            <span class="bm-price-unit">/hr</span>
+                        </div>
+                        <div class="bm-price-avail" id="bmAvail">
+                            <span class="bm-avail-dot medium"></span>
+                            <span>Limited</span>
+                        </div>
+                    </div>
+                    <div class="bm-form-group">
+                        <label class="bm-form-label">Select a Date</label>
+                        <input type="date" class="bm-form-input" id="bmDate" onchange="bmDateChanged()">
+                    </div>
+                    <div class="bm-form-group">
+                        <label class="bm-form-label">Available Time Slots</label>
+                        <div class="bm-slots-grid" id="bmSlots">
+                            <span style="font-size:13px;color:var(--text-secondary);grid-column:1/-1">Select a date to view availability</span>
+                        </div>
+                    </div>
+                    <div class="bm-divider"></div>
+                    <div class="bm-form-row">
+                        <div class="bm-form-group">
+                            <label class="bm-form-label">Duration</label>
+                            <select class="bm-form-select" id="bmDuration" onchange="bmValidate()">
+                                <option value="1">1 hour</option>
+                                <option value="2" selected>2 hours</option>
+                                <option value="3">3 hours</option>
+                                <option value="4">4 hours</option>
+                            </select>
+                        </div>
+                        <div class="bm-form-group">
+                            <label class="bm-form-label">Group Size</label>
+                            <select class="bm-form-select" id="bmGroupSize" onchange="bmValidate()">
+                                <option value="">Select</option>
+                                <option value="1-10">1-10</option>
+                                <option value="11-50">11-50</option>
+                                <option value="51-100">51-100</option>
+                                <option value="101-200">101-200</option>
+                                <option value="201+">201+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bm-form-row">
+                        <div class="bm-form-group">
+                            <label class="bm-form-label">Booking Type</label>
+                            <select class="bm-form-select" id="bmBookingType" onchange="bmValidate()">
+                                <option value="">Select</option>
+                                <option value="practice">Practice / Training</option>
+                                <option value="game">Game / Match</option>
+                                <option value="event">Event / Meeting</option>
+                                <option value="camp">Camp / Clinic</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="bm-form-group">
+                            <label class="bm-form-label">Activity</label>
+                            <select class="bm-form-select" id="bmActivity" onchange="bmValidate()">
+                                <option value="">Select</option>
+                                <option value="basketball">Basketball</option>
+                                <option value="volleyball">Volleyball</option>
+                                <option value="football">Football</option>
+                                <option value="soccer">Soccer</option>
+                                <option value="baseball">Baseball</option>
+                                <option value="performance">Performance</option>
+                                <option value="meeting">Meeting</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bm-progress" id="bmProgress">
+                        <span class="bm-progress-text" id="bmProgressText">0 of 5</span>
+                        <div class="bm-progress-bar"><div class="bm-progress-fill" id="bmProgressFill" style="width:0%;background:#f59e0b"></div></div>
+                    </div>
+                    <div class="bm-submit-stack">
+                        <button class="bm-submit-btn primary" id="bmSubmitBtn" disabled onclick="bmSubmit()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            Submit Request
+                        </button>
+                        <button class="bm-submit-btn secondary" onclick="closeBM()">Keep Browsing</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="mp-footer">
         <div class="mp-footer-inner">
@@ -1321,7 +1878,7 @@
                         </div>
                         ${recBadge}
                         <button class="mp-card-fav" onclick="event.stopPropagation(); this.classList.toggle('active')">
-                            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                         </button>
                         ${f.outdoor ? '<div class="mp-card-weather">Outdoor</div>' : ''}
                         <div class="mp-card-type-tag">${typeShort}</div>
@@ -1357,13 +1914,254 @@
         }
 
         function goToFacility(districtKey, facilityName) {
-            // Deep-link to district page with facility param to auto-open modal
-            window.location.href = 'district.html?d=' + districtKey + '&f=' + encodeURIComponent(facilityName);
+            openBM(districtKey, facilityName);
         }
 
         function goToDistrict(key) {
             window.location.href = 'district.html?d=' + key;
         }
+
+        // ===== BOOKING MODAL SYSTEM =====
+        let bmCurrentFacility = null;
+        let bmCurrentDistrict = null;
+        let bmSelectedSlot = null;
+        let bmSelectedAmenities = new Set();
+
+        const bmAmenityData = [
+            { id: 'scoreboard', label: 'Scoreboard', price: 25 },
+            { id: 'pa', label: 'PA System', price: 30 },
+            { id: 'lights', label: 'Extra Lighting', price: 40 },
+            { id: 'bleachers', label: 'Bleacher Setup', price: 35 },
+            { id: 'filming', label: 'Filming / Livestream', price: 50 },
+            { id: 'cleanup', label: 'Post-event Cleanup', price: 45 }
+        ];
+
+        const bmFeatureData = ['WiFi', 'Restrooms', 'Parking', 'Accessible', 'Water Fountain', 'AC/Heat'];
+        const bmFeatureIcons = {
+            'WiFi': '<path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/>',
+            'Restrooms': '<path d="M5 5h2a2 2 0 012 2v10a2 2 0 01-2 2H5"/><path d="M19 5h-2a2 2 0 00-2 2v10a2 2 0 002 2h2"/>',
+            'Parking': '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 010 6H9"/>',
+            'Accessible': '<circle cx="12" cy="12" r="10"/>',
+            'Water Fountain': '<path d="M12 2v6"/><path d="M8 6c0-2 8-2 8 0"/><path d="M6 22V12a6 6 0 0112 0v10"/>',
+            'AC/Heat': '<path d="M12 3v18"/><path d="M18 7l-6 5-6-5"/><path d="M6 17l6-5 6 5"/>'
+        };
+
+        function openBM(districtKey, facilityName) {
+            const d = districts[districtKey];
+            if (!d) return;
+            const f = d.facilities.find(fac => fac.name === facilityName);
+            if (!f) return;
+
+            bmCurrentFacility = f;
+            bmCurrentDistrict = d;
+            bmSelectedSlot = null;
+            bmSelectedAmenities.clear();
+
+            // Header - use district brand color
+            const header = document.getElementById('bmHeader');
+            header.style.background = `linear-gradient(135deg, ${d.color} 0%, ${darkenColor(d.color, 0.2)} 100%)`;
+            header.style.color = '#fff';
+
+            // Logo
+            const logo = document.getElementById('bmHeaderLogo');
+            logo.innerHTML = `<img src="${d.logo}" alt="${d.name}" style="transform:scale(${d.logoScale || 1})">`;
+
+            // Title and location
+            document.getElementById('bmTitle').textContent = f.name;
+            document.getElementById('bmLocation').textContent = f.location + ' - ' + d.location;
+
+            // Section title border
+            document.getElementById('bmSectionDetails').style.borderLeft = `3px solid ${d.color}`;
+
+            // Image
+            document.getElementById('bmImage').src = f.image;
+
+            // Price
+            document.getElementById('bmPrice').textContent = f.price.replace('/hr', '');
+
+            // Availability
+            const availLabel = f.availability === 'high' ? 'Available' : f.availability === 'medium' ? 'Limited' : 'Almost full';
+            document.getElementById('bmAvail').innerHTML = `<span class="bm-avail-dot ${f.availability}"></span><span>${availLabel}</span>`;
+
+            // Info grid
+            document.getElementById('bmInfoGrid').innerHTML = `
+                <div class="bm-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <div><div class="bm-info-label">Capacity</div><div class="bm-info-value">${f.capacity}</div></div>
+                </div>
+                <div class="bm-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+                    <div><div class="bm-info-label">Type</div><div class="bm-info-value">${f.type}</div></div>
+                </div>
+                <div class="bm-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div><div class="bm-info-label">Location</div><div class="bm-info-value">${f.outdoor ? 'Outdoor' : 'Indoor'}</div></div>
+                </div>
+                <div class="bm-info-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <div><div class="bm-info-label">Rating</div><div class="bm-info-value">${f.rating} / 5.0</div></div>
+                </div>
+            `;
+
+            // Features
+            document.getElementById('bmFeatures').innerHTML = bmFeatureData.map(feat => `
+                <span class="bm-feature-tag">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${bmFeatureIcons[feat] || '<circle cx="12" cy="12" r="10"/>'}</svg>
+                    ${feat}
+                </span>
+            `).join('');
+
+            // Amenities
+            document.getElementById('bmAmenities').innerHTML = bmAmenityData.map(a => `
+                <div class="bm-amenity" onclick="bmToggleAmenity('${a.id}', this)">
+                    <div class="bm-amenity-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <span class="bm-amenity-label">${a.label}</span>
+                    <span class="bm-amenity-price">+$${a.price}</span>
+                </div>
+            `).join('');
+            document.getElementById('bmAmenityTotal').style.display = 'none';
+
+            // Reset form
+            document.getElementById('bmDate').value = '';
+            document.getElementById('bmSlots').innerHTML = '<span style="font-size:13px;color:var(--text-secondary);grid-column:1/-1">Select a date to view availability</span>';
+            document.getElementById('bmDuration').value = '2';
+            document.getElementById('bmGroupSize').value = '';
+            document.getElementById('bmBookingType').value = '';
+            document.getElementById('bmActivity').value = '';
+            document.getElementById('bmSuccess').classList.remove('active');
+
+            // Set min date to tomorrow
+            const tmrw = new Date();
+            tmrw.setDate(tmrw.getDate() + 1);
+            document.getElementById('bmDate').min = tmrw.toISOString().split('T')[0];
+
+            bmValidate();
+
+            // Show
+            document.getElementById('bmOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBM() {
+            document.getElementById('bmOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function darkenColor(hex, amount) {
+            hex = hex.replace('#', '');
+            const r = Math.max(0, parseInt(hex.substr(0, 2), 16) - Math.round(255 * amount));
+            const g = Math.max(0, parseInt(hex.substr(2, 2), 16) - Math.round(255 * amount));
+            const b = Math.max(0, parseInt(hex.substr(4, 2), 16) - Math.round(255 * amount));
+            return '#' + [r, g, b].map(c => c.toString(16).padStart(2, '0')).join('');
+        }
+
+        function bmToggleAmenity(id, el) {
+            el.classList.toggle('selected');
+            if (bmSelectedAmenities.has(id)) {
+                bmSelectedAmenities.delete(id);
+            } else {
+                bmSelectedAmenities.add(id);
+            }
+            const total = bmAmenityData.filter(a => bmSelectedAmenities.has(a.id)).reduce((s, a) => s + a.price, 0);
+            const totalEl = document.getElementById('bmAmenityTotal');
+            if (total > 0) {
+                totalEl.style.display = 'flex';
+                document.getElementById('bmAmenityAmount').textContent = '$' + total;
+            } else {
+                totalEl.style.display = 'none';
+            }
+        }
+
+        function bmDateChanged() {
+            const dateStr = document.getElementById('bmDate').value;
+            bmSelectedSlot = null;
+            if (!dateStr) {
+                document.getElementById('bmSlots').innerHTML = '<span style="font-size:13px;color:var(--text-secondary);grid-column:1/-1">Select a date to view availability</span>';
+                bmValidate();
+                return;
+            }
+
+            const date = new Date(dateStr + 'T12:00:00');
+            const dow = date.getDay();
+            const isWeekend = dow === 0 || dow === 6;
+
+            // Generate slots
+            const startH = isWeekend ? 9 : 16;
+            const endH = isWeekend ? 19 : 20;
+            const slots = [];
+            for (let h = startH; h <= endH; h++) {
+                slots.push(h);
+            }
+
+            // Deterministic "booked" slots
+            const seed = dateStr.split('-').reduce((s, n) => s + parseInt(n), 0);
+            const bookedSet = new Set();
+            for (let i = 0; i < 3; i++) {
+                bookedSet.add(slots[(seed * (i + 3) + i * 7) % slots.length]);
+            }
+
+            const grid = document.getElementById('bmSlots');
+            grid.innerHTML = slots.map(h => {
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                const h12 = h > 12 ? h - 12 : h === 0 ? 12 : h;
+                const label = h12 + ' ' + ampm;
+                const booked = bookedSet.has(h);
+                return `<div class="bm-slot${booked ? ' booked' : ''}" ${booked ? '' : `onclick="bmSelectSlot(${h}, this)"`}>${label}</div>`;
+            }).join('');
+
+            bmValidate();
+        }
+
+        function bmSelectSlot(h, el) {
+            document.querySelectorAll('.bm-slot.selected').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            bmSelectedSlot = h;
+            bmValidate();
+        }
+
+        function bmValidate() {
+            const date = document.getElementById('bmDate').value;
+            const slot = bmSelectedSlot;
+            const group = document.getElementById('bmGroupSize').value;
+            const bookType = document.getElementById('bmBookingType').value;
+            const activity = document.getElementById('bmActivity').value;
+
+            let filled = 0;
+            if (date) filled++;
+            if (slot !== null) filled++;
+            if (group) filled++;
+            if (bookType) filled++;
+            if (activity) filled++;
+
+            const pct = (filled / 5) * 100;
+            document.getElementById('bmProgressFill').style.width = pct + '%';
+            document.getElementById('bmProgressFill').style.background = filled === 5 ? '#16a34a' : '#f59e0b';
+
+            const fields = ['date', 'time slot', 'group size', 'booking type', 'activity'];
+            const vals = [date, slot, group, bookType, activity];
+            const missing = fields.filter((_, i) => !vals[i]);
+            const hint = filled === 5 ? 'Ready to submit' : `${filled} of 5 - Select ${missing[0]}`;
+            document.getElementById('bmProgressText').textContent = hint;
+
+            document.getElementById('bmSubmitBtn').disabled = filled < 5;
+        }
+
+        function bmSubmit() {
+            document.getElementById('bmSuccess').classList.add('active');
+            setTimeout(() => {
+                closeBM();
+                document.getElementById('bmSuccess').classList.remove('active');
+            }, 2500);
+        }
+
+        // Escape key to close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('bmOverlay').classList.contains('active')) {
+                    closeBM();
+                }
+            }
+        });
 
         // Render partner directory
         function renderPartners() {
