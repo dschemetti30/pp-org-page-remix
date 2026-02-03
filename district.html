@@ -10893,8 +10893,13 @@
             }
         });
 
-        // Initialize with first district in selector
-        switchDistrict(document.getElementById('districtSwitcher').value);
+        // Initialize - check URL for district param from marketplace, otherwise use selector default
+        const urlD = new URLSearchParams(window.location.search).get('d');
+        const initDistrict = (urlD && districts[urlD]) ? urlD : document.getElementById('districtSwitcher').value;
+        if (urlD && districts[urlD]) {
+            document.getElementById('districtSwitcher').value = urlD;
+        }
+        switchDistrict(initDistrict);
     </script>
 </body>
 </html>

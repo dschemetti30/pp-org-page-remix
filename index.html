@@ -1180,9 +1180,7 @@
         }
 
         function goToDistrict(key) {
-            // In production this navigates to the district page
-            // For demo, open the district page file with the district pre-selected
-            window.open('practiceplan-final.html', '_blank');
+            window.location.href = 'district.html?d=' + key;
         }
 
         // Initialize
