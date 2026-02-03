@@ -10895,11 +10895,23 @@
 
         // Initialize - check URL for district param from marketplace, otherwise use selector default
         const urlD = new URLSearchParams(window.location.search).get('d');
+        const urlF = new URLSearchParams(window.location.search).get('f');
         const initDistrict = (urlD && districts[urlD]) ? urlD : document.getElementById('districtSwitcher').value;
         if (urlD && districts[urlD]) {
             document.getElementById('districtSwitcher').value = urlD;
         }
         switchDistrict(initDistrict);
+
+        // Deep-link: if ?f= param present, auto-open that facility's modal after render
+        if (urlF) {
+            setTimeout(() => {
+                const facilityName = decodeURIComponent(urlF);
+                const d = districts[initDistrict];
+                if (d && d.facilities.some(f => f.name === facilityName)) {
+                    openBookingModal(facilityName, null);
+                }
+            }, 300);
+        }
     </script>
 </body>
 </html>

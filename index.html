@@ -368,6 +368,10 @@
             height: 20px;
             object-fit: contain;
             border-radius: 3px;
+            filter: invert(1) grayscale(1) brightness(0.3);
+        }
+        [data-theme="dark"] .mp-card-badge img {
+            filter: none;
         }
         .mp-card-fav {
             position: absolute;
@@ -525,6 +529,10 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            filter: invert(1) grayscale(1) brightness(0.3);
+        }
+        [data-theme="dark"] .mp-district-logo img {
+            filter: none;
         }
         .mp-district-name {
             font-size: 18px;
@@ -656,6 +664,135 @@
         .mp-view-btn + .mp-view-btn { border-left: 1px solid var(--border); }
         .mp-view-btn.active { background: var(--border-light); color: var(--text); }
         .mp-view-btn svg { width: 16px; height: 16px; }
+
+        /* ===== PARTNER DIRECTORY ===== */
+        .mp-partners {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px 40px;
+        }
+        .mp-partners-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .mp-partners-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .mp-partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .mp-partner-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .mp-partner-card:hover {
+            border-color: var(--pp-blue);
+            box-shadow: var(--shadow);
+        }
+        .mp-partner-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 4px;
+        }
+        .mp-partner-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: invert(1) grayscale(1) brightness(0.3);
+        }
+        [data-theme="dark"] .mp-partner-logo img {
+            filter: none;
+        }
+        .mp-partner-info {
+            min-width: 0;
+        }
+        .mp-partner-name {
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .mp-partner-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .mp-partner-type {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--pp-blue);
+            background: var(--pp-blue-light);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        /* ===== STATE SECTION HEADERS ===== */
+        .mp-state-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .mp-state-flag {
+            font-size: 20px;
+            line-height: 1;
+        }
+        .mp-state-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .mp-state-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .mp-state-section { margin-bottom: 32px; }
+
+        /* ===== RECOMMENDED BADGE ===== */
+        .mp-card-rec {
+            position: absolute;
+            top: 10px;
+            right: 46px;
+            background: rgba(0,168,79,0.9);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .mp-card-rec svg { width: 10px; height: 10px; fill: #fff; }
 
         /* ===== ANIMATIONS ===== */
         @keyframes mpFadeUp {
@@ -836,7 +973,8 @@
                 <div class="mp-results-sort">
                     Sort by
                     <select id="sortBy" onchange="handleSearch()">
-                        <option value="district">District</option>
+                        <option value="recommended">Recommended</option>
+                        <option value="state">State</option>
                         <option value="price-low">Price: Low to High</option>
                         <option value="price-high">Price: High to Low</option>
                         <option value="name">Name A-Z</option>
@@ -853,6 +991,14 @@
             </div>
         </div>
         <div id="resultsContainer"></div>
+    </div>
+
+    <!-- Partner Directory -->
+    <div class="mp-partners" id="partnerDirectory">
+        <div class="mp-partners-header">
+            <div class="mp-partners-title">Browse by partner</div>
+        </div>
+        <div class="mp-partners-grid" id="partnerGrid"></div>
     </div>
 
     <!-- Footer -->
@@ -904,18 +1050,21 @@
             reynoldsburg: {
                 key: 'reynoldsburg',
                 name: 'Reynoldsburg City Schools',
+                shortName: 'Reynoldsburg City Schools',
                 location: 'Reynoldsburg, Ohio',
                 state: 'OH',
+                stateFull: 'Ohio',
+                type: 'K-12 District',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_2reynoldsburg-logo_eh32yp.svg',
                 logoScale: 0.82,
                 color: '#6B2D8B',
                 coords: { lat: 39.96, lng: -82.80 },
                 facilities: [
-                    { name: 'Raider Stadium', location: 'Reynoldsburg High School', type: 'Stadium / Field', price: '$125/hr', capacity: '5,500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.8 },
+                    { name: 'Raider Stadium', location: 'Reynoldsburg High School', type: 'Stadium / Field', price: '$125/hr', capacity: '5,500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.8, recommended: true },
                     { name: 'Summit Road Field Complex', location: 'Summit Road Campus', type: 'Field', price: '$60/hr', capacity: 'Open field', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.6 },
                     { name: 'Hannah Ashton Middle School Field', location: 'Hannah Ashton Middle School', type: 'Field', price: '$45/hr', capacity: 'Open field', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
-                    { name: 'Main Gymnasium', location: 'Reynoldsburg High School', type: 'Gymnasium', price: '$65/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: false, image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format', rating: 4.7 },
-                    { name: 'Performing Arts Center', location: 'Reynoldsburg High School', type: 'Auditorium', price: '$100/hr', capacity: '950 seats', availability: 'low', outdoor: false, image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format', rating: 4.9 },
+                    { name: 'Main Gymnasium', location: 'Reynoldsburg High School', type: 'Gymnasium', price: '$65/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: false, image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format', rating: 4.7, recommended: true },
+                    { name: 'Performing Arts Center', location: 'Reynoldsburg High School', type: 'Auditorium', price: '$100/hr', capacity: '950 seats', availability: 'low', outdoor: false, image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format', rating: 4.9, recommended: true },
                     { name: 'Competition Gym', location: 'Summit Road Campus', type: 'Gymnasium', price: '$55/hr', capacity: '1,200 capacity', availability: 'medium', outdoor: false, image: 'https://plus.unsplash.com/premium_photo-1675364966937-c2bdf5bce9b5?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
                     { name: 'Cafeteria', location: 'Hannah Ashton Middle School', type: 'Cafeteria', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1631193659550-5c8a2cc57015?w=600&h=360&fit=crop&auto=format', rating: 4.3 },
                     { name: 'Auxiliary Gym', location: 'Reynoldsburg High School', type: 'Gymnasium', price: '$45/hr', capacity: '500 capacity', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format', rating: 4.4 }
@@ -924,19 +1073,22 @@
             ascension: {
                 key: 'ascension',
                 name: 'Ascension Parish Schools',
+                shortName: 'Ascension Parish Schools',
                 location: 'Gonzales, Louisiana',
                 state: 'LA',
+                stateFull: 'Louisiana',
+                type: 'K-12 District',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050510/Asset_1ascension-logo_zwj5tq.svg',
                 logoScale: 0.82,
                 color: '#B2122B',
                 coords: { lat: 30.24, lng: -90.92 },
                 facilities: [
-                    { name: 'Spartan Stadium', location: 'East Ascension High School', type: 'Stadium / Field', price: '$125/hr', capacity: '7,500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.7 },
+                    { name: 'Spartan Stadium', location: 'East Ascension High School', type: 'Stadium / Field', price: '$125/hr', capacity: '7,500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.7, recommended: true },
                     { name: 'Griffin Stadium', location: 'Dutchtown High School', type: 'Stadium / Field', price: '$125/hr', capacity: '6,000 capacity', availability: 'low', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.8 },
                     { name: 'Practice Fields', location: 'East Ascension High School', type: 'Field', price: '$50/hr', capacity: 'Open field', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.4 },
                     { name: 'Gator Field', location: 'St. Amant High School', type: 'Field', price: '$75/hr', capacity: '2,500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.6 },
                     { name: 'Main Gymnasium', location: 'East Ascension High School', type: 'Gymnasium', price: '$60/hr', capacity: '2,000 capacity', availability: 'medium', outdoor: false, image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
-                    { name: 'Performing Arts Center', location: 'Dutchtown High School', type: 'Auditorium', price: '$100/hr', capacity: '700 seats', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format', rating: 4.8 },
+                    { name: 'Performing Arts Center', location: 'Dutchtown High School', type: 'Auditorium', price: '$100/hr', capacity: '700 seats', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format', rating: 4.8, recommended: true },
                     { name: 'Gator Gymnasium', location: 'St. Amant High School', type: 'Gymnasium', price: '$55/hr', capacity: '1,800 capacity', availability: 'medium', outdoor: false, image: 'https://plus.unsplash.com/premium_photo-1675364966937-c2bdf5bce9b5?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
                     { name: 'Gymnasium', location: 'Galvez Middle School', type: 'Gymnasium', price: '$35/hr', capacity: '500 capacity', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1687216769793-833dcfe4e3af?w=600&h=360&fit=crop&auto=format', rating: 4.3 },
                     { name: 'Cafeteria', location: 'Dutchtown Middle School', type: 'Cafeteria', price: '$40/hr', capacity: '300 capacity', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1631193659550-5c8a2cc57015?w=600&h=360&fit=crop&auto=format', rating: 4.1 },
@@ -946,17 +1098,20 @@
             lovejoy: {
                 key: 'lovejoy',
                 name: 'Lovejoy ISD',
+                shortName: 'Lovejoy ISD',
                 location: 'Lucas, Texas',
                 state: 'TX',
+                stateFull: 'Texas',
+                type: 'K-12 District',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_3lovejoy-logo_tebuxt.svg',
                 logoScale: 0.82,
                 color: '#CC0000',
                 coords: { lat: 33.08, lng: -96.59 },
                 facilities: [
-                    { name: 'Leopard Stadium', location: 'Lovejoy High School', type: 'Field', price: '$150/hr', capacity: '2,000 capacity', availability: 'high', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.9 },
+                    { name: 'Leopard Stadium', location: 'Lovejoy High School', type: 'Field', price: '$150/hr', capacity: '2,000 capacity', availability: 'high', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.9, recommended: true },
                     { name: 'Practice Fields', location: 'Lovejoy High School', type: 'Field', price: '$60/hr', capacity: 'Open field', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
                     { name: 'Sloan Creek Sports Complex', location: 'Sloan Creek Intermediate', type: 'Field', price: '$80/hr', capacity: '500 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.6 },
-                    { name: 'Main Gym', location: 'Lovejoy High School', type: 'Gymnasium', price: '$75/hr', capacity: '500 capacity', availability: 'medium', outdoor: false, image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format', rating: 4.7 },
+                    { name: 'Main Gym', location: 'Lovejoy High School', type: 'Gymnasium', price: '$75/hr', capacity: '500 capacity', availability: 'medium', outdoor: false, image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format', rating: 4.7, recommended: true },
                     { name: 'Performing Arts Center', location: 'Lovejoy High School', type: 'Auditorium', price: '$200/hr', capacity: '800 seats', availability: 'low', outdoor: false, image: 'https://images.unsplash.com/photo-1596522354195-e84ae3c98731?w=600&h=360&fit=crop&auto=format', rating: 4.9 },
                     { name: 'Gymnasium', location: 'Hart Elementary', type: 'Gymnasium', price: '$40/hr', capacity: '200 capacity', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1740635341299-3b8e3490f546?w=600&h=360&fit=crop&auto=format', rating: 4.3 }
                 ]
@@ -964,22 +1119,33 @@
             princeedward: {
                 key: 'princeedward',
                 name: 'Prince Edward County',
+                shortName: 'Prince Edward County',
                 location: 'Farmville, Virginia',
                 state: 'VA',
+                stateFull: 'Virginia',
+                type: 'Municipality',
                 logo: 'https://res.cloudinary.com/dpj2i1xui/image/upload/v1770050511/Asset_4princeedward-logo_g5yw94.svg',
                 logoScale: 1,
                 color: '#0076bb',
                 coords: { lat: 37.29, lng: -78.39 },
                 facilities: [
-                    { name: 'Eagle Stadium', location: 'Prince Edward County High School', type: 'Stadium / Field', price: '$100/hr', capacity: '3,000 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.6 },
+                    { name: 'Eagle Stadium', location: 'Prince Edward County High School', type: 'Stadium / Field', price: '$100/hr', capacity: '3,000 capacity', availability: 'medium', outdoor: true, image: 'https://images.unsplash.com/photo-1565673686362-85864074640a?w=600&h=360&fit=crop&auto=format', rating: 4.6, recommended: true },
                     { name: 'Baseball Diamond', location: 'Prince Edward County High School', type: 'Field', price: '$60/hr', capacity: '500 capacity', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.5 },
                     { name: 'Middle School Practice Field', location: 'Prince Edward County Middle School', type: 'Field', price: '$35/hr', capacity: 'Open field', availability: 'high', outdoor: true, image: 'https://plus.unsplash.com/premium_photo-1685089027812-6885c06b0fbf?w=600&h=360&fit=crop&auto=format', rating: 4.3 },
                     { name: 'Eagle Gymnasium', location: 'Prince Edward County High School', type: 'Gymnasium', price: '$50/hr', capacity: '1,200 capacity', availability: 'medium', outdoor: false, image: 'https://images.unsplash.com/photo-1549081231-203e069916f0?w=600&h=360&fit=crop&auto=format', rating: 4.6 },
-                    { name: 'Auditorium', location: 'Prince Edward County High School', type: 'Auditorium', price: '$75/hr', capacity: '500 seats', availability: 'low', outdoor: false, image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format', rating: 4.7 },
+                    { name: 'Auditorium', location: 'Prince Edward County High School', type: 'Auditorium', price: '$75/hr', capacity: '500 seats', availability: 'low', outdoor: false, image: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=600&h=360&fit=crop&auto=format', rating: 4.7, recommended: true },
                     { name: 'Competition Gym', location: 'Prince Edward County Middle School', type: 'Gymnasium', price: '$35/hr', capacity: '400 capacity', availability: 'high', outdoor: false, image: 'https://plus.unsplash.com/premium_photo-1675364966937-c2bdf5bce9b5?w=600&h=360&fit=crop&auto=format', rating: 4.4 },
                     { name: 'Multipurpose Room', location: 'Prince Edward Elementary', type: 'Cafeteria', price: '$25/hr', capacity: '200 capacity', availability: 'high', outdoor: false, image: 'https://images.unsplash.com/photo-1740635341299-3b8e3490f546?w=600&h=360&fit=crop&auto=format', rating: 4.2 }
                 ]
             }
+        };
+
+        // State display data
+        const stateInfo = {
+            LA: { name: 'Louisiana', flag: '🏈' },
+            OH: { name: 'Ohio', flag: '🌰' },
+            TX: { name: 'Texas', flag: '⛳' },
+            VA: { name: 'Virginia', flag: '🏛️' }
         };
 
         let activeFilter = 'all';
@@ -1010,6 +1176,17 @@
             return true;
         }
 
+        // Recommendation score: rating + availability bonus + variety bonus
+        function recScore(f) {
+            let score = f.rating * 10;
+            if (f.recommended) score += 20;
+            if (f.availability === 'high') score += 8;
+            else if (f.availability === 'medium') score += 4;
+            // slight price bonus for value
+            score += Math.max(0, 10 - parsePrice(f.price) / 20);
+            return score;
+        }
+
         function handleSearch() {
             const loc = document.getElementById('mpLocation').value.toLowerCase().trim();
             const typeFilter = document.getElementById('mpType').value;
@@ -1027,7 +1204,7 @@
             // Filter by location search
             if (loc) {
                 allFacilities = allFacilities.filter(f => {
-                    const haystack = (f.district.name + ' ' + f.district.location + ' ' + f.district.state + ' ' + f.location + ' ' + f.name).toLowerCase();
+                    const haystack = (f.district.name + ' ' + f.district.location + ' ' + f.district.state + ' ' + f.district.stateFull + ' ' + f.location + ' ' + f.name).toLowerCase();
                     return haystack.includes(loc);
                 });
             }
@@ -1049,7 +1226,9 @@
             }
 
             // Sort
-            if (sort === 'price-low') {
+            if (sort === 'recommended') {
+                allFacilities.sort((a, b) => recScore(b) - recScore(a));
+            } else if (sort === 'price-low') {
                 allFacilities.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
             } else if (sort === 'price-high') {
                 allFacilities.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
@@ -1067,7 +1246,7 @@
             document.getElementById('statPrice').textContent = lowestPrice > 0 ? '$' + lowestPrice : '-';
 
             // Update results count
-            document.getElementById('resultsCount').textContent = allFacilities.length + ' facilit' + (allFacilities.length === 1 ? 'y' : 'ies') + ' across ' + matchedDistricts.size + ' district' + (matchedDistricts.size === 1 ? '' : 's');
+            document.getElementById('resultsCount').textContent = allFacilities.length + ' facilit' + (allFacilities.length === 1 ? 'y' : 'ies') + ' across ' + matchedDistricts.size + ' partner' + (matchedDistricts.size === 1 ? '' : 's');
 
             // Render
             if (allFacilities.length === 0) {
@@ -1081,44 +1260,40 @@
                 return;
             }
 
-            if (sort === 'district') {
-                renderGrouped(allFacilities, container);
+            if (sort === 'state') {
+                renderByState(allFacilities, container);
             } else {
                 renderFlat(allFacilities, container);
             }
         }
 
-        function renderGrouped(facilities, container) {
-            // Group by district
+        function renderByState(facilities, container) {
             const grouped = {};
             facilities.forEach(f => {
-                const key = f.district.key;
-                if (!grouped[key]) grouped[key] = { district: f.district, facilities: [] };
-                grouped[key].facilities.push(f);
+                const st = f.district.state;
+                if (!grouped[st]) grouped[st] = [];
+                grouped[st].push(f);
+            });
+
+            // Sort states alphabetically
+            const sortedStates = Object.keys(grouped).sort((a, b) => {
+                const an = stateInfo[a] ? stateInfo[a].name : a;
+                const bn = stateInfo[b] ? stateInfo[b].name : b;
+                return an.localeCompare(bn);
             });
 
             let html = '';
-            Object.values(grouped).forEach(group => {
-                const d = group.district;
+            sortedStates.forEach(st => {
+                const info = stateInfo[st] || { name: st, flag: '📍' };
                 html += `
-                    <div class="mp-district-section">
-                        <div class="mp-district-header">
-                            <div class="mp-district-header-left">
-                                <div class="mp-district-logo">
-                                    <img src="${d.logo}" alt="${d.name}" style="transform:scale(${d.logoScale || 1})">
-                                </div>
-                                <div>
-                                    <div class="mp-district-name">${d.name}</div>
-                                    <div class="mp-district-loc">
-                                        <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                        ${d.location} - ${group.facilities.length} facilit${group.facilities.length === 1 ? 'y' : 'ies'}
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="mp-view-all" onclick="goToDistrict('${d.key}')">View all &rarr;</button>
+                    <div class="mp-state-section">
+                        <div class="mp-state-header">
+                            <span class="mp-state-flag">${info.flag}</span>
+                            <span class="mp-state-name">${info.name}</span>
+                            <span class="mp-state-count">${grouped[st].length} facilit${grouped[st].length === 1 ? 'y' : 'ies'}</span>
                         </div>
                         <div class="mp-grid">
-                            ${group.facilities.map(f => renderCard(f)).join('')}
+                            ${grouped[st].map(f => renderCard(f)).join('')}
                         </div>
                     </div>
                 `;
@@ -1134,15 +1309,17 @@
             const d = f.district;
             const availLabel = f.availability === 'high' ? 'Available' : f.availability === 'medium' ? 'Limited' : 'Almost full';
             const typeShort = f.type.replace('Stadium / ', '').replace(' / Field', '');
+            const recBadge = f.recommended ? `<div class="mp-card-rec"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Top pick</div>` : '';
 
             return `
-                <div class="mp-card" onclick="goToDistrict('${d.key}')">
+                <div class="mp-card" onclick="goToFacility('${d.key}', '${f.name.replace(/'/g, "\\'")}')">
                     <div class="mp-card-image">
                         <img src="${f.image}" alt="${f.name}" loading="lazy">
                         <div class="mp-card-badge">
                             <img src="${d.logo}" alt="${d.name}" style="transform:scale(${d.logoScale || 1})">
-                            ${d.name}
+                            ${d.shortName}
                         </div>
+                        ${recBadge}
                         <button class="mp-card-fav" onclick="event.stopPropagation(); this.classList.toggle('active')">
                             <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                         </button>
@@ -1179,12 +1356,49 @@
             `;
         }
 
+        function goToFacility(districtKey, facilityName) {
+            // Deep-link to district page with facility param to auto-open modal
+            window.location.href = 'district.html?d=' + districtKey + '&f=' + encodeURIComponent(facilityName);
+        }
+
         function goToDistrict(key) {
             window.location.href = 'district.html?d=' + key;
         }
 
+        // Render partner directory
+        function renderPartners() {
+            const grid = document.getElementById('partnerGrid');
+            // Build partner list from districts + future partners
+            const partners = Object.values(districts).map(d => ({
+                key: d.key,
+                name: d.shortName,
+                location: d.location,
+                logo: d.logo,
+                logoScale: d.logoScale,
+                type: d.type,
+                count: d.facilities.length,
+                color: d.color
+            }));
+
+            grid.innerHTML = partners.map(p => `
+                <a class="mp-partner-card" href="district.html?d=${p.key}">
+                    <div class="mp-partner-logo" style="background:${p.color}15; border: 1px solid ${p.color}30;">
+                        <img src="${p.logo}" alt="${p.name}" style="transform:scale(${p.logoScale || 1})">
+                    </div>
+                    <div class="mp-partner-info">
+                        <div class="mp-partner-name">${p.name}</div>
+                        <div class="mp-partner-meta">
+                            <span class="mp-partner-type">${p.type}</span>
+                            <span>${p.count} facilities</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
         // Initialize
         handleSearch();
+        renderPartners();
     </script>
 </body>
 </html>
