@@ -7497,13 +7497,13 @@
             <div class="modal-success-overlay" id="modalSuccessOverlay">
                 <div class="success-particles" id="successParticles"></div>
                 <div class="success-checkmark-ring">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="13" x2="12" y2="19"/><line x1="9" y1="16" x2="15" y2="16"/></svg>
                 </div>
-                <div class="success-text-main">Request Submitted</div>
-                <div class="success-text-sub" id="successTextSub">Your reservation is pending facility approval.</div>
+                <div class="success-text-main">Added to Reservations</div>
+                <div class="success-text-sub" id="successTextSub">Review and submit from your reservations menu.</div>
                 <div class="success-cart-hint">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    <span id="successCartCount">1 pending reservation</span>
+                    <span id="successCartCount">1 reservation in cart</span>
                 </div>
             </div>
             <div class="modal-header">
@@ -7711,15 +7711,15 @@
                     <div class="modal-btn-group">
                         <button class="modal-book-btn secondary" id="modalAddContinueBtn" onclick="submitBooking('continue')" disabled>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                            Submit & Keep Browsing
+                            Add & Keep Browsing
                         </button>
                         <button class="modal-book-btn" id="modalBookBtn" onclick="submitBooking('checkout')" disabled>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            Submit Request
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            Add to Reservations
                         </button>
                     </div>
                     <div class="modal-login-hint">
-                        By submitting a request, you agree to the district's <a href="#">rental terms</a>.
+                        By reserving, you agree to the district's <a href="#">rental terms</a>.
                     </div>
                 </div>
             </div>
@@ -7734,14 +7734,14 @@
                 <div class="modal-btn-row">
                     <button class="modal-book-btn secondary" id="modalAddContinueBtnMobile" onclick="submitBooking('continue')" disabled>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        Submit & Browse
+                        Add & Browse
                     </button>
                     <button class="modal-book-btn" id="modalBookBtnMobile" onclick="submitBooking('checkout')" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Submit
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        Add to Reservations
                     </button>
                 </div>
-                <div class="modal-login-hint">By submitting a request, you agree to the district's <a href="#">rental terms</a>.</div>
+                <div class="modal-login-hint">By reserving, you agree to the district's <a href="#">rental terms</a>.</div>
             </div>
         </div>
     </div>
@@ -10016,6 +10016,7 @@
             }
 
             validateModalForm();
+            updateDurationOptions();
         }
 
         function balanceSlotGrid(container, count) {
@@ -10043,6 +10044,77 @@
             document.querySelectorAll('#modalSlots .modal-slot-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             selectedModalSlot = slot;
+            updateDurationOptions();
+            validateModalForm();
+        }
+
+        function updateDurationOptions() {
+            const durSelect = document.getElementById('modalDuration');
+            const dateVal = document.getElementById('modalDate').value;
+            const prevValue = durSelect.value;
+
+            // If no date or facility, show empty placeholder only
+            if (!dateVal || !currentModalFacility) {
+                durSelect.innerHTML = '<option value="">Select</option>';
+                return;
+            }
+
+            const slotData = getSlotData(currentModalFacility.name, dateVal);
+            const allSlots = slotData.allSlots;
+
+            // If no time slot selected, max duration = total booking window size
+            if (!selectedModalSlot) {
+                const maxHrs = allSlots.length;
+                let html = '<option value="">Select</option>';
+                for (let i = 1; i <= maxHrs; i++) {
+                    html += `<option value="${i}">${i} hour${i > 1 ? 's' : ''}</option>`;
+                }
+                durSelect.innerHTML = html;
+                // Restore previous selection if still valid
+                if (prevValue && parseInt(prevValue) <= maxHrs) {
+                    durSelect.value = prevValue;
+                } else {
+                    durSelect.value = '';
+                }
+                validateModalForm();
+                return;
+            }
+
+            // Find the index of the selected slot
+            const selectedIdx = allSlots.findIndex(s => s.time === selectedModalSlot);
+            if (selectedIdx === -1) {
+                durSelect.innerHTML = '<option value="">Select</option>';
+                validateModalForm();
+                return;
+            }
+
+            // Count consecutive available hours from selected slot forward
+            // The selected slot itself counts as hour 1, then each next consecutive available slot adds an hour
+            let maxConsecutive = 1;
+            for (let i = selectedIdx + 1; i < allSlots.length; i++) {
+                if (allSlots[i].available || allSlots[i].time === selectedModalSlot) {
+                    maxConsecutive++;
+                } else {
+                    break;
+                }
+            }
+
+            // Cap at remaining slots in the window
+            const remainingInWindow = allSlots.length - selectedIdx;
+            maxConsecutive = Math.min(maxConsecutive, remainingInWindow);
+
+            let html = '<option value="">Select</option>';
+            for (let i = 1; i <= maxConsecutive; i++) {
+                html += `<option value="${i}">${i} hour${i > 1 ? 's' : ''}</option>`;
+            }
+            durSelect.innerHTML = html;
+
+            // Restore previous selection if still valid
+            if (prevValue && parseInt(prevValue) <= maxConsecutive) {
+                durSelect.value = prevValue;
+            } else {
+                durSelect.value = '';
+            }
             validateModalForm();
         }
 
@@ -10382,10 +10454,10 @@
 
             sub.textContent = goToCheckout
                 ? `${item.facilityName} - ${item.dateLabel} at ${item.time}`
-                : 'Your reservation is pending facility approval.';
+                : 'Review and submit from your reservations menu.';
             countHint.textContent = cartItems.length === 1
-                ? '1 pending reservation'
-                : cartItems.length + ' pending reservations';
+                ? '1 reservation in cart'
+                : cartItems.length + ' reservations in cart';
 
             // Generate particles (amber tones for pending)
             const particlesEl = document.getElementById('successParticles');
@@ -10412,7 +10484,7 @@
             badge.classList.add('pop');
 
             // Auto-dismiss
-            const dismissMs = goToCheckout ? 1400 : 1800;
+            const dismissMs = goToCheckout ? 2400 : 2800;
             setTimeout(() => {
                 overlay.classList.remove('active');
                 particlesEl.innerHTML = '';
