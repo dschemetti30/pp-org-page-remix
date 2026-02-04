@@ -7606,9 +7606,10 @@
                         <div class="modal-form-group">
                             <label class="modal-form-label">Duration</label>
                             <div class="modal-select-wrapper">
-                                <select class="modal-form-select" id="modalDuration">
+                                <select class="modal-form-select" id="modalDuration" onchange="validateModalForm()">
+                                    <option value="">Select</option>
                                     <option value="1">1 hour</option>
-                                    <option value="2" selected>2 hours</option>
+                                    <option value="2">2 hours</option>
                                     <option value="3">3 hours</option>
                                     <option value="4">4 hours</option>
                                     <option value="5">5 hours</option>
@@ -8325,8 +8326,10 @@
                 document.getElementById('searchSchool').value = '';
                 document.getElementById('searchFacilityType').value = '';
                 document.getElementById('searchDuration').value = 2;
+                document.getElementById('searchDuration').dataset.userChanged = '';
                 document.getElementById('durationValue').textContent = '2 hours';
                 document.getElementById('searchGuests').value = 2;
+                document.getElementById('searchGuests').dataset.userChanged = '';
                 document.getElementById('groupSizeValue').textContent = 'Up to 50';
                 document.querySelectorAll('.amenity-check input').forEach(cb => cb.checked = false);
                 const amenitiesBtn = document.getElementById('amenitiesBtn');
@@ -8371,9 +8374,9 @@
             if (schoolSelect) schoolSelect.value = '';
             // Reset sliders
             const gsSlider = document.getElementById('searchGuests');
-            if (gsSlider) { gsSlider.value = 0; document.getElementById('groupSizeValue').textContent = 'Any size'; }
+            if (gsSlider) { gsSlider.value = 0; gsSlider.dataset.userChanged = ''; document.getElementById('groupSizeValue').textContent = 'Any size'; }
             const durSlider = document.getElementById('searchDuration');
-            if (durSlider) { durSlider.value = 2; document.getElementById('durationValue').textContent = '2 hours'; }
+            if (durSlider) { durSlider.value = 2; durSlider.dataset.userChanged = ''; document.getElementById('durationValue').textContent = '2 hours'; }
             // Reset amenities
             if (amenityChecks) amenityChecks.forEach(cb => { cb.checked = false; });
             if (typeof updateAmenitiesText === 'function') updateAmenitiesText();
@@ -8928,6 +8931,7 @@
             durationSlider.oninput = function() {
                 const val = parseInt(this.value);
                 durationValue.textContent = durationLabels[val - 1];
+                this.dataset.userChanged = 'true';
                 applyAllFilters();
             };
         }
@@ -8941,6 +8945,7 @@
             groupSizeSlider.oninput = function() {
                 const val = parseInt(this.value);
                 groupSizeValue.textContent = groupSizeLabels[val];
+                this.dataset.userChanged = 'true';
                 applyAllFilters();
             };
         }
@@ -9846,6 +9851,7 @@
             document.getElementById('modalAvailability').innerHTML = `<span class="avail-dot ${avail}"></span><span>${availMap[avail] || 'Available'}</span>`;
 
             // Pre-fill date from search (but never a past date)
+            // Use the same effective date the facility card was showing
             const searchDateVal = document.getElementById('searchDate').value;
             const now = new Date();
             const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
@@ -9855,25 +9861,26 @@
                 setModalDate(searchDateVal);
                 mdpViewDate = new Date(searchDateVal + 'T12:00:00');
             } else {
-                // Default to tomorrow to ensure full slot availability
-                const tomorrow = new Date(now);
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                const yyyy = tomorrow.getFullYear();
-                const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
-                const dd = String(tomorrow.getDate()).padStart(2, '0');
-                setModalDate(`${yyyy}-${mm}-${dd}`);
-                mdpViewDate = new Date(tomorrow);
+                // Default to today (same as what facility cards show when no date is selected)
+                setModalDate(todayStr);
+                mdpViewDate = new Date(now);
             }
 
-            // Pre-fill duration from search
+            // Pre-fill duration from search ONLY if user changed it
             const durSlider = document.getElementById('searchDuration');
-            if (durSlider) document.getElementById('modalDuration').value = durSlider.value;
+            if (durSlider && durSlider.dataset.userChanged === 'true') {
+                document.getElementById('modalDuration').value = durSlider.value;
+            } else {
+                document.getElementById('modalDuration').value = '';
+            }
 
-            // Pre-fill group size from search
+            // Pre-fill group size from search ONLY if user changed it
             const gsSlider = document.getElementById('searchGuests');
-            if (gsSlider) {
+            if (gsSlider && gsSlider.dataset.userChanged === 'true') {
                 const gsMap = { '0': '', '1': '1-10', '2': '11-50', '3': '51-100', '4': '101-200', '5': '201-500', '6': '500+' };
                 document.getElementById('modalGroupSize').value = gsMap[gsSlider.value] || '';
+            } else {
+                document.getElementById('modalGroupSize').value = '';
             }
 
             // Pre-fill activity from search
@@ -9886,19 +9893,8 @@
                 modalActivity.value = activitySelect.value;
             }
 
-            // Auto-infer booking type from activity if available
-            const actVal = modalActivity.value;
-            const bookingTypeSelect = document.getElementById('modalBookingType');
-            if (actVal && !bookingTypeSelect.value) {
-                const sportsActivities = ['badminton','baseball','basketball','cheer','cross-country','field-hockey','fitness','football','golf','gymnastics','lacrosse','martial-arts','pickleball','soccer','swimming','tennis','track','volleyball','weightlifting','wrestling','yoga'];
-                const eventActivities = ['awards','concert','dance','fair','fundraiser','graduation','movie','party','pep-rally','theater'];
-                const meetingActivities = ['class','meeting','orientation','professional-dev','testing','training','tutoring'];
-                if (sportsActivities.includes(actVal)) bookingTypeSelect.value = 'practice';
-                else if (eventActivities.includes(actVal)) bookingTypeSelect.value = 'performance';
-                else if (actVal === 'camp') bookingTypeSelect.value = 'camp';
-                else if (meetingActivities.includes(actVal)) bookingTypeSelect.value = 'meeting';
-                else bookingTypeSelect.value = 'other';
-            }
+            // Reset booking type - let user select explicitly
+            document.getElementById('modalBookingType').value = '';
 
             // Render time slots for date
             renderModalSlots();
@@ -10094,6 +10090,7 @@
             const fields = [
                 { label: 'Date', done: hasDate },
                 { label: 'Time slot', done: hasSlot },
+                { label: 'Duration', done: hasDuration },
                 { label: 'Group size', done: hasGroupSize },
                 { label: 'Booking type', done: hasBookingType },
                 { label: 'Activity', done: hasActivity }
@@ -10140,7 +10137,7 @@
             btns.forEach(b => { if (b) b.disabled = !isValid; });
 
             // Highlight incomplete selects with subtle ring
-            ['modalGroupSize', 'modalBookingType', 'modalActivity'].forEach(id => {
+            ['modalDuration', 'modalGroupSize', 'modalBookingType', 'modalActivity'].forEach(id => {
                 const el = document.getElementById(id);
                 if (!el) return;
                 const wrapper = el.closest('.modal-form-group');
@@ -10322,7 +10319,7 @@
 
             const f = currentModalFacility;
             const d = currentModalDistrict;
-            const duration = parseInt(document.getElementById('modalDuration').value) || 2;
+            const duration = parseInt(document.getElementById('modalDuration').value);
             const dateObj = new Date(dateVal + 'T12:00:00');
             const dateLabel = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
